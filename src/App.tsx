@@ -1,19 +1,12 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
-import Login from './screens/login';
+import { NavigationContainer } from '@react-navigation/native';
+import MainNavigation from './navigations/MainNavigation';
 
 const App = () => {
   return (
-    <SafeAreaView
-      style={{
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F9F9F9',
-      }}>
-      <Login />
-    </SafeAreaView>
+    <NavigationContainer>
+      <MainNavigation />
+    </NavigationContainer>
   );
 };
 
