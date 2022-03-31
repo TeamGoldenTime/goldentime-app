@@ -2,6 +2,7 @@ import React from 'react';
 import { Dimensions, View } from 'react-native';
 import tw from 'tailwind-rn';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { InfoItem } from '../index';
 const { width: screenWidth } = Dimensions.get('window');
@@ -24,7 +25,7 @@ const InfoCarousel: React.FC<InfoCarouselProps> = ({ items }) => {
   };
 
   return (
-    <View style={tw('bg-white h-40 pt-2 pb-2')}>
+    <View style={[{ height: hp('20%') }, tw('bg-white pt-2 pb-2')]}>
       <Carousel
         sliderWidth={screenWidth}
         sliderHeight={screenWidth}
