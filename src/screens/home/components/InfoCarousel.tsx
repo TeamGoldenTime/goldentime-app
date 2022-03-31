@@ -4,7 +4,7 @@ import tw from 'tailwind-rn';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import { InfoItem } from '../index';
+import { InfoItem } from '../interface';
 const { width: screenWidth } = Dimensions.get('window');
 
 interface InfoCarouselProps {
