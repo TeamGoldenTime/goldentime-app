@@ -1,8 +1,9 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IIcon from 'react-native-vector-icons/Ionicons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../screens/home';
 
@@ -18,8 +19,8 @@ const MainNavigation = () => {
         headerShown: false,
         tabBarLabelStyle: { fontSize: 14 },
         tabBarStyle: {
-          height: '10%',
-          position: 'absolute',
+          height: hp('10%'),
+          position: 'relative',
         },
       }}>
       <Tab.Screen
