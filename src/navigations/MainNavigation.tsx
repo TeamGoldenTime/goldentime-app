@@ -6,6 +6,9 @@ import IIcon from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../screens/home';
+import Map from '../screens/map';
+import More from '../screens/more';
+import Detective from '../screens/detective';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +40,7 @@ const MainNavigation = () => {
       />
       <Tab.Screen
         name="지역"
-        component={Home}
+        component={Map}
         options={{
           tabBarIcon: ({ color, size, focused }) =>
             focused ? (
@@ -60,20 +63,20 @@ const MainNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="쇼핑"
-        component={Home}
+        name="의뢰"
+        component={Detective}
         options={{
           tabBarIcon: ({ color, size, focused }) =>
             focused ? (
-              <IIcon name="ios-cart-sharp" color={color} size={size} />
+              <MCIcon name="shield-crown" color={color} size={size} />
             ) : (
-              <IIcon name="ios-cart-outline" color={color} size={size} />
+              <MCIcon name="shield-crown-outline" color={color} size={size} />
             ),
         }}
       />
       <Tab.Screen
         name="더보기"
-        component={Home}
+        component={More}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MIcon name="more-horiz" color={color} size={size} />
