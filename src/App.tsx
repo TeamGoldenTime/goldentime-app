@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import ReportModal from './modal/report';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import MainNavigation from './navigations/MainNavigation';
+import ReportModal from './modal/report';
+import LostReportStack from './navigations/LostReportStack';
+
+const Stack = createStackNavigator();
 
 const App = () => {
-  const [showReportModal, setShowReportModal] = useState(false); // TODO: 전역 상태로 변경
-
   return (
     <NavigationContainer>
-      <ReportModal
-        showReportModal={showReportModal}
-        setShowReportModal={setShowReportModal}
-      />
-      <MainNavigation setShowReportModal={setShowReportModal} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="main" component={MainNavigation} />
+        <Stack.Screen name="lostReportStack" component={LostReportStack} />
+        <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
+          <Stack.Screen
+            name="reportModal"
+            component={ReportModal}
+            options={{
+              animationEnabled: false,
+            }}
+          />
+        </Stack.Group>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

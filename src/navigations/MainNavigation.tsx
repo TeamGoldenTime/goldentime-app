@@ -4,16 +4,21 @@ import MIcon from 'react-native-vector-icons/MaterialIcons';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IIcon from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationProp } from '@react-navigation/native';
 
 import Home from '../screens/home';
 import Map from '../screens/map';
 import More from '../screens/more';
 import Detective from '../screens/detective';
-import Report from '../modal/report';
+import ReportModal from '../modal/report';
 
 const Tab = createBottomTabNavigator();
 
-const MainNavigation = ({ setShowReportModal }) => {
+interface MainNavigationProps {
+  navigation: NavigationProp<any>;
+}
+
+const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
   return (
     <Tab.Navigator
       initialRouteName="홈"
@@ -53,11 +58,11 @@ const MainNavigation = ({ setShowReportModal }) => {
       />
       <Tab.Screen
         name="등록"
-        component={Report}
+        component={ReportModal}
         listeners={() => ({
           tabPress: e => {
             e.preventDefault();
-            setShowReportModal(true);
+            navigation.navigate('reportModal');
           },
         })}
         options={{
