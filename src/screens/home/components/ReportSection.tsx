@@ -1,10 +1,11 @@
 import React from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Pressable, Text, View } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import tw from 'tailwind-rn';
 
 import ReportCard from './ReportCard';
 import { ReportItem } from '../interface';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
 
 interface ReportSectionProps {
   title: string;
@@ -24,7 +25,17 @@ const ReportSection: React.FC<ReportSectionProps> = ({ title, data }) => {
     <View style={[{ height: hp('28%') }, tw('bg-white mt-1 pb-4 pt-4')]}>
       <View style={tw('flex-row items-center justify-between')}>
         <Text style={tw('ml-2 text-lg')}>{title}</Text>
-        <Text style={tw('mr-2 text-xs text-gray-400')}>{'전체보기 >'}</Text>
+        <Pressable>
+          <View style={tw('flex-row items-center justify-end')}>
+            <Text style={tw('text-xs text-gray-400 border-2')}>전체보기</Text>
+            <MIcon
+              name="keyboard-arrow-right"
+              size={20}
+              color="rgb(156,163,175)"
+              style={tw('right-1')}
+            />
+          </View>
+        </Pressable>
       </View>
       <FlatList
         style={tw('flex-row pl-2 mt-2 w-full h-full')}
