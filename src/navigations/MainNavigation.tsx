@@ -9,10 +9,11 @@ import Home from '../screens/home';
 import Map from '../screens/map';
 import More from '../screens/more';
 import Detective from '../screens/detective';
+import Report from '../modal/report';
 
 const Tab = createBottomTabNavigator();
 
-const MainNavigation = () => {
+const MainNavigation = ({ setShowReportModal }) => {
   return (
     <Tab.Navigator
       initialRouteName="홈"
@@ -23,7 +24,7 @@ const MainNavigation = () => {
         tabBarLabelStyle: { fontSize: 14 },
         tabBarStyle: {
           height: hp('10%'),
-          position: 'relative',
+          position: 'absolute',
         },
       }}>
       <Tab.Screen
@@ -52,7 +53,13 @@ const MainNavigation = () => {
       />
       <Tab.Screen
         name="등록"
-        component={Home}
+        component={Report}
+        listeners={() => ({
+          tabPress: e => {
+            e.preventDefault();
+            setShowReportModal(true);
+          },
+        })}
         options={{
           tabBarIcon: ({ color, size, focused }) =>
             focused ? (
