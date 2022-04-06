@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Example from '../screens/Example';
 import LostReportImage from '../screens/lostReport/LostReportImage';
 import LostReportInfo from '../screens/lostReport/LostReportInfo';
 import LostReportLocation from '../screens/lostReport/LostReportLocation';
