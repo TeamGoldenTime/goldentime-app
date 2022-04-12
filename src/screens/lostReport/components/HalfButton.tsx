@@ -1,12 +1,12 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { GestureResponderEvent, Text, TouchableOpacity } from 'react-native';
 import tw from 'tailwind-rn';
 
 interface HalfButtonProps {
   textColor: string;
   color: string;
   title: string;
-  onClick: any;
+  onClick: (event: GestureResponderEvent) => void;
 }
 
 const HalfButton: React.FC<HalfButtonProps> = ({

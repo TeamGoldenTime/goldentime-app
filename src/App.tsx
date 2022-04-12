@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MainNavigation from './navigations/MainNavigation';
 import ReportModal from './modal/report';
 import LostReportStack from './navigations/LostReportStack';
+import login from './modal/login';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,13 @@ const App = () => {
           <Stack.Screen
             name="reportModal"
             component={ReportModal}
+            options={{
+              animationEnabled: false,
+            }}
+          />
+          <Stack.Screen
+            name="loginModal"
+            component={login}
             options={{
               animationEnabled: false,
             }}
