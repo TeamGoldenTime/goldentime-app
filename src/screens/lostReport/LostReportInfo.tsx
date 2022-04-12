@@ -7,6 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import ReportLayout from './components/ReportLayout';
 import { stepper2 } from './components/stepper2';
 import ReportInput from './components/ReportInput';
+import ReportDate from './components/ReportDate';
 
 interface LostReportInfoProps {
   navigation: StackNavigationProp<any>;
@@ -15,7 +16,7 @@ interface LostReportInfoProps {
 const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
   const [kind, setKind] = useState('');
   const [color, setColor] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
 
@@ -27,8 +28,8 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
     setColor(text);
   };
 
-  const onChangeDate = (text: string) => {
-    setDate(text);
+  const onChangeDate = (d: Date) => {
+    setDate(d);
   };
 
   const onChangeName = (text: string) => {
@@ -67,11 +68,7 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
         <View style={tw('flex-1')}>
           <ReportInput title="품종" text={kind} onChangeText={onChangeKind} />
           <ReportInput title="색상" text={color} onChangeText={onChangeColor} />
-          <ReportInput
-            title="분실날짜"
-            text={date}
-            onChangeText={onChangeDate}
-          />
+          <ReportDate date={date} onChangeDate={onChangeDate} />
           <ReportInput title="이름" text={name} onChangeText={onChangeName} />
           <View style={tw('mt-3')}>
             <Text style={tw('text-base text-gray-600')}>특이사항</Text>
