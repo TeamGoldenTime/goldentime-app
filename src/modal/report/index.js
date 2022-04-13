@@ -3,13 +3,19 @@ import { Pressable, TouchableOpacity, View } from 'react-native';
 import tw from 'tailwind-rn';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import ModalReportCard from './components/ModalReportCard';
 import Missing from '../../../assets/image/missing.png';
 import Search from '../../../assets/image/search.png';
+import { loginModalState } from '../../states/modalState';
+import { sleep } from '../../shared/utils';
+import { userState } from '../../states/authState';
 
 const ReportModal = ({ navigation }) => {
   const [visible, setVisible] = useState(true);
+  const user = useRecoilValue(userState);
+  const setShowLoginModal = useSetRecoilState(loginModalState);
 
   return (
     <Modal
@@ -28,8 +34,15 @@ const ReportModal = ({ navigation }) => {
         </Pressable>
         <View style={tw('flex w-full h-full justify-between pb-2 pt-6')}>
           <TouchableOpacity
-            onPress={() => {
+            onPress={async () => {
               setVisible(false);
+              navigation.goBack();
+              if (!user) {
+                await sleep(500);
+                setShowLoginModal(true);
+                return;
+              }
+
               navigation.replace('lostReportStack');
             }}>
             <ModalReportCard
