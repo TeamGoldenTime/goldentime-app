@@ -10,7 +10,7 @@ import {
   K_SERVICE_APP_URL_SCHEME,
 } from 'react-native-dotenv';
 import Modal from 'react-native-modal';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { naverLogin, naverLoginKeys, naverLogout } from '../../oauth/naver';
 import ShadowContainer from '../../shared/ShadowContainer';
@@ -18,6 +18,8 @@ import LoginButton from './components/LoginButton';
 import NaverLoginImage from '../../../assets/image/naver_login.png';
 import KakaoLoginImage from '../../../assets/image/kakao_login.png';
 import GoogleLoginImage from '../../../assets/image/google_login.png';
+import { userState } from '../../states/authState';
+import { loginModalState } from '../../states/modalState';
 
 const iosKeys: naverLoginKeys = {
   kConsumerKey: K_CONSUMER_KEY,
@@ -26,7 +28,14 @@ const iosKeys: naverLoginKeys = {
   kServiceAppUrlScheme: K_SERVICE_APP_URL_SCHEME,
 };
 
-const useLogin = ({ navigation }: any) => {
+const useLogin = () => {
+  const setUser = useSetRecoilState(userState);
+  const [showLoginModal, seShowLoginModal] = useRecoilState(loginModalState);
+
+  const toggleLoginModal = () => {
+    seShowLoginModal(!showLoginModal);
+  };
+
   const onClickNaverLogout = () => {
     naverLogout();
   };
@@ -35,8 +44,8 @@ const useLogin = ({ navigation }: any) => {
     try {
       const token: TokenResponse | undefined = await naverLogin(iosKeys);
 
-      console.log(token);
-      navigation.goBack();
+      setUser(token);
+      toggleLoginModal();
       // TODO : token으로 서버에 로그인 요청
     } catch (err) {
       console.error(err);
@@ -44,26 +53,25 @@ const useLogin = ({ navigation }: any) => {
   };
 
   return {
-    models: {},
+    models: {
+      showLoginModal,
+    },
     operations: {
       onClickNaverLogin,
       onClickNaverLogout,
+      toggleLoginModal,
     },
   };
 };
 
-interface LoginProps {
-  navigation: StackNavigationProp<any>;
-}
-
-const Login: React.FC<LoginProps> = ({ navigation }) => {
-  const { models, operations } = useLogin({ navigation });
+const Login: React.FC = () => {
+  const { models, operations } = useLogin();
 
   return (
     <Modal
-      isVisible={true}
+      isVisible={models.showLoginModal}
       style={tw('flex justify-center items-center')}
-      onBackdropPress={() => navigation.goBack()}>
+      onBackdropPress={() => operations.toggleLoginModal()}>
       <ShadowContainer>
         <View style={tw('flex bg-white w-80 overflow-hidden p-2 rounded-xl')}>
           <View style={tw('flex items-center')}>
@@ -71,7 +79,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
               <Text style={tw('text-3xl mb-1')}>로그인</Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.goBack();
+                  operations.toggleLoginModal();
                 }}
                 style={tw('absolute right-0 pb-3')}>
                 <Icon name="close" size={20} />
