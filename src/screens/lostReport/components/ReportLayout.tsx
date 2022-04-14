@@ -31,6 +31,7 @@ const ReportLayout: React.FC<ReportLayoutProps> = ({
   stepper,
   onClickNextButton,
   onClickBackButton,
+  onClickFinishButton,
 }) => (
   <SafeAreaView style={tw('flex-1 bg-white')}>
     <View style={tw('flex-row mt-3 justify-center items-center')}>
@@ -73,7 +74,20 @@ const ReportLayout: React.FC<ReportLayoutProps> = ({
           />
         </View>
       ) : (
-        <></>
+        <View style={tw('flex-row justify-between ml-1 mr-2')}>
+          <HalfButton
+            textColor="#000000"
+            color="#DCDCDC"
+            title="이전"
+            onClick={onClickBackButton}
+          />
+          <HalfButton
+            textColor="#ffffff"
+            color="#EEB015"
+            title="완료"
+            onClick={onClickFinishButton}
+          />
+        </View>
       )}
     </View>
   </SafeAreaView>
