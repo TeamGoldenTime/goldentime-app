@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import tw from 'tailwind-rn';
 import { Text, TextInput, View } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useRecoilState } from 'recoil';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import ReportLayout from './components/ReportLayout';
 import { stepper2 } from './components/stepper2';
 import ReportInput from './components/ReportInput';
 import ReportDate from './components/ReportDate';
+import { lostFormState } from '../../states/formState';
 
 interface LostReportInfoProps {
   navigation: StackNavigationProp<any>;
@@ -19,6 +21,7 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
+  const [formData, setFormData] = useRecoilState(lostFormState);
 
   const onChangeKind = (text: string) => {
     setKind(text);
@@ -46,6 +49,14 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
 
   const onClickNextButton = () => {
     navigation.push('step3');
+    setFormData({
+      ...formData,
+      kind: kind,
+      color: color,
+      date: date,
+      name: name,
+      desc: desc,
+    });
   };
 
   return (

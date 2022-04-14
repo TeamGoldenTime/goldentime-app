@@ -10,10 +10,12 @@ import {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import { useRecoilState } from 'recoil';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { stepper1 } from './components/stepper1';
 import ReportLayout from './components/ReportLayout';
+import { lostFormState } from '../../states/formState';
 
 interface LostReportImageProps {
   navigation: StackNavigationProp<any>;
@@ -21,6 +23,7 @@ interface LostReportImageProps {
 
 const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
   const [images, setImages] = useState<ImagePickerResponse | null>(null);
+  const [formData, setFormData] = useRecoilState(lostFormState);
 
   const loadImage = async () => {
     const options: ImageLibraryOptions = {
@@ -38,6 +41,11 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
   };
 
   const onClickNextButton = () => {
+    setFormData({
+      ...formData,
+      images: images,
+    });
+
     navigation.push('step2');
   };
 

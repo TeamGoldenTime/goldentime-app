@@ -4,6 +4,12 @@ import { Text, View } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
+import { useRecoilState } from 'recoil';
+import {
+  IFormState,
+  ILocationState,
+  lostFormState,
+} from '../../states/formState';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import ReportLayout from './components/ReportLayout';
@@ -15,16 +21,12 @@ interface LostReportLocationProps {
   navigation: StackNavigationProp<any>;
 }
 
-interface LocationStateProps {
-  latitude: number;
-  longitude: number;
-}
-
 const LostReportLocation: React.FC<LostReportLocationProps> = ({
   navigation,
 }) => {
-  const [location, setLocation] = useState<LocationStateProps | null>(null);
+  const [location, setLocation] = useState<ILocationState | null>(null);
   const [area, setArea] = useState('');
+  const [formData, setFormData] = useRecoilState(lostFormState);
 
   const requestPermission = async () => {
     return Geolocation.requestAuthorization('whenInUse');
@@ -57,9 +59,19 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
     navigation.goBack();
   };
 
-  const onClickFinishButton = () => {
+  const onClickFinishButton = async () => {
     //TODO : 폼 작성 완료 후 동작
-
+    setFormData({
+      ...formData,
+      location: location,
+      area: area,
+    });
+    const sendFormData: IFormState = {
+      ...formData,
+      location: location,
+      area: area,
+    };
+    console.log(sendFormData);
     navigation.reset({
       index: 0,
       routes: [{ name: 'main' }],
