@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ModalReportCard from './components/ModalReportCard';
 import Missing from '../../../assets/image/missing.png';
 import Search from '../../../assets/image/search.png';
-import { loginModalState } from '../../states/modalState';
+import { abandonedModalState, loginModalState } from '../../states/modalState';
 import { sleep } from '../../shared/utils';
 import { userState } from '../../states/authState';
 
@@ -16,6 +16,7 @@ const ReportModal = ({ navigation }) => {
   const [visible, setVisible] = useState(true);
   const user = useRecoilValue(userState);
   const setShowLoginModal = useSetRecoilState(loginModalState);
+  const setShowAbandonedModal = useSetRecoilState(abandonedModalState);
 
   return (
     <Modal
@@ -42,7 +43,6 @@ const ReportModal = ({ navigation }) => {
                 setShowLoginModal(true);
                 return;
               }
-
               navigation.replace('lostReportStack');
             }}>
             <ModalReportCard
@@ -52,12 +52,20 @@ const ReportModal = ({ navigation }) => {
               bgColor="#E76A6A"
             />
           </TouchableOpacity>
-          <ModalReportCard
-            title="목격신고"
-            description="반려동물을 목격하셨나요?"
-            image={Search}
-            bgColor="#59C4DB"
-          />
+          <TouchableOpacity
+            onPress={async () => {
+              setVisible(false);
+              navigation.goBack();
+              await sleep(500);
+              setShowAbandonedModal(true);
+            }}>
+            <ModalReportCard
+              title="유기신고"
+              description="유기동물을 목격하셨나요?"
+              image={Search}
+              bgColor="#59C4DB"
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

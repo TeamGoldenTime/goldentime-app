@@ -7,6 +7,7 @@ import MainNavigation from './navigations/MainNavigation';
 import ReportModal from './modal/report';
 import LostReportStack from './navigations/LostReportStack';
 import LoginModal from './modal/login';
+import AbandonedModal from './modal/abandoned';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
       <LoginModal />
+      <AbandonedModal />
     </RecoilRoot>
   );
 };
