@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import tw from 'tailwind-rn';
-import { Text, TextInput, View } from 'react-native';
+import { ScrollView, Text, TextInput, View } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useRecoilState } from 'recoil';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -21,6 +21,8 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
+  const [gender, setGender] = useState('');
+  const [age, setAge] = useState('');
   const [formData, setFormData] = useRecoilState(lostFormState);
 
   const onChangeKind = (text: string) => {
@@ -41,6 +43,14 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
 
   const onChangeDesc = (text: string) => {
     setDesc(text);
+  };
+
+  const onChangeAge = (text: string) => {
+    setAge(text.replace(/[^0-9]/g, ''));
+  };
+
+  const onChangeGender = (text: string) => {
+    setGender(text);
   };
 
   const onClickBackButton = () => {
@@ -69,7 +79,7 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
       stepper={stepper2}
       onClickBackButton={onClickBackButton}
       onClickNextButton={onClickNextButton}>
-      <View
+      <ScrollView
         style={[
           {
             height: hp('51%'),
@@ -81,6 +91,12 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
           <ReportInput title="색상" text={color} onChangeText={onChangeColor} />
           <ReportDate date={date} onChangeDate={onChangeDate} />
           <ReportInput title="이름" text={name} onChangeText={onChangeName} />
+          <ReportInput title="나이" text={age} onChangeText={onChangeAge} />
+          <ReportInput
+            title="성별"
+            text={gender}
+            onChangeText={onChangeGender}
+          />
           <View style={tw('mt-3')}>
             <Text style={tw('text-base text-gray-600')}>특이사항</Text>
             <TextInput
@@ -91,7 +107,7 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
                   fontSize: 18,
                   height: hp('14%'),
                 },
-                tw('rounded-xl pt-2 pl-1'),
+                tw('rounded-xl pt-2 pl-1 mb-3'),
               ]}
               value={desc}
               onChangeText={onChangeDesc}
@@ -99,7 +115,7 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
             />
           </View>
         </View>
-      </View>
+      </ScrollView>
     </ReportLayout>
   );
 };
