@@ -11,6 +11,8 @@ export interface IFormState {
   color: string;
   date: Date;
   name: string;
+  age: string;
+  gender: string;
   desc: string;
   images: ImagePickerResponse | null;
   location: ILocationState | null;
@@ -25,6 +27,8 @@ export const lostFormState = atom<IFormState>({
     date: new Date(),
     name: '',
     desc: '',
+    age: '',
+    gender: '',
     images: null,
     location: null,
     area: '',
