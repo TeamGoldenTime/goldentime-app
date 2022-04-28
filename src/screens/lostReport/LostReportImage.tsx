@@ -11,7 +11,7 @@ import {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { stepper1 } from './components/stepper1';
@@ -19,6 +19,7 @@ import ReportLayout from './components/ReportLayout';
 import { IImageSrc, lostFormState } from '../../states/formState';
 import { uploadImageToS3 } from '../../api/s3';
 import { API_BASE_INSTANCE } from '../../api/instance';
+import { loadingState } from '../../states/modalState';
 
 interface LostReportImageProps {
   navigation: StackNavigationProp<any>;
@@ -27,6 +28,7 @@ interface LostReportImageProps {
 const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
   const [images, setImages] = useState<ImagePickerResponse | null>(null);
   const [formData, setFormData] = useRecoilState(lostFormState);
+  const setLoading = useSetRecoilState(loadingState);
 
   const loadImage = async () => {
     const options: ImageLibraryOptions = {
@@ -49,6 +51,7 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
       imagePickerResponse: images,
     });
 
+    setLoading(true);
     //TODO : 리팩토링해야함.
     const imagePromises: any[] = [];
     const imagePickerResponse: Asset[] | undefined = images?.assets;
@@ -62,7 +65,7 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
       const result = await API_BASE_INSTANCE.post('/pet/analyze', {
         images: imageResult,
       });
-
+      setLoading(false);
       navigation.push('step2', { kind: result.data.data.breed });
       console.log(result.data);
     } catch (e) {
