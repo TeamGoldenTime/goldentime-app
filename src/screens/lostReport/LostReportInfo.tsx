@@ -66,6 +66,8 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
       date: date,
       name: name,
       desc: desc,
+      age: age,
+      gender: gender,
     });
   };
 

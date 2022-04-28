@@ -43,7 +43,7 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
   const onClickNextButton = () => {
     setFormData({
       ...formData,
-      images: images,
+      imagePickerResponse: images,
     });
 
     navigation.push('step2');
