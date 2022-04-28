@@ -20,6 +20,7 @@ import KakaoLoginImage from '../../../assets/image/kakao_login.png';
 import GoogleLoginImage from '../../../assets/image/google_login.png';
 import { userState } from '../../states/authState';
 import { loginModalState } from '../../states/modalState';
+import { API_BASE_INSTANCE } from '../../api/instance';
 
 const iosKeys: naverLoginKeys = {
   kConsumerKey: K_CONSUMER_KEY,
@@ -44,9 +45,17 @@ const useLogin = () => {
     try {
       const token: TokenResponse | undefined = await naverLogin(iosKeys);
 
-      setUser(token);
       toggleLoginModal();
-      // TODO : token으로 서버에 로그인 요청
+      try {
+        const { data } = await API_BASE_INSTANCE.post('/auth/naver', token);
+
+        const user = data.data.user;
+        // const jwtToken = data.data.token;
+
+        setUser(user);
+      } catch (e) {
+        console.log(JSON.stringify(e));
+      }
     } catch (err) {
       console.error(err);
     }

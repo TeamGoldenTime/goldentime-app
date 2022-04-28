@@ -35,7 +35,12 @@ const Header: React.FC = () => {
       <View>
         <Image source={Logo} style={tw('w-44')} resizeMode="contain" />
       </View>
-      <TouchableOpacity onPress={() => setShowLoginModal(true)}>
+      <TouchableOpacity
+        onPress={() => {
+          if (!user) {
+            setShowLoginModal(true);
+          }
+        }}>
         <Icon name="account-circle-outline" size={32} color="#595959" />
       </TouchableOpacity>
     </View>

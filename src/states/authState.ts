@@ -1,11 +1,14 @@
 import { atom } from 'recoil';
 
-export interface UserTypes {
-  //TODO : 유저 정보 타입 정의
-  any: any;
+export interface UserType {
+  id: number;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  gender: string;
 }
 
-export const userState = atom<any>({
+export const userState = atom<UserType | null>({
   key: 'user',
   default: null,
 });
