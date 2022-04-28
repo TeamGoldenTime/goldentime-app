@@ -7,6 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import tw from 'tailwind-rn';
 import {
+  Asset,
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
@@ -15,7 +16,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { stepper1 } from './components/stepper1';
 import ReportLayout from './components/ReportLayout';
-import { lostFormState } from '../../states/formState';
+import { IImageSrc, lostFormState } from '../../states/formState';
+import { uploadImageToS3 } from '../../api/s3';
+import { API_BASE_INSTANCE } from '../../api/instance';
 
 interface LostReportImageProps {
   navigation: StackNavigationProp<any>;
@@ -40,13 +43,31 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
     setImages(result);
   };
 
-  const onClickNextButton = () => {
+  const onClickNextButton = async () => {
     setFormData({
       ...formData,
       imagePickerResponse: images,
     });
 
-    navigation.push('step2');
+    //TODO : 리팩토링해야함.
+    const imagePromises: any[] = [];
+    const imagePickerResponse: Asset[] | undefined = images?.assets;
+    imagePickerResponse?.map(image => {
+      imagePromises.push(uploadImageToS3(image));
+    });
+
+    const imageResult: IImageSrc[] = await Promise.all(imagePromises);
+
+    try {
+      const result = await API_BASE_INSTANCE.post('/pet/analyze', {
+        images: imageResult,
+      });
+
+      navigation.push('step2', { kind: result.data.data.breed });
+      console.log(result.data);
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    }
   };
 
   return (

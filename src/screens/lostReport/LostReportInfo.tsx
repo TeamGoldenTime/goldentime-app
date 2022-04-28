@@ -12,11 +12,15 @@ import ReportDate from './components/ReportDate';
 import { lostFormState } from '../../states/formState';
 
 interface LostReportInfoProps {
+  route: StackNavigationProp<any>;
   navigation: StackNavigationProp<any>;
 }
 
-const LostReportInfo: React.FC<LostReportInfoProps> = ({ navigation }) => {
-  const [kind, setKind] = useState('');
+const LostReportInfo: React.FC<LostReportInfoProps> = ({
+  route,
+  navigation,
+}) => {
+  const [kind, setKind] = useState(route.params?.kind);
   const [color, setColor] = useState('');
   const [date, setDate] = useState(new Date());
   const [name, setName] = useState('');
