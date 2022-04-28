@@ -4,9 +4,9 @@ import { Text, View } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
-  IFormState,
+  IImageSrc,
   ILocationState,
   lostFormState,
 } from '../../states/formState';
@@ -16,6 +16,10 @@ import ReportLayout from './components/ReportLayout';
 import { stepper3 } from './components/stepper3';
 import ReportInput from './components/ReportInput';
 import marker from '../../../assets/image/marker.png';
+import { uploadImageToS3 } from '../../api/s3';
+import { Asset } from 'react-native-image-picker';
+import { SaveLostPostDto } from '../../api/dto/SaveLostPostDto';
+import { API_BASE_INSTANCE } from '../../api/instance';
 
 interface LostReportLocationProps {
   navigation: StackNavigationProp<any>;
@@ -26,7 +30,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
 }) => {
   const [location, setLocation] = useState<ILocationState | null>(null);
   const [area, setArea] = useState('');
-  const [formData, setFormData] = useRecoilState(lostFormState);
+  const formData = useRecoilValue(lostFormState);
 
   const requestPermission = async () => {
     return Geolocation.requestAuthorization('whenInUse');
@@ -60,18 +64,37 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
   };
 
   const onClickFinishButton = async () => {
-    //TODO : 폼 작성 완료 후 동작
-    setFormData({
-      ...formData,
-      location: location,
-      area: area,
+    //S3에 이미지 업로드
+    const imagePromises: any[] = [];
+    const images: Asset[] | undefined = formData.imagePickerResponse?.assets;
+    images?.map(image => {
+      imagePromises.push(uploadImageToS3(image));
     });
-    const sendFormData: IFormState = {
-      ...formData,
-      location: location,
+
+    const imageResult: IImageSrc[] = await Promise.all(imagePromises);
+
+    const sendFormData: SaveLostPostDto = {
+      age: formData.age,
+      color: formData.color,
+      date: formData.date,
+      kind: formData.kind,
+      name: formData.name,
+      remark: formData.desc,
+      latitude: location?.latitude,
+      longitude: location?.longitude,
       area: area,
+      images: imageResult,
+      userId: 1,
     };
-    console.log(sendFormData);
+
+    try {
+      const result = await API_BASE_INSTANCE.post('/pet/lost', sendFormData);
+
+      console.log(result.data);
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    }
+
     navigation.reset({
       index: 0,
       routes: [{ name: 'main' }],

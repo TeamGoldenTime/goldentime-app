@@ -6,6 +6,11 @@ export interface ILocationState {
   longitude: number;
 }
 
+export interface IImageSrc {
+  name: string;
+  location: string;
+}
+
 export interface IFormState {
   kind: string;
   color: string;
@@ -14,7 +19,8 @@ export interface IFormState {
   age: string;
   gender: string;
   desc: string;
-  images: ImagePickerResponse | null;
+  imagePickerResponse: ImagePickerResponse | null;
+  images?: IImageSrc[] | null;
   location: ILocationState | null;
   area: string;
 }
@@ -29,6 +35,7 @@ export const lostFormState = atom<IFormState>({
     desc: '',
     age: '',
     gender: '',
+    imagePickerResponse: null,
     images: null,
     location: null,
     area: '',
