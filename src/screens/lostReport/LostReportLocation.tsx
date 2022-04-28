@@ -20,6 +20,7 @@ import { uploadImageToS3 } from '../../api/s3';
 import { Asset } from 'react-native-image-picker';
 import { SaveLostPostDto } from '../../api/dto/SaveLostPostDto';
 import { API_BASE_INSTANCE } from '../../api/instance';
+import { userState } from '../../states/authState';
 
 interface LostReportLocationProps {
   navigation: StackNavigationProp<any>;
@@ -30,6 +31,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
 }) => {
   const [location, setLocation] = useState<ILocationState | null>(null);
   const [area, setArea] = useState('');
+  const user = useRecoilValue(userState);
   const formData = useRecoilValue(lostFormState);
 
   const requestPermission = async () => {
@@ -84,7 +86,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
       longitude: location?.longitude,
       area: area,
       images: imageResult,
-      userId: 1,
+      userId: user?.id,
     };
 
     try {

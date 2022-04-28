@@ -11,5 +11,5 @@ export interface SaveLostPostDto {
   name?: string;
   remark?: string;
   area?: string;
-  userId: number;
+  userId?: number;
 }
