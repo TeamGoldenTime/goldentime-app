@@ -11,6 +11,7 @@ import Search from '../../../assets/image/search.png';
 import { abandonedModalState, loginModalState } from '../../states/modalState';
 import { sleep } from '../../shared/utils';
 import { userState } from '../../states/authState';
+import { APP_NAVIGATION_LOST_REPORT_STACK } from '../../navigations/constants';
 
 const ReportModal = ({ navigation }) => {
   const [visible, setVisible] = useState(true);
@@ -43,7 +44,7 @@ const ReportModal = ({ navigation }) => {
                 setShowLoginModal(true);
                 return;
               }
-              navigation.replace('lostReportStack');
+              navigation.replace(APP_NAVIGATION_LOST_REPORT_STACK);
             }}>
             <ModalReportCard
               title="분실신고"

@@ -11,6 +11,14 @@ import Map from '../screens/map';
 import More from '../screens/more';
 import Detective from '../screens/detective';
 import ReportModal from '../modal/report';
+import {
+  APP_NAVIGATION_REPORT_MODAL,
+  MAIN_NAVIGATION_DETECTIVE,
+  MAIN_NAVIGATION_HOME,
+  MAIN_NAVIGATION_MAP,
+  MAIN_NAVIGATION_MORE,
+  MAIN_NAVIGATION_REGISTER,
+} from './constants';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +29,7 @@ interface MainNavigationProps {
 const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
   return (
     <Tab.Navigator
-      initialRouteName="홈"
+      initialRouteName={MAIN_NAVIGATION_HOME}
       screenOptions={{
         tabBarActiveTintColor: '#F5BA25',
         tabBarInactiveTintColor: '#595959',
@@ -33,7 +41,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
         },
       }}>
       <Tab.Screen
-        name="홈"
+        name={MAIN_NAVIGATION_HOME}
         component={Home}
         options={{
           tabBarIcon: ({ color, size, focused }) =>
@@ -45,7 +53,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
         }}
       />
       <Tab.Screen
-        name="지역"
+        name={MAIN_NAVIGATION_MAP}
         component={Map}
         options={{
           tabBarIcon: ({ color, size, focused }) =>
@@ -57,12 +65,12 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
         }}
       />
       <Tab.Screen
-        name="등록"
+        name={MAIN_NAVIGATION_REGISTER}
         component={ReportModal}
         listeners={() => ({
           tabPress: e => {
             e.preventDefault();
-            navigation.navigate('reportModal');
+            navigation.navigate(APP_NAVIGATION_REPORT_MODAL);
           },
         })}
         options={{
@@ -75,7 +83,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
         }}
       />
       <Tab.Screen
-        name="의뢰"
+        name={MAIN_NAVIGATION_DETECTIVE}
         component={Detective}
         options={{
           tabBarIcon: ({ color, size, focused }) =>
@@ -87,7 +95,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
         }}
       />
       <Tab.Screen
-        name="더보기"
+        name={MAIN_NAVIGATION_MORE}
         component={More}
         options={{
           tabBarIcon: ({ color, size }) => (

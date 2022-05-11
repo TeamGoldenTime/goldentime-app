@@ -5,6 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import ResultLoading from './ResultLoading';
 import ResultList from './ResultList';
+import { APP_NAVIGATION_MAIN } from '../../navigations/constants';
 
 interface LostReportResultProps {
   navigation: StackNavigationProp<any>;
@@ -16,7 +17,7 @@ const LostReportResult: React.FC<LostReportResultProps> = ({ navigation }) => {
   const onClickFinishButton = () => {
     navigation.reset({
       index: 0,
-      routes: [{ name: 'main' }],
+      routes: [{ name: APP_NAVIGATION_MAIN }],
     });
   };
 

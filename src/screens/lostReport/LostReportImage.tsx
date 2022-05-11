@@ -20,6 +20,11 @@ import { IImageSrc, lostFormState } from '../../states/formState';
 import { uploadImageToS3 } from '../../api/s3';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { loadingState } from '../../states/modalState';
+import {
+  APP_NAVIGATION_MAIN,
+  LOST_REPORT_STEP1,
+  LOST_REPORT_STEP2,
+} from '../../navigations/constants';
 
 interface LostReportImageProps {
   navigation: StackNavigationProp<any>;
@@ -67,13 +72,13 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
         images: imageResult,
       });
       setLoading(false);
-      navigation.push('step2', { kind: result.data.data.breed });
+      navigation.push(LOST_REPORT_STEP2, { kind: result.data.data.breed });
       console.log(result.data);
     } catch (e) {
       Alert.alert('오류가 발생했습니다.');
       navigation.reset({
         index: 0,
-        routes: [{ name: 'main' }],
+        routes: [{ name: APP_NAVIGATION_MAIN }],
       });
       setLoading(false);
       console.log(JSON.stringify(e));
@@ -82,7 +87,7 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
 
   return (
     <ReportLayout
-      type="step1"
+      type={LOST_REPORT_STEP1}
       navigation={navigation}
       title="분실신고"
       mainDescription={'반려동물의 사진을\n업로드 해주세요.'}

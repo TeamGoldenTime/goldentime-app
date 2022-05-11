@@ -21,6 +21,10 @@ import { Asset } from 'react-native-image-picker';
 import { SaveLostPostDto } from '../../api/dto/SaveLostPostDto';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { userState } from '../../states/authState';
+import {
+  LOST_REPORT_RESULT,
+  LOST_REPORT_STEP3,
+} from '../../navigations/constants';
 
 interface LostReportLocationProps {
   navigation: StackNavigationProp<any>;
@@ -99,7 +103,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
 
     navigation.reset({
       index: 0,
-      routes: [{ name: 'lostReportResult' }],
+      routes: [{ name: LOST_REPORT_RESULT }],
     });
   };
 
@@ -109,7 +113,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
 
   return (
     <ReportLayout
-      type="step3"
+      type={LOST_REPORT_STEP3}
       navigation={navigation}
       title="분실신고"
       mainDescription={'반려동물의 분실위치를\n지정해주세요.'}

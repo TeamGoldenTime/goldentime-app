@@ -7,6 +7,11 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import FullButton from './FullButton';
 import HalfButton from './HalfButton';
+import {
+  APP_NAVIGATION_MAIN,
+  LOST_REPORT_STEP1,
+  LOST_REPORT_STEP2,
+} from '../../../navigations/constants';
 
 interface ReportLayoutProps {
   type: string;
@@ -42,7 +47,7 @@ const ReportLayout: React.FC<ReportLayoutProps> = ({
 
           navigation.reset({
             index: 0,
-            routes: [{ name: 'main' }],
+            routes: [{ name: APP_NAVIGATION_MAIN }],
           });
         }}>
         <MIcon name="arrow-back" size={32} />
@@ -56,9 +61,9 @@ const ReportLayout: React.FC<ReportLayoutProps> = ({
       <Text style={tw('text-2xl font-extralight')}>{mainDescription}</Text>
       <Text style={tw('text-sm text-gray-500')}>{subDescription}</Text>
       {children}
-      {type === 'step1' ? (
+      {type === LOST_REPORT_STEP1 ? (
         <FullButton onClickNextButton={onClickNextButton} name="다음" />
-      ) : type === 'step2' ? (
+      ) : type === LOST_REPORT_STEP2 ? (
         <View style={tw('flex-row justify-between ml-1 mr-2')}>
           <HalfButton
             textColor="#000000"

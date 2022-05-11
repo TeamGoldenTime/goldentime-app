@@ -10,6 +10,10 @@ import { stepper2 } from './components/stepper2';
 import ReportInput from './components/ReportInput';
 import ReportDate from './components/ReportDate';
 import { lostFormState } from '../../states/formState';
+import {
+  LOST_REPORT_STEP2,
+  LOST_REPORT_STEP3,
+} from '../../navigations/constants';
 
 interface LostReportInfoProps {
   route: StackNavigationProp<any>;
@@ -62,7 +66,7 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({
   };
 
   const onClickNextButton = () => {
-    navigation.push('step3');
+    navigation.push(LOST_REPORT_STEP3);
     setFormData({
       ...formData,
       kind: kind,
@@ -77,7 +81,7 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({
 
   return (
     <ReportLayout
-      type="step2"
+      type={LOST_REPORT_STEP2}
       navigation={navigation}
       title="분실신고"
       mainDescription={'반려동물의 상세정보를\n입력해주세요.'}

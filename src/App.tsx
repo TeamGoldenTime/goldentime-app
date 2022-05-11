@@ -9,6 +9,11 @@ import LostReportStack from './navigations/LostReportStack';
 import LoginModal from './modal/login';
 import AbandonedModal from './modal/abandoned';
 import Loading from './shared/Loading';
+import {
+  APP_NAVIGATION_LOST_REPORT_STACK,
+  APP_NAVIGATION_MAIN,
+  APP_NAVIGATION_REPORT_MODAL,
+} from './navigations/constants';
 
 const Stack = createStackNavigator();
 
@@ -17,11 +22,14 @@ const App = () => {
     <RecoilRoot>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="main" component={MainNavigation} />
-          <Stack.Screen name="lostReportStack" component={LostReportStack} />
+          <Stack.Screen name={APP_NAVIGATION_MAIN} component={MainNavigation} />
+          <Stack.Screen
+            name={APP_NAVIGATION_LOST_REPORT_STACK}
+            component={LostReportStack}
+          />
           <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
             <Stack.Screen
-              name="reportModal"
+              name={APP_NAVIGATION_REPORT_MODAL}
               component={ReportModal}
               options={{
                 animationEnabled: false,
