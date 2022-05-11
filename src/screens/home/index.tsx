@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 import tw from 'tailwind-rn';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { InfoItem, ReportItem } from './interface';
 import ReportSection from './components/ReportSection';
@@ -16,6 +17,7 @@ import Dog3 from '../../../assets/image/dog3.jpeg';
 import Dog4 from '../../../assets/image/dog4.jpeg';
 import Dog5 from '../../../assets/image/dog5.jpeg';
 import Cat1 from '../../../assets/image/cat1.jpeg';
+import { APP_NAVIGATION_LOST_REPORT_LIST } from '../../navigations/constants';
 
 const MOCK_DATA: InfoItem[] = [
   {
@@ -74,15 +76,30 @@ const MOCK_REPORT_DATA2: ReportItem[] = [
   },
 ];
 
-interface HomeProps {}
+interface HomeProps {
+  navigation: StackNavigationProp<any>;
+}
 
-const Home: React.FC<HomeProps> = () => {
+const Home: React.FC<HomeProps> = ({ navigation }) => {
+  const onClickLostReportList = () => {
+    navigation.push(APP_NAVIGATION_LOST_REPORT_LIST);
+  };
+
+  // TODO :: 목격신고 전체보기
+  // const onClickLostReportList = () => {
+  //   navigation.push(APP_NAVIGATION_LOST_REPORT_LIST);
+  // };
+
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
       <Container>
         <Header />
         <InfoCarousel items={MOCK_DATA} />
-        <ReportSection title="내 주변 분실신고" data={MOCK_REPORT_DATA} />
+        <ReportSection
+          title="내 주변 분실신고"
+          data={MOCK_REPORT_DATA}
+          onClickShowAll={onClickLostReportList}
+        />
         <ReportSection title="내 주변 목격신고" data={MOCK_REPORT_DATA2} />
       </Container>
     </SafeAreaView>

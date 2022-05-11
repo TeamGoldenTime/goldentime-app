@@ -27,10 +27,7 @@ const LostReportComplete: React.FC<LostReportCompleteProps> = ({
 
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
-      <View style={tw('mt-3 items-center')}>
-        <Text style={tw('text-3xl')}>분실 등록 완료</Text>
-      </View>
-      <View style={tw('flex-1 p-6')}>
+      <View style={tw('flex-1 mt-4 p-6')}>
         <View style={tw('')}>
           <Text style={tw('text-3xl')}>{user?.name}님,</Text>
           <Text style={tw('mt-3 text-xl')}>

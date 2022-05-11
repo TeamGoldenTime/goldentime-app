@@ -10,10 +10,12 @@ import LoginModal from './modal/login';
 import AbandonedModal from './modal/abandoned';
 import Loading from './shared/Loading';
 import {
+  APP_NAVIGATION_LOST_REPORT_LIST,
   APP_NAVIGATION_LOST_REPORT_STACK,
   APP_NAVIGATION_MAIN,
   APP_NAVIGATION_REPORT_MODAL,
 } from './navigations/constants';
+import LostReportList from './screens/home/LostReportList';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +28,10 @@ const App = () => {
           <Stack.Screen
             name={APP_NAVIGATION_LOST_REPORT_STACK}
             component={LostReportStack}
+          />
+          <Stack.Screen
+            name={APP_NAVIGATION_LOST_REPORT_LIST}
+            component={LostReportList}
           />
           <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
             <Stack.Screen
