@@ -57,7 +57,7 @@ const ReportLayout: React.FC<ReportLayoutProps> = ({
       <Text style={tw('text-sm text-gray-500')}>{subDescription}</Text>
       {children}
       {type === 'step1' ? (
-        <FullButton onClickNextButton={onClickNextButton} />
+        <FullButton onClickNextButton={onClickNextButton} name="다음" />
       ) : type === 'step2' ? (
         <View style={tw('flex-row justify-between ml-1 mr-2')}>
           <HalfButton
