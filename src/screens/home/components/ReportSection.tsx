@@ -10,12 +10,17 @@ import MIcon from 'react-native-vector-icons/MaterialIcons';
 interface ReportSectionProps {
   title: string;
   data: ReportItem[];
+  onClickShowAll?: any;
 }
 
-const ReportSection: React.FC<ReportSectionProps> = ({ title, data }) => {
+const ReportSection: React.FC<ReportSectionProps> = ({
+  title,
+  data,
+  onClickShowAll,
+}) => {
   const _renderItem: any = ({ item }: { item: ReportItem }) => (
     <View style={tw('mr-2')}>
-      <ReportCard item={item} />
+      <ReportCard item={item} width="36%" height="19%" />
     </View>
   );
 
@@ -25,7 +30,7 @@ const ReportSection: React.FC<ReportSectionProps> = ({ title, data }) => {
     <View style={[{ height: hp('28%') }, tw('bg-white mt-1 pb-4 pt-4')]}>
       <View style={tw('flex-row items-center justify-between')}>
         <Text style={tw('ml-2 text-lg')}>{title}</Text>
-        <Pressable>
+        <Pressable onPress={onClickShowAll}>
           <View style={tw('flex-row items-center justify-end')}>
             <Text style={tw('text-xs text-gray-400 border-2')}>전체보기</Text>
             <MIcon

@@ -12,14 +12,16 @@ import CardContainer from '../../../shared/CardContainer';
 
 interface ReportCardProps {
   item: ReportItem;
+  width: string;
+  height: string;
 }
 
-const ReportCard: React.FC<ReportCardProps> = ({ item }) => {
+const ReportCard: React.FC<ReportCardProps> = ({ item, width, height }) => {
   return (
     <CardContainer>
       <View
         style={[
-          { width: wp('36%'), height: hp('19%') },
+          { width: wp(width), height: hp(height) },
           tw('flex  bg-white rounded-xl p-2'),
         ]}>
         <View style={[{ flex: 3 }, tw('')]}>
@@ -35,7 +37,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ item }) => {
             resizeMode="cover"
           />
         </View>
-        <View style={[{ flex: 2 }, tw('mt-1 items-center')]}>
+        <View style={[{ flex: 2 }, tw('mt-1')]}>
           <View>
             <Text numberOfLines={1} style={tw('text-base font-bold')}>
               {item.title}
