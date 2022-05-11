@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LostReportImage from '../screens/lostReport/LostReportImage';
 import LostReportInfo from '../screens/lostReport/LostReportInfo';
 import LostReportLocation from '../screens/lostReport/LostReportLocation';
+import LostReportResult from '../screens/lostReport/LostReportResult';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +14,7 @@ const LostReportStack = () => {
         <Stack.Screen name="step1" component={LostReportImage} />
         <Stack.Screen name="step2" component={LostReportInfo} />
         <Stack.Screen name="step3" component={LostReportLocation} />
+        <Stack.Screen name="lostReportResult" component={LostReportResult} />
       </Stack.Navigator>
     </>
   );
