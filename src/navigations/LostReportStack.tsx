@@ -5,11 +5,13 @@ import LostReportInfo from '../screens/lostReport/LostReportInfo';
 import LostReportLocation from '../screens/lostReport/LostReportLocation';
 import LostReportResult from '../screens/lostReport/LostReportResult';
 import {
+  LOST_REPORT_COMPLETE,
   LOST_REPORT_RESULT,
   LOST_REPORT_STEP1,
   LOST_REPORT_STEP2,
   LOST_REPORT_STEP3,
 } from './constants';
+import LostReportComplete from '../screens/lostReport/LostReportComplete';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +23,10 @@ const LostReportStack = () => {
         <Stack.Screen name={LOST_REPORT_STEP2} component={LostReportInfo} />
         <Stack.Screen name={LOST_REPORT_STEP3} component={LostReportLocation} />
         <Stack.Screen name={LOST_REPORT_RESULT} component={LostReportResult} />
+        <Stack.Screen
+          name={LOST_REPORT_COMPLETE}
+          component={LostReportComplete}
+        />
       </Stack.Navigator>
     </>
   );
