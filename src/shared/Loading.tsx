@@ -1,16 +1,17 @@
 import React from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
+import LottieView from 'lottie-react-native';
 import { useRecoilValue } from 'recoil';
 
 import { loadingState } from '../states/modalState';
+import tw from 'tailwind-rn';
 
-const Loading: React.FC = () => {
+const Loading = () => {
   const isLoading = useRecoilValue(loadingState);
 
   if (!isLoading) {
     return <></>;
   }
-
   return (
     <View
       style={{
@@ -22,7 +23,12 @@ const Loading: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <ActivityIndicator size="large" />
+      <LottieView
+        source={require('../../assets/animations/loading-animation.json')}
+        style={tw('w-48 h-48')}
+        autoPlay
+        loop
+      />
     </View>
   );
 };
