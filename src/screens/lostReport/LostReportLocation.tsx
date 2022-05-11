@@ -99,7 +99,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
 
     navigation.reset({
       index: 0,
-      routes: [{ name: 'main' }],
+      routes: [{ name: 'lostReportResult' }],
     });
   };
 
