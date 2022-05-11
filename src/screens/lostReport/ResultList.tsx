@@ -4,14 +4,28 @@ import MIcon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'tailwind-rn';
 
 import Cat from '../../../assets/image/cat1.jpeg';
+import Dog from '../../../assets/image/dog.jpeg';
+import Dog2 from '../../../assets/image/dog2.jpeg';
 import FullButton from './components/FullButton';
 import { LostResultItem } from './interface';
 
 const LOST_RESULT_MOCK_DATA: LostResultItem[] = [
   {
-    area: '서울시 상도동',
+    area: '서울시 동작구 상도동',
     date: '22.05.10',
     thumbnail: Cat,
+    where: '동물보호 관리 시스템',
+  },
+  {
+    area: '서울시 강남구',
+    date: '22.05.8',
+    thumbnail: Dog,
+    where: '동물보호 관리 시스템',
+  },
+  {
+    area: '서울시 동작구 흑석동',
+    date: '22.05.10',
+    thumbnail: Dog2,
     where: '동물보호 관리 시스템',
   },
 ];
