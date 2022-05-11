@@ -1,7 +1,6 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 import tw from 'tailwind-rn';
-import { StackNavigationProp } from '@react-navigation/stack';
 
 import { InfoItem, ReportItem } from './interface';
 import ReportSection from './components/ReportSection';
@@ -75,19 +74,13 @@ const MOCK_REPORT_DATA2: ReportItem[] = [
   },
 ];
 
-interface HomeProps {
-  navigation: StackNavigationProp<any>;
-}
+interface HomeProps {}
 
-const Home: React.FC<HomeProps> = ({ navigation }) => {
-  const onClickProfile = () => {
-    navigation.push('loginModal');
-  };
-
+const Home: React.FC<HomeProps> = () => {
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
       <Container>
-        <Header onClickProfile={onClickProfile} />
+        <Header />
         <InfoCarousel items={MOCK_DATA} />
         <ReportSection title="내 주변 분실신고" data={MOCK_REPORT_DATA} />
         <ReportSection title="내 주변 목격신고" data={MOCK_REPORT_DATA2} />

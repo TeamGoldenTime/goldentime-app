@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Alert, Image, Pressable, Text, View } from 'react-native';
 import { ImageLibraryOptions } from 'react-native-image-picker/lib/typescript/types';
 import {
   heightPercentageToDP as hp,
@@ -60,6 +60,7 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
     });
 
     const imageResult: IImageSrc[] = await Promise.all(imagePromises);
+    console.log(imageResult);
 
     try {
       const result = await API_BASE_INSTANCE.post('/pet/analyze', {
@@ -69,6 +70,12 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
       navigation.push('step2', { kind: result.data.data.breed });
       console.log(result.data);
     } catch (e) {
+      Alert.alert('오류가 발생했습니다.');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'main' }],
+      });
+      setLoading(false);
       console.log(JSON.stringify(e));
     }
   };
