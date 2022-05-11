@@ -40,7 +40,7 @@ const ResultList: React.FC<ResultListProps> = ({ onClickFinishButton }) => {
             />
           </View>
           <View style={tw('flex-1 ml-5')}>
-            <Text style={tw('text-xl')}>지역 : {item.area}</Text>
+            <Text style={tw('text-lg')}>지역 : {item.area}</Text>
             <Text style={tw('text-lg ')}>등록일자 : {item.date}</Text>
             <Text style={tw('text-sm text-gray-600')}>
               보호장소 : {item.where}

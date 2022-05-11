@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  GestureResponderEvent,
-  Image,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import tw from 'tailwind-rn';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
