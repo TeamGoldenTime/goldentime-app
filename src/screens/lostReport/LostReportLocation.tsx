@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import tw from 'tailwind-rn';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   IImageSrc,
   ILocationState,
@@ -22,9 +22,11 @@ import { SaveLostPostDto } from '../../api/dto/SaveLostPostDto';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { userState } from '../../states/authState';
 import {
+  APP_NAVIGATION_MAIN,
   LOST_REPORT_RESULT,
   LOST_REPORT_STEP3,
 } from '../../navigations/constants';
+import { loadingState } from '../../states/modalState';
 
 interface LostReportLocationProps {
   navigation: StackNavigationProp<any>;
@@ -37,6 +39,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
   const [area, setArea] = useState('');
   const user = useRecoilValue(userState);
   const formData = useRecoilValue(lostFormState);
+  const setLoading = useSetRecoilState(loadingState);
 
   const requestPermission = async () => {
     return Geolocation.requestAuthorization('whenInUse');
@@ -70,6 +73,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
   };
 
   const onClickFinishButton = async () => {
+    setLoading(true);
     //S3에 이미지 업로드
     const imagePromises: any[] = [];
     const images: Asset[] | undefined = formData.imagePickerResponse?.assets;
@@ -95,16 +99,21 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
 
     try {
       const result = await API_BASE_INSTANCE.post('/pet/lost', sendFormData);
-
+      setLoading(false);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: LOST_REPORT_RESULT }],
+      });
       console.log(result.data);
     } catch (e) {
+      setLoading(false);
+      Alert.alert('오류가 발생했습니다.');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: APP_NAVIGATION_MAIN }],
+      });
       console.log(JSON.stringify(e));
     }
-
-    navigation.reset({
-      index: 0,
-      routes: [{ name: LOST_REPORT_RESULT }],
-    });
   };
 
   const onChangeArea = (text: string) => {
