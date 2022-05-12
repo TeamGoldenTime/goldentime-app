@@ -5,11 +5,6 @@ export const loginModalState = atom({
   default: false,
 });
 
-export const abandonedModalState = atom({
-  key: 'ABANDONED_MODAL',
-  default: false,
-});
-
 export const loadingState = atom({
   key: 'LOADING',
   default: false,

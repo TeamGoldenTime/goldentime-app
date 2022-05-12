@@ -8,16 +8,18 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ModalReportCard from './components/ModalReportCard';
 import Missing from '../../../assets/image/missing.png';
 import Search from '../../../assets/image/search.png';
-import { abandonedModalState, loginModalState } from '../../states/modalState';
+import { loginModalState } from '../../states/modalState';
 import { sleep } from '../../shared/utils';
 import { userState } from '../../states/authState';
-import { APP_NAVIGATION_LOST_REPORT_STACK } from '../../navigations/constants';
+import {
+  APP_NAVIGATION_ABANDONED_MODAL,
+  APP_NAVIGATION_LOST_REPORT_STACK,
+} from '../../navigations/constants';
 
 const ReportModal = ({ navigation }) => {
   const [visible, setVisible] = useState(true);
   const user = useRecoilValue(userState);
   const setShowLoginModal = useSetRecoilState(loginModalState);
-  const setShowAbandonedModal = useSetRecoilState(abandonedModalState);
 
   return (
     <Modal
@@ -56,9 +58,8 @@ const ReportModal = ({ navigation }) => {
           <TouchableOpacity
             onPress={async () => {
               setVisible(false);
-              navigation.goBack();
               await sleep(500);
-              setShowAbandonedModal(true);
+              navigation.replace(APP_NAVIGATION_ABANDONED_MODAL);
             }}>
             <ModalReportCard
               title="유기신고"

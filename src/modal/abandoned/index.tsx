@@ -1,28 +1,23 @@
 import React from 'react';
-import { Text, TouchableOpacity, View, Linking } from 'react-native';
+import { Linking, Text, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 import tw from 'tailwind-rn';
 import Icon from 'react-native-vector-icons/AntDesign';
-
-import ShadowContainer from '../../shared/ShadowContainer';
-import { useRecoilState } from 'recoil';
-import { abandonedModalState } from '../../states/modalState';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 
-const Abandoned: React.FC<any> = () => {
-  const [showAbandonedModal, seShowAbandonedModal] =
-    useRecoilState(abandonedModalState);
+import ShadowContainer from '../../shared/ShadowContainer';
 
-  const toggleAbandonedModal = () => {
-    seShowAbandonedModal(!showAbandonedModal);
+const Abandoned: React.FC<any> = ({ navigation }) => {
+  const closeAbandonedModal = () => {
+    navigation.goBack();
   };
 
   return (
     <Modal
-      isVisible={showAbandonedModal}
+      isVisible={true}
       style={tw('flex justify-center items-center')}
       onBackdropPress={() => {
-        toggleAbandonedModal();
+        closeAbandonedModal();
       }}>
       <ShadowContainer>
         <View style={tw('flex bg-white w-80 overflow-hidden p-2 rounded-xl')}>
@@ -31,7 +26,7 @@ const Abandoned: React.FC<any> = () => {
               <Text style={tw('text-3xl mb-1')}>유기 동물 신고</Text>
               <TouchableOpacity
                 onPress={() => {
-                  toggleAbandonedModal();
+                  closeAbandonedModal();
                 }}
                 style={tw('absolute right-0 pb-3')}>
                 <Icon name="close" size={20} />
@@ -72,7 +67,7 @@ const Abandoned: React.FC<any> = () => {
               주인이 있는 동물 같다면?
             </Text>
             <View style={tw('w-full h-16 pl-3 pr-3 pt-1 pb-1')}>
-              <View
+              <TouchableOpacity
                 style={[
                   { backgroundColor: '#7FA7D4' },
                   tw(
@@ -90,7 +85,7 @@ const Abandoned: React.FC<any> = () => {
                 <View style={tw('flex')}>
                   <MIcon name="keyboard-arrow-right" size={26} color="white" />
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

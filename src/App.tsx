@@ -10,6 +10,7 @@ import LoginModal from './modal/login';
 import AbandonedModal from './modal/abandoned';
 import GlobalLoading from './shared/GlobalLoading';
 import {
+  APP_NAVIGATION_ABANDONED_MODAL,
   APP_NAVIGATION_LOST_REPORT_LIST,
   APP_NAVIGATION_LOST_REPORT_STACK,
   APP_NAVIGATION_MAIN,
@@ -41,11 +42,14 @@ const App = () => {
                 animationEnabled: false,
               }}
             />
+            <Stack.Screen
+              name={APP_NAVIGATION_ABANDONED_MODAL}
+              component={AbandonedModal}
+            />
           </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
       <LoginModal />
-      <AbandonedModal />
       <GlobalLoading />
     </RecoilRoot>
   );
