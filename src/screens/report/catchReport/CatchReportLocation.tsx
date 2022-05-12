@@ -126,7 +126,7 @@ const CatchReportLocation: React.FC<CatchReportLocationProps> = ({
     <ReportLayout
       type={CATCH_REPORT_STEP3}
       navigation={navigation}
-      title="목격고"
+      title="목격신고"
       mainDescription={'반려동물의 목격위치를\n지정해주세요.'}
       subDescription=""
       stepper={stepper3}

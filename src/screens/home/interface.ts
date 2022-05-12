@@ -9,5 +9,5 @@ export interface ReportItem {
   id: number;
   title: string;
   location: string;
-  image: ImageProps;
+  image: string;
 }

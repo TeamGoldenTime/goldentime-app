@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import tw from 'tailwind-rn';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -11,13 +11,8 @@ import Info from '../../../assets/image/info_test1.png';
 import Info2 from '../../../assets/image/info_test2.png';
 import Info3 from '../../../assets/image/info_test3.png';
 import Header from '../../shared/Header';
-import Dog from '../../../assets/image/dog.jpeg';
-import Dog2 from '../../../assets/image/dog2.jpeg';
-import Dog3 from '../../../assets/image/dog3.jpeg';
-import Dog4 from '../../../assets/image/dog4.jpeg';
-import Dog5 from '../../../assets/image/dog5.jpeg';
-import Cat1 from '../../../assets/image/cat1.jpeg';
 import { APP_NAVIGATION_LOST_REPORT_LIST } from '../../navigations/constants';
+import { API_BASE_INSTANCE } from '../../api/instance';
 
 const MOCK_DATA: InfoItem[] = [
   {
@@ -34,53 +29,52 @@ const MOCK_DATA: InfoItem[] = [
   },
 ];
 
-const MOCK_REPORT_DATA: ReportItem[] = [
-  {
-    id: 1,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog,
-  },
-  {
-    id: 2,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog3,
-  },
-  {
-    id: 3,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog4,
-  },
-];
-
-const MOCK_REPORT_DATA2: ReportItem[] = [
-  {
-    id: 1,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog5,
-  },
-  {
-    id: 2,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Cat1,
-  },
-  {
-    id: 3,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog2,
-  },
-];
-
 interface HomeProps {
   navigation: StackNavigationProp<any>;
 }
 
 const Home: React.FC<HomeProps> = ({ navigation }) => {
+  const [lostPostList, setLostPostList] = useState<ReportItem[]>([]);
+  const [catchPostList, setCatchPostList] = useState<ReportItem[]>([]);
+
+  useEffect(() => {
+    const run = async () => {
+      getLostPost();
+      getCatchPost();
+    };
+    run();
+  }, []);
+
+  const getLostPost = async () => {
+    const result = await API_BASE_INSTANCE.get('/pet/post/lost');
+
+    const lostPostData = result.data.data;
+    const lostReportItems = lostPostData.map((post: any) => {
+      return {
+        id: post.id,
+        title: `강아지/${post.kind}/${post.color}`,
+        location: post.area,
+        image: post.images[0]?.location,
+      };
+    });
+    setLostPostList(lostReportItems);
+  };
+
+  const getCatchPost = async () => {
+    const result = await API_BASE_INSTANCE.get('/pet/post/catch');
+
+    const catchPostData = result.data.data;
+    const catchReportItems: ReportItem[] = catchPostData.map((post: any) => {
+      return {
+        id: post.id,
+        title: `강아지/${post.kind}/${post.color}`,
+        location: post.area,
+        image: post.images[0]?.location,
+      };
+    });
+    setCatchPostList(catchReportItems);
+  };
+
   const onClickLostReportList = () => {
     navigation.push(APP_NAVIGATION_LOST_REPORT_LIST);
   };
@@ -97,10 +91,10 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
         <InfoCarousel items={MOCK_DATA} />
         <ReportSection
           title="내 주변 분실신고"
-          data={MOCK_REPORT_DATA}
+          data={lostPostList}
           onClickShowAll={onClickLostReportList}
         />
-        <ReportSection title="내 주변 목격신고" data={MOCK_REPORT_DATA2} />
+        <ReportSection title="내 주변 목격신고" data={catchPostList} />
       </Container>
     </SafeAreaView>
   );
