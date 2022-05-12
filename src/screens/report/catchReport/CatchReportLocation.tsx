@@ -88,6 +88,7 @@ const CatchReportLocation: React.FC<CatchReportLocationProps> = ({
       date: formData.date,
       kind: formData.kind,
       remark: formData.desc,
+      gender: formData.gender,
       latitude: location?.latitude,
       longitude: location?.longitude,
       area: area,
@@ -96,7 +97,10 @@ const CatchReportLocation: React.FC<CatchReportLocationProps> = ({
     };
 
     try {
-      const result = await API_BASE_INSTANCE.post('/pet/catch', sendFormData);
+      const result = await API_BASE_INSTANCE.post(
+        '/pet/post/catch',
+        sendFormData,
+      );
       setLoading(false);
       navigation.reset({
         index: 0,
@@ -122,8 +126,8 @@ const CatchReportLocation: React.FC<CatchReportLocationProps> = ({
     <ReportLayout
       type={CATCH_REPORT_STEP3}
       navigation={navigation}
-      title="분실신고"
-      mainDescription={'반려동물의 분실위치를\n지정해주세요.'}
+      title="목격고"
+      mainDescription={'반려동물의 목격위치를\n지정해주세요.'}
       subDescription=""
       stepper={stepper3}
       onClickBackButton={onClickBackButton}

@@ -98,7 +98,10 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
     };
 
     try {
-      const result = await API_BASE_INSTANCE.post('/pet/lost', sendFormData);
+      const result = await API_BASE_INSTANCE.post(
+        '/pet/post/lost',
+        sendFormData,
+      );
       setLoading(false);
       navigation.reset({
         index: 0,
