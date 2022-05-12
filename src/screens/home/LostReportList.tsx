@@ -21,6 +21,7 @@ import ReportCard from './components/ReportCard';
 import Dog5 from '../../../assets/image/dog5.jpeg';
 import Cat1 from '../../../assets/image/cat1.jpeg';
 import Dog2 from '../../../assets/image/dog2.jpeg';
+import Loading from '../../animations/Loading';
 
 const CATEGORY_LIST = [
   {
@@ -115,6 +116,7 @@ interface LostReportListProps {
 }
 
 const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -140,6 +142,14 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
     //TODO:: API콜
     // setIsRefreshing(false);
   };
+
+  useEffect(() => {
+    setIsLoading(true);
+    //TODO :: API 콜
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [activeCategory]);
 
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
@@ -175,15 +185,21 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
             </Pressable>
           </View>
         </View>
-        <FlatList
-          style={tw('flex-1 pl-3 pr-3 pt-3 mt-1')}
-          data={MOCK_REPORT_LIST_DATA}
-          renderItem={_renderItem}
-          numColumns={2}
-          keyExtractor={item => String(item.id)}
-          onRefresh={onRefreshList}
-          refreshing={isRefreshing}
-        />
+        {isLoading ? (
+          <View style={tw('flex-1 justify-center items-center')}>
+            <Loading />
+          </View>
+        ) : (
+          <FlatList
+            style={tw('flex-1 pl-3 pr-3 pt-3 mt-1')}
+            data={MOCK_REPORT_LIST_DATA}
+            renderItem={_renderItem}
+            numColumns={2}
+            keyExtractor={item => String(item.id)}
+            onRefresh={onRefreshList}
+            refreshing={isRefreshing}
+          />
+        )}
       </Container>
     </SafeAreaView>
   );
