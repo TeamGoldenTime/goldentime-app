@@ -6,9 +6,9 @@ import MapView, { Marker } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
+  catchFormState,
   IImageSrc,
   ILocationState,
-  lostFormState,
 } from '../../../states/formState';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -18,28 +18,28 @@ import ReportInput from '../shared/components/ReportInput';
 import marker from '../../../../assets/image/marker.png';
 import { uploadImageToS3 } from '../../../api/s3';
 import { Asset } from 'react-native-image-picker';
-import { SaveLostPostDto } from '../../../api/dto/SavePostDto';
+import { SaveCatchPostDto } from '../../../api/dto/SavePostDto';
 import { API_BASE_INSTANCE } from '../../../api/instance';
 import { userState } from '../../../states/authState';
 import {
   APP_NAVIGATION_MAIN,
-  LOST_REPORT_RESULT,
-  LOST_REPORT_STEP3,
+  CATCH_REPORT_RESULT,
+  CATCH_REPORT_STEP3,
 } from '../../../navigations/constants';
 import { loadingState } from '../../../states/modalState';
 
-interface LostReportLocationProps {
+interface CatchReportLocationProps {
   navigation: StackNavigationProp<any>;
 }
 
-const LostReportLocation: React.FC<LostReportLocationProps> = ({
+const CatchReportLocation: React.FC<CatchReportLocationProps> = ({
   navigation,
 }) => {
+  const setLoading = useSetRecoilState(loadingState);
   const [location, setLocation] = useState<ILocationState | null>(null);
   const [area, setArea] = useState('');
   const user = useRecoilValue(userState);
-  const formData = useRecoilValue(lostFormState);
-  const setLoading = useSetRecoilState(loadingState);
+  const formData = useRecoilValue(catchFormState);
 
   const requestPermission = async () => {
     return Geolocation.requestAuthorization('whenInUse');
@@ -83,12 +83,10 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
 
     const imageResult: IImageSrc[] = await Promise.all(imagePromises);
 
-    const sendFormData: SaveLostPostDto = {
-      age: formData.age,
+    const sendFormData: SaveCatchPostDto = {
       color: formData.color,
       date: formData.date,
       kind: formData.kind,
-      name: formData.name,
       remark: formData.desc,
       latitude: location?.latitude,
       longitude: location?.longitude,
@@ -98,11 +96,11 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
     };
 
     try {
-      const result = await API_BASE_INSTANCE.post('/pet/lost', sendFormData);
+      const result = await API_BASE_INSTANCE.post('/pet/catch', sendFormData);
       setLoading(false);
       navigation.reset({
         index: 0,
-        routes: [{ name: LOST_REPORT_RESULT }],
+        routes: [{ name: CATCH_REPORT_RESULT }],
       });
       console.log(result.data);
     } catch (e) {
@@ -122,7 +120,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
 
   return (
     <ReportLayout
-      type={LOST_REPORT_STEP3}
+      type={CATCH_REPORT_STEP3}
       navigation={navigation}
       title="분실신고"
       mainDescription={'반려동물의 분실위치를\n지정해주세요.'}
@@ -186,4 +184,4 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
   );
 };
 
-export default LostReportLocation;
+export default CatchReportLocation;

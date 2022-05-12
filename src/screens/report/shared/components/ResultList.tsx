@@ -3,39 +3,19 @@ import { FlatList, Image, Text, View } from 'react-native';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'tailwind-rn';
 
-import Cat from '../../../../assets/image/cat1.jpeg';
-import Dog from '../../../../assets/image/dog.jpeg';
-import Dog2 from '../../../../assets/image/dog2.jpeg';
-import FullButton from '../shared/components/FullButton';
-import { LostResultItem } from './interface';
-
-const LOST_RESULT_MOCK_DATA: LostResultItem[] = [
-  {
-    area: '서울시 동작구 상도동',
-    date: '22.05.10',
-    thumbnail: Cat,
-    where: '동물보호 관리 시스템',
-  },
-  {
-    area: '서울시 강남구',
-    date: '22.05.8',
-    thumbnail: Dog,
-    where: '동물보호 관리 시스템',
-  },
-  {
-    area: '서울시 동작구 흑석동',
-    date: '22.05.10',
-    thumbnail: Dog2,
-    where: '동물보호 관리 시스템',
-  },
-];
+import FullButton from './FullButton';
+import { ResultItem } from '../interface';
 
 interface ResultListProps {
   onClickFinishButton: Function;
+  data: ResultItem[];
 }
 
-const ResultList: React.FC<ResultListProps> = ({ onClickFinishButton }) => {
-  const renderItem = ({ item }: { item: LostResultItem }) => (
+const ResultList: React.FC<ResultListProps> = ({
+  onClickFinishButton,
+  data,
+}) => {
+  const renderItem = ({ item }: { item: ResultItem }) => (
     <View
       style={[
         {
@@ -57,7 +37,7 @@ const ResultList: React.FC<ResultListProps> = ({ onClickFinishButton }) => {
             <Text style={tw('text-lg')}>지역 : {item.area}</Text>
             <Text style={tw('text-lg ')}>등록일자 : {item.date}</Text>
             <Text style={tw('text-sm text-gray-600')}>
-              보호장소 : {item.where}
+              신고자 : {item.where}
             </Text>
           </View>
           <MIcon
@@ -74,17 +54,11 @@ const ResultList: React.FC<ResultListProps> = ({ onClickFinishButton }) => {
   return (
     <View style={tw('flex-1')}>
       <View style={tw('flex p-6')}>
-        <Text style={tw('mt-3 text-3xl')}>
-          총 {LOST_RESULT_MOCK_DATA.length}건의
-        </Text>
+        <Text style={tw('mt-3 text-3xl')}>총 {data.length}건의</Text>
         <Text style={tw('mt-3 text-2xl')}>유사한 반려동물을 찾았습니다.</Text>
       </View>
       <View style={[{ backgroundColor: '#F9F9F9' }, tw('w-full h-1 ')]} />
-      <FlatList
-        style={tw('flex')}
-        data={LOST_RESULT_MOCK_DATA}
-        renderItem={renderItem}
-      />
+      <FlatList style={tw('flex')} data={data} renderItem={renderItem} />
       <View style={tw('flex p-6 ')}>
         <FullButton onClickNextButton={onClickFinishButton} name="확인" />
       </View>

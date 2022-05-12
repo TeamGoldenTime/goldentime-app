@@ -9,6 +9,8 @@ import FullButton from './FullButton';
 import HalfButton from './HalfButton';
 import {
   APP_NAVIGATION_MAIN,
+  CATCH_REPORT_STEP1,
+  CATCH_REPORT_STEP2,
   LOST_REPORT_STEP1,
   LOST_REPORT_STEP2,
 } from '../../../../navigations/constants';
@@ -61,9 +63,9 @@ const ReportLayout: React.FC<ReportLayoutProps> = ({
       <Text style={tw('text-2xl font-extralight')}>{mainDescription}</Text>
       <Text style={tw('text-sm text-gray-500')}>{subDescription}</Text>
       {children}
-      {type === LOST_REPORT_STEP1 ? (
+      {type === LOST_REPORT_STEP1 || type === CATCH_REPORT_STEP1 ? (
         <FullButton onClickNextButton={onClickNextButton} name="다음" />
-      ) : type === LOST_REPORT_STEP2 ? (
+      ) : type === LOST_REPORT_STEP2 || type === CATCH_REPORT_STEP2 ? (
         <View style={tw('flex-row justify-between ml-1 mr-2')}>
           <HalfButton
             textColor="#000000"

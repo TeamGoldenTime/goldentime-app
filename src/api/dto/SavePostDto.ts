@@ -11,5 +11,19 @@ export interface SaveLostPostDto {
   name?: string;
   remark?: string;
   area?: string;
+  gender?: string;
+  userId?: number;
+}
+
+export interface SaveCatchPostDto {
+  color?: string;
+  date?: Date;
+  images?: IImageSrc[];
+  kind?: string;
+  latitude?: number;
+  longitude?: number;
+  remark?: string;
+  area?: string;
+  gender?: string;
   userId?: number;
 }
