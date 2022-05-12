@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { loadingState } from '../states/modalState';
 import tw from 'tailwind-rn';
 
-const Loading = () => {
+const GlobalLoading = () => {
   const isLoading = useRecoilValue(loadingState);
 
   if (!isLoading) {
@@ -33,4 +33,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default GlobalLoading;
