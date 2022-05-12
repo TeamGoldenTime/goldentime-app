@@ -5,15 +5,15 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useRecoilState } from 'recoil';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import ReportLayout from './components/ReportLayout';
-import { stepper2 } from './components/stepper2';
-import ReportInput from './components/ReportInput';
-import ReportDate from './components/ReportDate';
-import { lostFormState } from '../../states/formState';
+import ReportLayout from '../shared/components/ReportLayout';
+import { stepper2 } from '../shared/components/stepper2';
+import ReportInput from '../shared/components/ReportInput';
+import ReportDate from '../shared/components/ReportDate';
+import { lostFormState } from '../../../states/formState';
 import {
   LOST_REPORT_STEP2,
   LOST_REPORT_STEP3,
-} from '../../navigations/constants';
+} from '../../../navigations/constants';
 
 interface LostReportInfoProps {
   route: StackNavigationProp<any>;

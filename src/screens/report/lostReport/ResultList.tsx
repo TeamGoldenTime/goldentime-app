@@ -3,10 +3,10 @@ import { FlatList, Image, Text, View } from 'react-native';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'tailwind-rn';
 
-import Cat from '../../../assets/image/cat1.jpeg';
-import Dog from '../../../assets/image/dog.jpeg';
-import Dog2 from '../../../assets/image/dog2.jpeg';
-import FullButton from './components/FullButton';
+import Cat from '../../../../assets/image/cat1.jpeg';
+import Dog from '../../../../assets/image/dog.jpeg';
+import Dog2 from '../../../../assets/image/dog2.jpeg';
+import FullButton from '../shared/components/FullButton';
 import { LostResultItem } from './interface';
 
 const LOST_RESULT_MOCK_DATA: LostResultItem[] = [

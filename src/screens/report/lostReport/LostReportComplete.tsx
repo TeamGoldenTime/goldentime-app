@@ -4,10 +4,10 @@ import tw from 'tailwind-rn';
 import { useRecoilValue } from 'recoil';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import AlarmAnimation from '../../animations/AlarmAnimation';
-import FullButton from './components/FullButton';
-import { userState, UserType } from '../../states/authState';
-import { APP_NAVIGATION_MAIN } from '../../navigations/constants';
+import AlarmAnimation from '../../../animations/AlarmAnimation';
+import FullButton from '../shared/components/FullButton';
+import { userState, UserType } from '../../../states/authState';
+import { APP_NAVIGATION_MAIN } from '../../../navigations/constants';
 
 interface LostReportCompleteProps {
   navigation: StackNavigationProp<any>;

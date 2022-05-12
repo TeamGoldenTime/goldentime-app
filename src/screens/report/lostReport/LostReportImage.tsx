@@ -14,17 +14,17 @@ import {
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { stepper1 } from './components/stepper1';
-import ReportLayout from './components/ReportLayout';
-import { IImageSrc, lostFormState } from '../../states/formState';
-import { uploadImageToS3 } from '../../api/s3';
-import { API_BASE_INSTANCE } from '../../api/instance';
-import { loadingState } from '../../states/modalState';
+import { stepper1 } from '../shared/components/stepper1';
+import ReportLayout from '../shared/components/ReportLayout';
+import { IImageSrc, lostFormState } from '../../../states/formState';
+import { uploadImageToS3 } from '../../../api/s3';
+import { API_BASE_INSTANCE } from '../../../api/instance';
+import { loadingState } from '../../../states/modalState';
 import {
   APP_NAVIGATION_MAIN,
   LOST_REPORT_STEP1,
   LOST_REPORT_STEP2,
-} from '../../navigations/constants';
+} from '../../../navigations/constants';
 
 interface LostReportImageProps {
   navigation: StackNavigationProp<any>;

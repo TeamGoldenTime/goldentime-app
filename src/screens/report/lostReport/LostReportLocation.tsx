@@ -9,24 +9,24 @@ import {
   IImageSrc,
   ILocationState,
   lostFormState,
-} from '../../states/formState';
+} from '../../../states/formState';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import ReportLayout from './components/ReportLayout';
-import { stepper3 } from './components/stepper3';
-import ReportInput from './components/ReportInput';
-import marker from '../../../assets/image/marker.png';
-import { uploadImageToS3 } from '../../api/s3';
+import ReportLayout from '../shared/components/ReportLayout';
+import { stepper3 } from '../shared/components/stepper3';
+import ReportInput from '../shared/components/ReportInput';
+import marker from '../../../../assets/image/marker.png';
+import { uploadImageToS3 } from '../../../api/s3';
 import { Asset } from 'react-native-image-picker';
-import { SaveLostPostDto } from '../../api/dto/SaveLostPostDto';
-import { API_BASE_INSTANCE } from '../../api/instance';
-import { userState } from '../../states/authState';
+import { SaveLostPostDto } from '../../../api/dto/SaveLostPostDto';
+import { API_BASE_INSTANCE } from '../../../api/instance';
+import { userState } from '../../../states/authState';
 import {
   APP_NAVIGATION_MAIN,
   LOST_REPORT_RESULT,
   LOST_REPORT_STEP3,
-} from '../../navigations/constants';
-import { loadingState } from '../../states/modalState';
+} from '../../../navigations/constants';
+import { loadingState } from '../../../states/modalState';
 
 interface LostReportLocationProps {
   navigation: StackNavigationProp<any>;
