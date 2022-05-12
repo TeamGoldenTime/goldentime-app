@@ -7,9 +7,15 @@ import MIcon from 'react-native-vector-icons/MaterialIcons';
 
 import ShadowContainer from '../../shared/ShadowContainer';
 import { APP_NAVIGATION_CATCH_REPORT_STACK } from '../../navigations/constants';
+import { sleep } from '../../shared/utils';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../states/authState';
+import { loginModalState } from '../../states/modalState';
 
 const Abandoned: React.FC<any> = ({ navigation }) => {
+  const user = useRecoilValue(userState);
   const [visible, setVisible] = useState(true);
+  const setShowLoginModal = useSetRecoilState(loginModalState);
 
   const closeAbandonedModal = () => {
     navigation.goBack();
@@ -78,6 +84,12 @@ const Abandoned: React.FC<any> = ({ navigation }) => {
                   ),
                 ]}
                 onPress={async () => {
+                  if (!user) {
+                    navigation.goBack();
+                    await sleep(500);
+                    setShowLoginModal(true);
+                    return;
+                  }
                   setVisible(false);
                   navigation.replace(APP_NAVIGATION_CATCH_REPORT_STACK);
                 }}>

@@ -56,7 +56,7 @@ const CatchReportResult: React.FC<CatchReportResultProps> = ({
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
       <View style={tw('mt-3 items-center')}>
-        <Text style={tw('text-3xl')}>분실 신고 결과</Text>
+        <Text style={tw('text-3xl')}>목격 신고 결과</Text>
       </View>
       {loading ? (
         <ResultLoading />

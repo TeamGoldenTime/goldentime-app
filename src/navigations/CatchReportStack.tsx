@@ -1,18 +1,15 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-
-import LostReportLocation from '../screens/report/lostReport/LostReportLocation';
 import {
   CATCH_REPORT_RESULT,
   CATCH_REPORT_STEP1,
   CATCH_REPORT_STEP2,
   CATCH_REPORT_STEP3,
-  LOST_REPORT_COMPLETE,
 } from './constants';
-import LostReportComplete from '../screens/report/lostReport/LostReportComplete';
 import catchReportImage from '../screens/report/catchReport/CatchReportImage';
 import catchReportInfo from '../screens/report/catchReport/CatchReportInfo';
 import CatchReportLocation from '../screens/report/catchReport/CatchReportLocation';
+import CatchReportResult from '../screens/report/catchReport/CatchReportResult';
 
 const Stack = createStackNavigator();
 
@@ -24,11 +21,11 @@ const CatchReportStack = () => {
         <Stack.Screen name={CATCH_REPORT_STEP2} component={catchReportInfo} />
         <Stack.Screen
           name={CATCH_REPORT_STEP3}
-          component={LostReportLocation}
+          component={CatchReportLocation}
         />
         <Stack.Screen
           name={CATCH_REPORT_RESULT}
-          component={CatchReportLocation}
+          component={CatchReportResult}
         />
       </Stack.Navigator>
     </>
