@@ -94,6 +94,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
       longitude: location?.longitude,
       area: area,
       images: imageResult,
+      gender: formData.gender,
       userId: user?.id,
     };
 
