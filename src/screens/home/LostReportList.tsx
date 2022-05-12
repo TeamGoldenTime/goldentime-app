@@ -14,14 +14,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import Container from '../../shared/Container';
 import { ReportItem } from './interface';
-import Dog from '../../../assets/image/dog.jpeg';
-import Dog3 from '../../../assets/image/dog3.jpeg';
-import Dog4 from '../../../assets/image/dog4.jpeg';
 import ReportCard from './components/ReportCard';
-import Dog5 from '../../../assets/image/dog5.jpeg';
-import Cat1 from '../../../assets/image/cat1.jpeg';
-import Dog2 from '../../../assets/image/dog2.jpeg';
 import Loading from '../../animations/Loading';
+import { API_BASE_INSTANCE } from '../../api/instance';
 
 const CATEGORY_LIST = [
   {
@@ -42,75 +37,6 @@ const CATEGORY_LIST = [
   },
 ];
 
-const MOCK_REPORT_LIST_DATA: ReportItem[] = [
-  {
-    id: 1,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog,
-  },
-  {
-    id: 2,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog3,
-  },
-  {
-    id: 3,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog4,
-  },
-  {
-    id: 4,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog5,
-  },
-  {
-    id: 5,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Cat1,
-  },
-  {
-    id: 6,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog2,
-  },
-  {
-    id: 7,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Cat1,
-  },
-  {
-    id: 8,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog2,
-  },
-  {
-    id: 9,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Cat1,
-  },
-  {
-    id: 10,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog2,
-  },
-  {
-    id: 10,
-    title: '강아지/시바견/믹스',
-    location: '서울시 동작구 흑석동 중앙대학교 310관 앞',
-    image: Dog2,
-  },
-];
-
 interface LostReportListProps {
   navigation: StackNavigationProp<any>;
 }
@@ -119,6 +45,7 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lostPostList, setLostPostList] = useState<ReportItem[]>([]);
 
   const activeCategoryStyle = {
     padding: 3,
@@ -143,12 +70,25 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
     // setIsRefreshing(false);
   };
 
+  const getLostPostList = async () => {
+    const result = await API_BASE_INSTANCE.get('/pet/post/lost');
+
+    const lostPostData = result.data.data;
+    const lostReportItems: ReportItem[] = lostPostData.map((post: any) => {
+      return {
+        id: post.id,
+        title: `강아지/${post.kind}/${post.color}`,
+        location: post.area,
+        image: post.images[0]?.location,
+      };
+    });
+    setLostPostList(lostReportItems);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    setIsLoading(true);
     //TODO :: API 콜
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    getLostPostList();
   }, [activeCategory]);
 
   return (
@@ -192,7 +132,7 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
         ) : (
           <FlatList
             style={tw('flex-1 pl-3 pr-3 pt-3 mt-1 bg-white')}
-            data={MOCK_REPORT_LIST_DATA}
+            data={lostPostList}
             renderItem={_renderItem}
             numColumns={2}
             keyExtractor={item => String(item.id)}

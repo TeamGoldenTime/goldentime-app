@@ -26,7 +26,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ item, width, height }) => {
         ]}>
         <View style={[{ flex: 3 }, tw('')]}>
           <Image
-            source={item.image}
+            source={{ uri: item.image }}
             style={[
               {
                 borderTopRightRadius: 10,
