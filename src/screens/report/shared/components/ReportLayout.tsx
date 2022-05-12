@@ -11,7 +11,7 @@ import {
   APP_NAVIGATION_MAIN,
   LOST_REPORT_STEP1,
   LOST_REPORT_STEP2,
-} from '../../../navigations/constants';
+} from '../../../../navigations/constants';
 
 interface ReportLayoutProps {
   type: string;

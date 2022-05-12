@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import ResultLoading from './ResultLoading';
 import ResultList from './ResultList';
-import { LOST_REPORT_COMPLETE } from '../../navigations/constants';
+import { LOST_REPORT_COMPLETE } from '../../../navigations/constants';
 
 interface LostReportResultProps {
   navigation: StackNavigationProp<any>;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import tw from 'tailwind-rn';
 
-import SearchLoading from '../../animations/SearchLoading';
+import SearchLoading from '../../../animations/SearchLoading';
 
 const ResultLoading = () => {
   return (

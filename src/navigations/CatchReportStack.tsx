@@ -15,7 +15,7 @@ import LostReportComplete from '../screens/report/lostReport/LostReportComplete'
 
 const Stack = createStackNavigator();
 
-const LostReportStack = () => {
+const CatchReportStack = () => {
   return (
     <>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -32,4 +32,4 @@ const LostReportStack = () => {
   );
 };
 
-export default LostReportStack;
+export default CatchReportStack;
