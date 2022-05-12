@@ -191,7 +191,7 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
           </View>
         ) : (
           <FlatList
-            style={tw('flex-1 pl-3 pr-3 pt-3 mt-1')}
+            style={tw('flex-1 pl-3 pr-3 pt-3 mt-1 bg-white')}
             data={MOCK_REPORT_LIST_DATA}
             renderItem={_renderItem}
             numColumns={2}
