@@ -1,6 +1,6 @@
 import { ImageProps } from 'react-native';
 
-export interface LostResultItem {
+export interface ResultItem {
   area: string;
   date: string;
   thumbnail: ImageProps;

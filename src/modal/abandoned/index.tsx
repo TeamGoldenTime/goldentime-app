@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Linking, Text, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 import tw from 'tailwind-rn';
@@ -6,15 +6,18 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 
 import ShadowContainer from '../../shared/ShadowContainer';
+import { APP_NAVIGATION_CATCH_REPORT_STACK } from '../../navigations/constants';
 
 const Abandoned: React.FC<any> = ({ navigation }) => {
+  const [visible, setVisible] = useState(true);
+
   const closeAbandonedModal = () => {
     navigation.goBack();
   };
 
   return (
     <Modal
-      isVisible={true}
+      isVisible={visible}
       style={tw('flex justify-center items-center')}
       onBackdropPress={() => {
         closeAbandonedModal();
@@ -73,7 +76,11 @@ const Abandoned: React.FC<any> = ({ navigation }) => {
                   tw(
                     'w-full h-full rounded-full flex-row justify-between items-center pl-3 pr-3',
                   ),
-                ]}>
+                ]}
+                onPress={async () => {
+                  setVisible(false);
+                  navigation.replace(APP_NAVIGATION_CATCH_REPORT_STACK);
+                }}>
                 <View style={tw('flex')}>
                   <MIcon name="my-library-add" size={28} color="white" />
                 </View>

@@ -5,13 +5,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import ResultLoading from '../shared/components/ResultLoading';
 import ResultList from '../shared/components/ResultList';
-import { LOST_REPORT_COMPLETE } from '../../../navigations/constants';
+import { APP_NAVIGATION_MAIN } from '../../../navigations/constants';
 import { ResultItem } from '../shared/interface';
 import Cat from '../../../../assets/image/cat1.jpeg';
 import Dog from '../../../../assets/image/dog.jpeg';
 import Dog2 from '../../../../assets/image/dog2.jpeg';
 
-interface LostReportResultProps {
+interface CatchReportResultProps {
   navigation: StackNavigationProp<any>;
 }
 
@@ -20,29 +20,31 @@ const RESULT_MOCK_DATA: ResultItem[] = [
     area: '서울시 동작구 상도동',
     date: '22.05.10',
     thumbnail: Cat,
-    where: '동물보호 관리 시스템',
+    where: '홍길동',
   },
   {
     area: '서울시 강남구',
     date: '22.05.8',
     thumbnail: Dog,
-    where: '동물보호 관리 시스템',
+    where: '김나나',
   },
   {
     area: '서울시 동작구 흑석동',
     date: '22.05.10',
     thumbnail: Dog2,
-    where: '동물보호 관리 시스템',
+    where: '이나나',
   },
 ];
 
-const LostReportResult: React.FC<LostReportResultProps> = ({ navigation }) => {
+const CatchReportResult: React.FC<CatchReportResultProps> = ({
+  navigation,
+}) => {
   const [loading, setLoading] = useState(true);
 
   const onClickFinishButton = () => {
     navigation.reset({
       index: 0,
-      routes: [{ name: LOST_REPORT_COMPLETE }],
+      routes: [{ name: APP_NAVIGATION_MAIN }],
     });
   };
 
@@ -68,4 +70,4 @@ const LostReportResult: React.FC<LostReportResultProps> = ({ navigation }) => {
   );
 };
 
-export default LostReportResult;
+export default CatchReportResult;
