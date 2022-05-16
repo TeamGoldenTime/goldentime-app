@@ -11,7 +11,10 @@ import Info from '../../../assets/image/info_test1.png';
 import Info2 from '../../../assets/image/info_test2.png';
 import Info3 from '../../../assets/image/info_test3.png';
 import Header from '../../shared/Header';
-import { APP_NAVIGATION_LOST_REPORT_LIST } from '../../navigations/constants';
+import {
+  APP_NAVIGATION_CATCH_REPORT_LIST,
+  APP_NAVIGATION_LOST_REPORT_LIST,
+} from '../../navigations/constants';
 import { API_BASE_INSTANCE } from '../../api/instance';
 
 const MOCK_DATA: InfoItem[] = [
@@ -38,11 +41,8 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
   const [catchPostList, setCatchPostList] = useState<ReportItem[]>([]);
 
   useEffect(() => {
-    const run = async () => {
-      getLostPost();
-      getCatchPost();
-    };
-    run();
+    getLostPost();
+    getCatchPost();
   }, []);
 
   const getLostPost = async () => {
@@ -57,6 +57,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
         image: post.images[0]?.location,
       };
     });
+    lostReportItems.reverse();
     setLostPostList(lostReportItems);
   };
 
@@ -72,11 +73,16 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
         image: post.images[0]?.location,
       };
     });
+    catchReportItems.reverse();
     setCatchPostList(catchReportItems);
   };
 
   const onClickLostReportList = () => {
     navigation.push(APP_NAVIGATION_LOST_REPORT_LIST);
+  };
+
+  const onClickCatchReportList = () => {
+    navigation.push(APP_NAVIGATION_CATCH_REPORT_LIST);
   };
 
   // TODO :: 목격신고 전체보기
@@ -94,7 +100,11 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
           data={lostPostList}
           onClickShowAll={onClickLostReportList}
         />
-        <ReportSection title="내 주변 목격신고" data={catchPostList} />
+        <ReportSection
+          title="내 주변 목격신고"
+          data={catchPostList}
+          onClickShowAll={onClickCatchReportList}
+        />
       </Container>
     </SafeAreaView>
   );

@@ -2,10 +2,11 @@ import React from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import tw from 'tailwind-rn';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
 
 import ReportCard from './ReportCard';
 import { ReportItem } from '../interface';
-import MIcon from 'react-native-vector-icons/MaterialIcons';
+import Loading from '../../../animations/Loading';
 
 interface ReportSectionProps {
   title: string;
@@ -42,14 +43,20 @@ const ReportSection: React.FC<ReportSectionProps> = ({
           </View>
         </Pressable>
       </View>
-      <FlatList
-        style={tw('flex-row pl-2 mt-2 w-full h-full')}
-        data={data}
-        keyExtractor={_keyExtractor}
-        renderItem={_renderItem}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-      />
+      {data.length === 0 ? (
+        <View style={tw('flex-1 justify-center items-center')}>
+          <Loading />
+        </View>
+      ) : (
+        <FlatList
+          style={tw('flex-row pl-2 mt-2 w-full h-full')}
+          data={data}
+          keyExtractor={_keyExtractor}
+          renderItem={_renderItem}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };
