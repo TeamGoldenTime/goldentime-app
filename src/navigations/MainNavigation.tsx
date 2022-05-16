@@ -37,7 +37,6 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
         tabBarLabelStyle: { fontSize: 14 },
         tabBarStyle: {
           height: hp('10%'),
-          position: 'absolute',
         },
       }}>
       <Tab.Screen
