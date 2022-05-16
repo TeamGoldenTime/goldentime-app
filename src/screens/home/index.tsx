@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { RefreshControl, SafeAreaView, ScrollView } from 'react-native';
 import tw from 'tailwind-rn';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -39,6 +39,7 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ navigation }) => {
   const [lostPostList, setLostPostList] = useState<ReportItem[]>([]);
   const [catchPostList, setCatchPostList] = useState<ReportItem[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getLostPost();
@@ -85,26 +86,33 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     navigation.push(APP_NAVIGATION_CATCH_REPORT_LIST);
   };
 
-  // TODO :: 목격신고 전체보기
-  // const onClickLostReportList = () => {
-  //   navigation.push(APP_NAVIGATION_LOST_REPORT_LIST);
-  // };
+  const onRefreshing = () => {
+    setRefreshing(true);
+    getLostPost();
+    getCatchPost();
+    setRefreshing(false);
+  };
 
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
       <Container>
         <Header />
-        <InfoCarousel items={MOCK_DATA} />
-        <ReportSection
-          title="내 주변 분실신고"
-          data={lostPostList}
-          onClickShowAll={onClickLostReportList}
-        />
-        <ReportSection
-          title="내 주변 목격신고"
-          data={catchPostList}
-          onClickShowAll={onClickCatchReportList}
-        />
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefreshing} />
+          }>
+          <ReportSection
+            title="내 주변 분실신고"
+            data={lostPostList}
+            onClickShowAll={onClickLostReportList}
+          />
+          <ReportSection
+            title="내 주변 목격신고"
+            data={catchPostList}
+            onClickShowAll={onClickCatchReportList}
+          />
+          <InfoCarousel items={MOCK_DATA} />
+        </ScrollView>
       </Container>
     </SafeAreaView>
   );
