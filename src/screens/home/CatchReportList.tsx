@@ -19,15 +19,15 @@ import Loading from '../../animations/Loading';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { CATEGORY_LIST } from '../report/shared/constants';
 
-interface LostReportListProps {
+interface CatchReportListProps {
   navigation: StackNavigationProp<any>;
 }
 
-const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
+const CatchReportList: React.FC<CatchReportListProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [lostPostList, setLostPostList] = useState<ReportItem[]>([]);
+  const [catchPostList, setCatchPostList] = useState<ReportItem[]>([]);
 
   const activeCategoryStyle = {
     padding: 3,
@@ -39,16 +39,11 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
     setActiveCategory(value);
   };
 
-  const _renderItem: any = ({ item }: { item: ReportItem }) => (
-    <View style={tw('flex-1 ml-1 mb-5')}>
-      <ReportCard item={item} width="44%" height="20%" />
-    </View>
-  );
+  const fetchingCatchPost = async () => {
+    const result = await API_BASE_INSTANCE.get('/pet/post/catch');
 
-  const fetchingLostPost = async () => {
-    const result = await API_BASE_INSTANCE.get('/pet/post/lost');
-    const lostPostData = result.data.data;
-    const lostReportItems: ReportItem[] = lostPostData.map((post: any) => {
+    const catchPostData = result.data.data;
+    const catchReportItems: ReportItem[] = catchPostData.map((post: any) => {
       return {
         id: post.id,
         title: `강아지/${post.kind}/${post.color}`,
@@ -56,24 +51,30 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
         image: post.images[0]?.location,
       };
     });
-    lostReportItems.reverse();
-    setLostPostList(lostReportItems);
+    catchReportItems.reverse();
+    setCatchPostList(catchReportItems);
   };
+
+  const _renderItem: any = ({ item }: { item: ReportItem }) => (
+    <View style={tw('flex-1 ml-1 mb-5')}>
+      <ReportCard item={item} width="44%" height="20%" />
+    </View>
+  );
 
   const onRefreshList = async () => {
     setIsRefreshing(true);
-    await fetchingLostPost();
+    await fetchingCatchPost();
     setIsRefreshing(false);
   };
 
-  const getLostPostList = async () => {
-    setIsLoading(true);
-    await fetchingLostPost();
+  const getCatchPostList = async () => {
+    setIsRefreshing(true);
+    await fetchingCatchPost();
     setIsLoading(false);
   };
 
   useEffect(() => {
-    getLostPostList();
+    getCatchPostList();
   }, [activeCategory]);
 
   return (
@@ -87,7 +88,7 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
             }}>
             <MIcon name="arrow-back" size={32} />
           </TouchableOpacity>
-          <Text style={tw('text-3xl')}>분실 신고 목록</Text>
+          <Text style={tw('text-3xl')}>목격 신고 목록</Text>
         </View>
         <View style={tw('pt-5 bg-white')}>
           <View style={tw('pl-10 pr-10 flex-row justify-between')}>
@@ -117,7 +118,7 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
         ) : (
           <FlatList
             style={tw('flex-1 pl-3 pr-3 pt-3 mt-1 bg-white')}
-            data={lostPostList}
+            data={catchPostList}
             renderItem={_renderItem}
             numColumns={2}
             keyExtractor={item => String(item.id)}
@@ -130,4 +131,4 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
   );
 };
 
-export default LostReportList;
+export default CatchReportList;

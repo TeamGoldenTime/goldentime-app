@@ -11,6 +11,7 @@ import AbandonedModal from './modal/abandoned';
 import GlobalLoading from './shared/GlobalLoading';
 import {
   APP_NAVIGATION_ABANDONED_MODAL,
+  APP_NAVIGATION_CATCH_REPORT_LIST,
   APP_NAVIGATION_CATCH_REPORT_STACK,
   APP_NAVIGATION_LOST_REPORT_LIST,
   APP_NAVIGATION_LOST_REPORT_STACK,
@@ -19,6 +20,7 @@ import {
 } from './navigations/constants';
 import LostReportList from './screens/home/LostReportList';
 import CatchReportStack from './navigations/CatchReportStack';
+import CatchReportList from './screens/home/CatchReportList';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +37,10 @@ const App = () => {
           <Stack.Screen
             name={APP_NAVIGATION_LOST_REPORT_LIST}
             component={LostReportList}
+          />
+          <Stack.Screen
+            name={APP_NAVIGATION_CATCH_REPORT_LIST}
+            component={CatchReportList}
           />
           <Stack.Screen
             name={APP_NAVIGATION_CATCH_REPORT_STACK}
