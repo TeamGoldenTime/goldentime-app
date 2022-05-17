@@ -7,11 +7,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationProp } from '@react-navigation/native';
 
 import Home from '../screens/home';
-import Map from '../screens/map';
+import ReportMap from '../screens/map';
 import More from '../screens/more';
 import Detective from '../screens/detective';
 import ReportModal from '../modal/report';
 import {
+  APP_NAVIGATION_REPORT_MAP,
   APP_NAVIGATION_REPORT_MODAL,
   MAIN_NAVIGATION_DETECTIVE,
   MAIN_NAVIGATION_HOME,
@@ -53,7 +54,13 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
       />
       <Tab.Screen
         name={MAIN_NAVIGATION_MAP}
-        component={Map}
+        component={ReportMap}
+        listeners={() => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate(APP_NAVIGATION_REPORT_MAP);
+          },
+        })}
         options={{
           tabBarIcon: ({ color, size, focused }) =>
             focused ? (
