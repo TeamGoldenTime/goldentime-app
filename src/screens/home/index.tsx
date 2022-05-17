@@ -16,6 +16,7 @@ import {
   APP_NAVIGATION_LOST_REPORT_LIST,
 } from '../../navigations/constants';
 import { API_BASE_INSTANCE } from '../../api/instance';
+import { postToReportItems } from '../../shared/utils';
 
 const MOCK_DATA: InfoItem[] = [
   {
@@ -50,14 +51,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     const result = await API_BASE_INSTANCE.get('/pet/post/lost');
 
     const lostPostData = result.data.data;
-    const lostReportItems = lostPostData.map((post: any) => {
-      return {
-        id: post.id,
-        title: `강아지/${post.kind}/${post.color}`,
-        location: post.area,
-        image: post.images[0]?.location,
-      };
-    });
+    const lostReportItems: ReportItem[] = postToReportItems(lostPostData);
     lostReportItems.reverse();
     setLostPostList(lostReportItems);
   };
@@ -66,14 +60,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     const result = await API_BASE_INSTANCE.get('/pet/post/catch');
 
     const catchPostData = result.data.data;
-    const catchReportItems: ReportItem[] = catchPostData.map((post: any) => {
-      return {
-        id: post.id,
-        title: `강아지/${post.kind}/${post.color}`,
-        location: post.area,
-        image: post.images[0]?.location,
-      };
-    });
+    const catchReportItems: ReportItem[] = postToReportItems(catchPostData);
     catchReportItems.reverse();
     setCatchPostList(catchReportItems);
   };

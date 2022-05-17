@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker } from 'react-native-maps';
@@ -10,11 +10,12 @@ import Loading from '../../animations/Loading';
 import { ReportItem } from '../home/interface';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { ILocationState } from '../../states/formState';
-import { APP_NAVIGATION_MAIN } from '../../navigations/constants';
 import BackButton from './components/BackButton';
 import MapSelect from './components/MapSelect';
-import { CATCH_MAP, LOST_MAP } from './constants';
+import { MapType } from './constants';
 import { CATCH_COLOR, LOST_COLOR } from '../../shared/styles';
+import MarkerDetail from './components/MarkerDetail';
+import { postToReportItems } from '../../shared/utils';
 
 interface ReportMapProps {
   navigation: StackNavigationProp<any>;
@@ -22,9 +23,12 @@ interface ReportMapProps {
 
 const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [currentMap, setCurrentMap] = useState(LOST_MAP);
+  const [currentMap, setCurrentMap] = useState(MapType.LOST);
   const [location, setLocation] = useState<ILocationState | null>(null);
   const [reportList, setReportList] = useState<ReportItem[]>([]);
+  const [currentReport, setCurrentReport] = useState<ReportItem | null>(null);
+  const [detailVisible, setDetailVisible] = useState(false);
+  const map = useRef<any>(null);
 
   const requestPermission = async () => {
     return Geolocation.requestAuthorization('whenInUse');
@@ -53,16 +57,7 @@ const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
     setIsLoading(true);
     const result = await API_BASE_INSTANCE.get('/pet/post/lost');
     const lostPostData = result.data.data;
-    const lostReportItems: ReportItem[] = lostPostData.map((post: any) => {
-      return {
-        id: post.id,
-        title: `강아지/${post.kind}/${post.color}`,
-        location: post.area,
-        image: post.images[0]?.location,
-        latitude: post.latitude,
-        longitude: post.longitude,
-      };
-    });
+    const lostReportItems: ReportItem[] = postToReportItems(lostPostData);
     setReportList(lostReportItems);
     setIsLoading(false);
   };
@@ -71,24 +66,15 @@ const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
     setIsLoading(true);
     const result = await API_BASE_INSTANCE.get('/pet/post/catch');
     const lostPostData = result.data.data;
-    const lostReportItems: ReportItem[] = lostPostData.map((post: any) => {
-      return {
-        id: post.id,
-        title: `강아지/${post.kind}/${post.color}`,
-        location: post.area,
-        image: post.images[0]?.location,
-        latitude: post.latitude,
-        longitude: post.longitude,
-      };
-    });
+    const lostReportItems: ReportItem[] = postToReportItems(lostPostData);
     setReportList(lostReportItems);
     setIsLoading(false);
   };
 
   useEffect(() => {
-    if (currentMap === LOST_MAP) {
+    if (currentMap === MapType.LOST) {
       fetchingLostPost();
-    } else if (currentMap === CATCH_MAP) {
+    } else if (currentMap === MapType.CATCH) {
       fetchingCatchPost();
     }
   }, [currentMap]);
@@ -98,14 +84,11 @@ const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
   }, []);
 
   const onClickBackButton = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: APP_NAVIGATION_MAIN }],
-    });
+    navigation.goBack();
   };
 
-  const changeCurrentMap = (map: string) => {
-    setCurrentMap(map);
+  const changeCurrentMap = (changedMap: MapType) => {
+    setCurrentMap(changedMap);
   };
 
   if (!location || isLoading) {
@@ -116,6 +99,7 @@ const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
     <View style={tw('flex-1')}>
       <MapView
         style={tw('flex-1')}
+        ref={current => (map.current = current)}
         showsMyLocationButton={true}
         showsUserLocation={true}
         followsUserLocation={true}
@@ -129,11 +113,21 @@ const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
         {reportList.map(report => (
           <Marker
             key={report.id}
+            onPress={() => {
+              map.current.animateCamera({
+                center: {
+                  latitude: report.latitude,
+                  longitude: report.longitude,
+                },
+              });
+              setCurrentReport(report);
+              setDetailVisible(true);
+            }}
             coordinate={{
               latitude: report.latitude,
               longitude: report.longitude,
             }}>
-            {currentMap === LOST_MAP ? (
+            {currentMap === MapType.LOST ? (
               <ReportMarker imageUrl={report.image} color={LOST_COLOR} />
             ) : (
               <ReportMarker imageUrl={report.image} color={CATCH_COLOR} />
@@ -143,6 +137,12 @@ const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
       </MapView>
       <MapSelect currentMap={currentMap} changeCurrentMap={changeCurrentMap} />
       <BackButton onClickBackButton={onClickBackButton} />
+      <MarkerDetail
+        currentMap={currentMap}
+        currentReport={currentReport}
+        detailVisible={detailVisible}
+        setDetailVisible={setDetailVisible}
+      />
     </View>
   );
 };

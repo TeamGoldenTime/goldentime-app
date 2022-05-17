@@ -2,12 +2,12 @@ import React from 'react';
 import tw from 'tailwind-rn';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { CATCH_MAP, LOST_MAP } from '../constants';
+import { MapType } from '../constants';
 import ShadowContainer from '../../../shared/ShadowContainer';
 import { CATCH_COLOR, LOST_COLOR } from '../../../shared/styles';
 
 interface MapSelectProps {
-  currentMap: string;
+  currentMap: MapType;
   changeCurrentMap: Function;
 }
 
@@ -25,12 +25,12 @@ const MapSelect: React.FC<MapSelectProps> = ({
         ]}>
         <TouchableOpacity
           onPress={() => {
-            if (currentMap !== LOST_MAP) {
-              changeCurrentMap(LOST_MAP);
+            if (currentMap !== MapType.LOST) {
+              changeCurrentMap(MapType.LOST);
             }
           }}
           style={[
-            currentMap === LOST_MAP && {
+            currentMap === MapType.LOST && {
               backgroundColor: LOST_COLOR,
               opacity: 0.8,
             },
@@ -42,7 +42,7 @@ const MapSelect: React.FC<MapSelectProps> = ({
           ]}>
           <Text
             style={[
-              currentMap === LOST_MAP && {
+              currentMap === MapType.LOST && {
                 color: 'white',
               },
               ,
@@ -53,12 +53,12 @@ const MapSelect: React.FC<MapSelectProps> = ({
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            if (currentMap !== CATCH_MAP) {
-              changeCurrentMap(CATCH_MAP);
+            if (currentMap !== MapType.CATCH) {
+              changeCurrentMap(MapType.CATCH);
             }
           }}
           style={[
-            currentMap === CATCH_MAP && {
+            currentMap === MapType.CATCH && {
               backgroundColor: CATCH_COLOR,
               opacity: 0.8,
             },
@@ -71,7 +71,7 @@ const MapSelect: React.FC<MapSelectProps> = ({
           ]}>
           <Text
             style={[
-              currentMap === CATCH_MAP && {
+              currentMap === MapType.CATCH && {
                 color: 'white',
               },
               ,

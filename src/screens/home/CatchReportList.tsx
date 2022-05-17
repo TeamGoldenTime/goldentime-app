@@ -18,6 +18,7 @@ import ReportCard from './components/ReportCard';
 import Loading from '../../animations/Loading';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { CATEGORY_LIST } from '../report/shared/constants';
+import { postToReportItems } from '../../shared/utils';
 
 interface CatchReportListProps {
   navigation: StackNavigationProp<any>;
@@ -43,14 +44,7 @@ const CatchReportList: React.FC<CatchReportListProps> = ({ navigation }) => {
     const result = await API_BASE_INSTANCE.get('/pet/post/catch');
 
     const catchPostData = result.data.data;
-    const catchReportItems: ReportItem[] = catchPostData.map((post: any) => {
-      return {
-        id: post.id,
-        title: `강아지/${post.kind}/${post.color}`,
-        location: post.area,
-        image: post.images[0]?.location,
-      };
-    });
+    const catchReportItems: ReportItem[] = postToReportItems(catchPostData);
     catchReportItems.reverse();
     setCatchPostList(catchReportItems);
   };

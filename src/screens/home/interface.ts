@@ -8,8 +8,9 @@ export interface InfoItem {
 export interface ReportItem {
   id: number;
   title: string;
-  location: string;
+  area: string;
   image: string;
   latitude: number;
   longitude: number;
+  date: any;
 }
