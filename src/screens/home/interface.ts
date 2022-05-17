@@ -10,4 +10,6 @@ export interface ReportItem {
   title: string;
   location: string;
   image: string;
+  latitude: number;
+  longitude: number;
 }

@@ -4,11 +4,12 @@ import tw from 'tailwind-rn';
 
 import ShadowContainer from '../../../shared/ShadowContainer';
 
-interface GMarkerProps {
+interface ReportMarkerProps {
   imageUrl: string;
+  color: string;
 }
 
-const GMarker: React.FC<GMarkerProps> = ({ imageUrl }) => {
+const ReportMarker: React.FC<ReportMarkerProps> = ({ imageUrl, color }) => {
   return (
     <ShadowContainer>
       <View
@@ -18,7 +19,7 @@ const GMarker: React.FC<GMarkerProps> = ({ imageUrl }) => {
             borderBottomRightRadius: 100,
             borderBottomLeftRadius: 100,
             transform: [{ rotate: '135deg' }],
-            backgroundColor: '#383834',
+            backgroundColor: color,
           },
           tw(
             'w-14 h-14 mb-14 border-2 border-black justify-center items-center',
@@ -39,4 +40,4 @@ const GMarker: React.FC<GMarkerProps> = ({ imageUrl }) => {
   );
 };
 
-export default GMarker;
+export default ReportMarker;
