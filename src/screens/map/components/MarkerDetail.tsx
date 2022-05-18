@@ -1,12 +1,12 @@
+import React from 'react';
 import { Image, Text, View } from 'react-native';
-import { CATCH_COLOR, LOST_COLOR } from '../../../shared/styles';
+import Modal from 'react-native-modal';
 import tw from 'tailwind-rn';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 
 import ShadowContainer from '../../../shared/ShadowContainer';
-import React from 'react';
-import Modal from 'react-native-modal';
+import { APP_COLOR, CATCH_COLOR, LOST_COLOR } from '../../../shared/styles';
 import { ReportItem } from '../../home/interface';
 import { toDateString } from '../../../shared/utils';
 import { MapType } from '../constants';
@@ -57,7 +57,7 @@ const MarkerDetail: React.FC<MarkerDetailProps> = ({
                   style={tw(
                     'text-lg font-extralight text-gray-600 tracking-tight',
                   )}>
-                  <Icon name="map-marker" size={15} color="#F5BA25" />
+                  <Icon name="map-marker" size={15} color={APP_COLOR} />
                   {/*TODO :: 시군구 주소로 바꾸기*/}
                   {currentReport?.area}
                 </Text>

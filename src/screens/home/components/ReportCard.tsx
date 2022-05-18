@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ReportItem } from '../interface';
 import CardContainer from '../../../shared/CardContainer';
+import { APP_COLOR } from '../../../shared/styles';
 
 interface ReportCardProps {
   item: ReportItem;
@@ -44,7 +45,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ item, width, height }) => {
             </Text>
           </View>
           <View style={tw('flex-row')}>
-            <Icon name="map-marker" size={15} color="#F5BA25" />
+            <Icon name="map-marker" size={15} color={APP_COLOR} />
             <Text style={[{ flexShrink: 1 }, tw('text-xs text-gray-500')]}>
               {item.area}
             </Text>

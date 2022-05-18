@@ -20,6 +20,7 @@ import {
   MAIN_NAVIGATION_MORE,
   MAIN_NAVIGATION_REGISTER,
 } from './constants';
+import { APP_COLOR } from '../shared/styles';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +33,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
     <Tab.Navigator
       initialRouteName={MAIN_NAVIGATION_HOME}
       screenOptions={{
-        tabBarActiveTintColor: '#F5BA25',
+        tabBarActiveTintColor: APP_COLOR,
         tabBarInactiveTintColor: '#595959',
         headerShown: false,
         tabBarLabelStyle: { fontSize: 14 },

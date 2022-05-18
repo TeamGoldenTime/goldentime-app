@@ -7,11 +7,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import Container from '../../shared/Container';
 import { ReportItem } from './interface';
-import { CATCH_COLOR, LOST_COLOR } from '../../shared/styles';
+import { APP_COLOR_BLACK, CATCH_COLOR, LOST_COLOR } from '../../shared/styles';
 import ReportTag from './components/ReportTag';
 import Loading from '../../animations/Loading';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { postToReportItem, toDateString } from '../../shared/utils';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -76,17 +78,28 @@ const ReportDetail: React.FC<ReportDetailProps> = ({ navigation, route }) => {
       </View>
       <View style={tw('flex w-full h-28 mt-1 bg-white p-5 justify-center')}>
         <Text style={tw('text-xl')}>
+          <MCIcon name="calendar-blank" color={APP_COLOR_BLACK} size={20} />{' '}
           분실날짜 : {toDateString(currentReport?.date)}
         </Text>
         {/*TODO:: 시군구 주소로 변경*/}
-        <Text style={tw('text-xl')}>분실지역 : {currentReport?.area}</Text>
-        <Text style={tw('text-xl')}>상세지역 : {currentReport?.area}</Text>
+        <Text style={tw('text-xl')}>
+          <MCIcon name="map-marker" color={APP_COLOR_BLACK} size={20} />{' '}
+          분실지역 : {currentReport?.area}
+        </Text>
+        <Text style={tw('text-xl')}>
+          <FontAwesome5Icon
+            name="map-signs"
+            color={APP_COLOR_BLACK}
+            size={20}
+          />{' '}
+          상세지역 : {currentReport?.area}
+        </Text>
       </View>
       <View style={tw('w-full h-full mt-1 bg-white p-5')}>
-        <Text style={tw('text-xl')}>이름 : {currentReport?.name}</Text>
-        <Text style={tw('text-xl')}>성별 : {currentReport?.gender}</Text>
-        <Text style={tw('text-xl')}>나이 : {currentReport?.age}</Text>
-        <Text style={tw('text-xl')}>상세정보 : {currentReport?.remark}</Text>
+        <Text style={tw('text-xl')}>· 이름 : {currentReport?.name}</Text>
+        <Text style={tw('text-xl')}>· 성별 : {currentReport?.gender}</Text>
+        <Text style={tw('text-xl')}>· 나이 : {currentReport?.age}</Text>
+        <Text style={tw('text-xl')}>· 상세정보 : {currentReport?.remark}</Text>
       </View>
       <TouchableOpacity
         style={tw('absolute top-9 left-2')}
