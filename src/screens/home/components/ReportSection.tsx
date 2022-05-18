@@ -12,17 +12,19 @@ interface ReportSectionProps {
   title: string;
   data: ReportItem[];
   onClickShowAll?: any;
+  onClickReportItem: Function;
 }
 
 const ReportSection: React.FC<ReportSectionProps> = ({
   title,
   data,
   onClickShowAll,
+  onClickReportItem,
 }) => {
   const _renderItem: any = ({ item }: { item: ReportItem }) => (
-    <View style={tw('mr-2')}>
+    <Pressable style={tw('mr-2')} onPress={() => onClickReportItem(item.id)}>
       <ReportCard item={item} width="36%" height="19%" />
-    </View>
+    </Pressable>
   );
 
   const _keyExtractor: any = (item: ReportItem) => item.id;
