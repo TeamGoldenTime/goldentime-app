@@ -16,6 +16,10 @@ import { MapType } from './constants';
 import { CATCH_COLOR, LOST_COLOR } from '../../shared/styles';
 import MarkerDetail from './components/MarkerDetail';
 import { postToReportItems } from '../../shared/utils';
+import {
+  APP_NAVIGATION_CATCH_REPORT_DETAIL,
+  APP_NAVIGATION_LOST_REPORT_DETAIL,
+} from '../../navigations/constants';
 
 interface ReportMapProps {
   navigation: StackNavigationProp<any>;
@@ -91,6 +95,12 @@ const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
     setCurrentMap(changedMap);
   };
 
+  const onClickReport = (id: number) => {
+    currentMap === MapType.LOST
+      ? navigation.push(APP_NAVIGATION_LOST_REPORT_DETAIL, { id })
+      : navigation.push(APP_NAVIGATION_CATCH_REPORT_DETAIL, { id });
+  };
+
   if (!location || isLoading) {
     return <Loading />;
   }
@@ -142,6 +152,7 @@ const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
         currentReport={currentReport}
         detailVisible={detailVisible}
         setDetailVisible={setDetailVisible}
+        onClickReport={onClickReport}
       />
     </View>
   );
