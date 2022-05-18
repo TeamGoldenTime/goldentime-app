@@ -22,8 +22,13 @@ const ReportSection: React.FC<ReportSectionProps> = ({
   onClickReportItem,
 }) => {
   const _renderItem: any = ({ item }: { item: ReportItem }) => (
-    <Pressable style={tw('mr-2')} onPress={() => onClickReportItem(item.id)}>
-      <ReportCard item={item} width="36%" height="19%" />
+    <Pressable style={tw('mr-2')}>
+      <ReportCard
+        item={item}
+        width="36%"
+        height="19%"
+        onClickReportItem={onClickReportItem}
+      />
     </Pressable>
   );
 

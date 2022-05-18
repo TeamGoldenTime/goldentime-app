@@ -1,4 +1,5 @@
 import { ImageProps } from 'react-native';
+import { UserType } from '../../states/authState';
 
 export interface InfoItem {
   title: string;
@@ -24,4 +25,5 @@ export interface ReportItem {
   longitude: number;
   type: string;
   date: any;
+  writer?: UserType;
 }

@@ -39,6 +39,7 @@ export const postToReportItem = (post: any): ReportItem => {
     latitude: post.latitude,
     longitude: post.longitude,
     type: post.type,
+    writer: post.writer,
     date: post.date,
   };
 };
