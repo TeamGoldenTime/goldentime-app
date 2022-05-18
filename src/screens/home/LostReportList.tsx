@@ -22,13 +22,18 @@ import { postToReportItems } from '../../shared/utils';
 
 interface LostReportListProps {
   navigation: StackNavigationProp<any>;
+  route: StackNavigationProp<any>;
 }
 
-const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
+const LostReportList: React.FC<LostReportListProps> = ({
+  navigation,
+  route,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lostPostList, setLostPostList] = useState<ReportItem[]>([]);
+  const onClickReportItem = route.params?.onClickReportItem;
 
   const activeCategoryStyle = {
     padding: 3,
@@ -42,7 +47,12 @@ const LostReportList: React.FC<LostReportListProps> = ({ navigation }) => {
 
   const _renderItem: any = ({ item }: { item: ReportItem }) => (
     <View style={tw('flex-1 ml-1 mb-5')}>
-      <ReportCard item={item} width="44%" height="20%" />
+      <ReportCard
+        item={item}
+        width="44%"
+        height="20%"
+        onClickReportItem={onClickReportItem}
+      />
     </View>
   );
 

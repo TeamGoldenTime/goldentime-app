@@ -14,7 +14,8 @@ import Header from '../../shared/Header';
 import {
   APP_NAVIGATION_CATCH_REPORT_LIST,
   APP_NAVIGATION_LOST_REPORT_LIST,
-  APP_NAVIGATION_REPORT_DETAIL,
+  APP_NAVIGATION_LOST_REPORT_DETAIL,
+  APP_NAVIGATION_CATCH_REPORT_DETAIL,
 } from '../../navigations/constants';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { postToReportItems } from '../../shared/utils';
@@ -67,15 +68,23 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
   };
 
   const onClickLostReportList = () => {
-    navigation.push(APP_NAVIGATION_LOST_REPORT_LIST);
+    navigation.push(APP_NAVIGATION_LOST_REPORT_LIST, {
+      onClickReportItem: onClickLostReportItem,
+    });
   };
 
   const onClickCatchReportList = () => {
-    navigation.push(APP_NAVIGATION_CATCH_REPORT_LIST);
+    navigation.push(APP_NAVIGATION_CATCH_REPORT_LIST, {
+      onClickReportItem: onClickCatchReportItem,
+    });
   };
 
-  const onClickReportItem = (id: number) => {
-    navigation.push(APP_NAVIGATION_REPORT_DETAIL, { id: id });
+  const onClickLostReportItem = (id: number) => {
+    navigation.push(APP_NAVIGATION_LOST_REPORT_DETAIL, { id: id });
+  };
+
+  const onClickCatchReportItem = (id: number) => {
+    navigation.push(APP_NAVIGATION_CATCH_REPORT_DETAIL, { id: id });
   };
 
   const onRefreshing = () => {
@@ -97,13 +106,13 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
             title="내 주변 분실신고"
             data={lostPostList}
             onClickShowAll={onClickLostReportList}
-            onClickReportItem={onClickReportItem}
+            onClickReportItem={onClickLostReportItem}
           />
           <ReportSection
             title="내 주변 목격신고"
             data={catchPostList}
             onClickShowAll={onClickCatchReportList}
-            onClickReportItem={onClickReportItem}
+            onClickReportItem={onClickCatchReportItem}
           />
           <InfoCarousel items={MOCK_DATA} />
         </ScrollView>

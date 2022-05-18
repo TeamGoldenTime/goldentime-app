@@ -22,13 +22,18 @@ import { postToReportItems } from '../../shared/utils';
 
 interface CatchReportListProps {
   navigation: StackNavigationProp<any>;
+  route: StackNavigationProp<any>;
 }
 
-const CatchReportList: React.FC<CatchReportListProps> = ({ navigation }) => {
+const CatchReportList: React.FC<CatchReportListProps> = ({
+  navigation,
+  route,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [catchPostList, setCatchPostList] = useState<ReportItem[]>([]);
+  const onClickReportItem = route.params?.onClickReportItem;
 
   const activeCategoryStyle = {
     padding: 3,
@@ -51,7 +56,12 @@ const CatchReportList: React.FC<CatchReportListProps> = ({ navigation }) => {
 
   const _renderItem: any = ({ item }: { item: ReportItem }) => (
     <View style={tw('flex-1 ml-1 mb-5')}>
-      <ReportCard item={item} width="44%" height="20%" />
+      <ReportCard
+        item={item}
+        width="44%"
+        height="20%"
+        onClickReportItem={onClickReportItem}
+      />
     </View>
   );
 

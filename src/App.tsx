@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RecoilRoot } from 'recoil';
 
+import './shared/config';
 import MainNavigation from './navigations/MainNavigation';
 import ReportModal from './modal/report';
 import LostReportStack from './navigations/LostReportStack';
@@ -16,15 +17,17 @@ import {
   APP_NAVIGATION_LOST_REPORT_LIST,
   APP_NAVIGATION_LOST_REPORT_STACK,
   APP_NAVIGATION_MAIN,
-  APP_NAVIGATION_REPORT_DETAIL,
+  APP_NAVIGATION_LOST_REPORT_DETAIL,
   APP_NAVIGATION_REPORT_MAP,
   APP_NAVIGATION_REPORT_MODAL,
+  APP_NAVIGATION_CATCH_REPORT_DETAIL,
 } from './navigations/constants';
 import LostReportList from './screens/home/LostReportList';
 import CatchReportStack from './navigations/CatchReportStack';
 import CatchReportList from './screens/home/CatchReportList';
 import ReportMap from './screens/map';
-import ReportDetail from './screens/home/ReportDetail';
+import LostReportDetail from './screens/home/LostReportDetail';
+import CatchReportDetail from './screens/home/CatchReportDetail';
 
 const Stack = createStackNavigator();
 
@@ -55,8 +58,12 @@ const App = () => {
             component={ReportMap}
           />
           <Stack.Screen
-            name={APP_NAVIGATION_REPORT_DETAIL}
-            component={ReportDetail}
+            name={APP_NAVIGATION_LOST_REPORT_DETAIL}
+            component={LostReportDetail}
+          />
+          <Stack.Screen
+            name={APP_NAVIGATION_CATCH_REPORT_DETAIL}
+            component={CatchReportDetail}
           />
           <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
             <Stack.Screen

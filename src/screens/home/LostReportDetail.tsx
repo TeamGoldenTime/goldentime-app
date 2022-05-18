@@ -22,23 +22,23 @@ interface ReportDetailProps {
   navigation: StackNavigationProp<any>;
 }
 
-const ReportDetail: React.FC<ReportDetailProps> = ({ navigation, route }) => {
+const LostReportDetail: React.FC<ReportDetailProps> = ({
+  navigation,
+  route,
+}) => {
   const id = route.params?.id;
   const [isLoading, setLoading] = useState(true);
-  const [writer, setWriter] = useState<any>(null);
   const [currentReport, setCurrentReport] = useState<ReportItem | any>(null);
 
   useEffect(() => {
-    fetchingPostById();
+    fetchingLostPostById();
   }, []);
 
   //TODO :: 이 부분 post에 해당하는 정보 담을 수 있는 타입 리팩토링 하기
-  const fetchingPostById = async () => {
+  const fetchingLostPostById = async () => {
     setLoading(true);
-    //TODO :: lost,post 구분 없이 id로 정보 가져오는 API 있어야 함.
     const result = await API_BASE_INSTANCE.get(`/pet/post/lost/${id}`);
-    const data = postToReportItem(result.data.data);
-    setWriter(result.data.data.writer);
+    const data: ReportItem = postToReportItem(result.data.data);
     setCurrentReport(data);
     setLoading(false);
   };
@@ -71,7 +71,9 @@ const ReportDetail: React.FC<ReportDetailProps> = ({ navigation, route }) => {
       </View>
       <View style={tw('w-full h-24 bg-white p-4')}>
         <Text style={tw('text-3xl font-semibold')}>{currentReport?.title}</Text>
-        <Text style={tw('text-xl')}>작성자 : {writer?.name}</Text>
+        <Text style={tw('text-xl')}>
+          작성자 : {currentReport?.writer?.name}
+        </Text>
         <ReportTag
           color={currentReport?.type === 'LOST' ? LOST_COLOR : CATCH_COLOR}
         />
@@ -82,16 +84,16 @@ const ReportDetail: React.FC<ReportDetailProps> = ({ navigation, route }) => {
           분실날짜 : {toDateString(currentReport?.date)}
         </Text>
         {/*TODO:: 시군구 주소로 변경*/}
-        <Text style={tw('text-xl')}>
+        <Text style={tw('text-xl')} numberOfLines={1}>
           <MCIcon name="map-marker" color={APP_COLOR_BLACK} size={20} />{' '}
           분실지역 : {currentReport?.area}
         </Text>
-        <Text style={tw('text-xl')}>
+        <Text style={tw('text-xl ')} numberOfLines={1}>
           <FontAwesome5Icon
             name="map-signs"
             color={APP_COLOR_BLACK}
             size={20}
-          />{' '}
+          />
           상세지역 : {currentReport?.area}
         </Text>
       </View>
@@ -112,4 +114,4 @@ const ReportDetail: React.FC<ReportDetailProps> = ({ navigation, route }) => {
   );
 };
 
-export default ReportDetail;
+export default LostReportDetail;
