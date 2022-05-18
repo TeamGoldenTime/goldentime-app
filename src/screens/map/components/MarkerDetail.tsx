@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 import Modal from 'react-native-modal';
 import tw from 'tailwind-rn';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,6 +16,7 @@ interface MarkerDetailProps {
   currentReport: ReportItem | null;
   detailVisible: boolean;
   setDetailVisible: Function;
+  onClickReport: Function;
 }
 
 const MarkerDetail: React.FC<MarkerDetailProps> = ({
@@ -23,6 +24,7 @@ const MarkerDetail: React.FC<MarkerDetailProps> = ({
   detailVisible,
   setDetailVisible,
   currentMap,
+  onClickReport,
 }) => {
   return (
     <Modal
@@ -30,62 +32,69 @@ const MarkerDetail: React.FC<MarkerDetailProps> = ({
       style={tw('absolute w-full h-32 bottom-6 m-0')}
       backdropOpacity={0}
       onBackdropPress={() => setDetailVisible(false)}>
-      <ShadowContainer>
-        <View
-          style={[
-            {
-              backgroundColor:
-                currentMap === MapType.LOST ? LOST_COLOR : CATCH_COLOR,
-            },
-            tw('w-full h-32 rounded-xl p-1'),
-          ]}>
-          <View style={tw('flex-1 bg-white rounded-xl p-1 justify-center')}>
-            <View style={tw('flex-1 flex-row ')}>
-              <View style={[{ flex: 2 }, tw('flex-1 justify-center')]}>
-                <Image
-                  source={{ uri: currentReport?.image }}
-                  resizeMode="cover"
-                  style={tw('w-24 h-24 rounded-2xl')}
+      <Pressable
+        onPress={() => {
+          setDetailVisible(false);
+          onClickReport(currentReport?.id);
+        }}>
+        <ShadowContainer>
+          <View
+            style={[
+              {
+                backgroundColor:
+                  currentMap === MapType.LOST ? LOST_COLOR : CATCH_COLOR,
+              },
+              tw('w-full h-32 rounded-xl p-1'),
+            ]}>
+            <View style={tw('flex-1 bg-white rounded-xl p-1 justify-center')}>
+              <View style={tw('flex-1 flex-row ')}>
+                <View style={[{ flex: 2 }, tw('flex-1 justify-center')]}>
+                  <Image
+                    source={{ uri: currentReport?.image }}
+                    resizeMode="cover"
+                    style={tw('w-24 h-24 rounded-2xl')}
+                  />
+                </View>
+                <View
+                  style={[{ flex: 3 }, tw('pt-2 pb-2 justify-center ml-3')]}>
+                  <Text numberOfLines={1} style={tw('text-2xl font-semibold')}>
+                    {currentReport?.title}
+                  </Text>
+                  <Text
+                    numberOfLines={1}
+                    style={tw(
+                      'text-lg font-extralight text-gray-600 tracking-tight',
+                    )}>
+                    <Icon name="map-marker" size={15} color={APP_COLOR} />
+                    {/*TODO :: 시군구 주소로 바꾸기*/}
+                    {currentReport?.area}
+                  </Text>
+                  <Text
+                    numberOfLines={1}
+                    style={tw(
+                      'text-lg font-extralight text-gray-600 tracking-tight',
+                    )}>
+                    {currentReport?.area}
+                  </Text>
+                </View>
+              </View>
+              <View style={{ position: 'absolute', right: -10 }}>
+                <MIcon
+                  name="keyboard-arrow-right"
+                  size={36}
+                  color="rgb(156,163,175)"
+                  style={tw('right-1')}
                 />
               </View>
-              <View style={[{ flex: 3 }, tw('pt-2 pb-2 justify-center ml-3')]}>
-                <Text numberOfLines={1} style={tw('text-2xl font-semibold')}>
-                  {currentReport?.title}
-                </Text>
-                <Text
-                  numberOfLines={1}
-                  style={tw(
-                    'text-lg font-extralight text-gray-600 tracking-tight',
-                  )}>
-                  <Icon name="map-marker" size={15} color={APP_COLOR} />
-                  {/*TODO :: 시군구 주소로 바꾸기*/}
-                  {currentReport?.area}
-                </Text>
-                <Text
-                  numberOfLines={1}
-                  style={tw(
-                    'text-lg font-extralight text-gray-600 tracking-tight',
-                  )}>
-                  {currentReport?.area}
+              <View style={tw('absolute right-2 top-0')}>
+                <Text style={tw('text-xs text-gray-700')}>
+                  {toDateString(currentReport?.date)}
                 </Text>
               </View>
             </View>
-            <View style={{ position: 'absolute', right: -10 }}>
-              <MIcon
-                name="keyboard-arrow-right"
-                size={36}
-                color="rgb(156,163,175)"
-                style={tw('right-1')}
-              />
-            </View>
-            <View style={tw('absolute right-2 top-0')}>
-              <Text style={tw('text-xs text-gray-700')}>
-                {toDateString(currentReport?.date)}
-              </Text>
-            </View>
           </View>
-        </View>
-      </ShadowContainer>
+        </ShadowContainer>
+      </Pressable>
     </Modal>
   );
 };
