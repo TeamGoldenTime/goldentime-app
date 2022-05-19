@@ -103,11 +103,9 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
         '/pet/post/lost',
         sendFormData,
       );
+      const id = result.data.data.id;
       setLoading(false);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: LOST_REPORT_RESULT }],
-      });
+      navigation.push(LOST_REPORT_RESULT, { id });
       console.log(result.data);
     } catch (e) {
       setLoading(false);

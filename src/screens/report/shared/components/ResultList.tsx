@@ -1,21 +1,22 @@
 import React from 'react';
-import { FlatList, Image, Text, View } from 'react-native';
+import { FlatList, Image, Linking, Text, View } from 'react-native';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'tailwind-rn';
 
 import FullButton from './FullButton';
-import { ResultItem } from '../interface';
+import { SimilarPost } from '../../lostReport/LostReportResult';
+import { kstToDateString } from '../../../../shared/utils';
 
 interface ResultListProps {
   onClickFinishButton: Function;
-  data: ResultItem[];
+  data: SimilarPost[];
 }
 
 const ResultList: React.FC<ResultListProps> = ({
   onClickFinishButton,
   data,
 }) => {
-  const renderItem = ({ item }: { item: ResultItem }) => (
+  const renderItem = ({ item }: { item: SimilarPost }) => (
     <View
       style={[
         {
@@ -28,14 +29,18 @@ const ResultList: React.FC<ResultListProps> = ({
         <View style={tw('flex-row justify-center items-center')}>
           <View style={tw('h-16 w-16')}>
             <Image
-              source={item.thumbnail}
+              source={{ uri: item.thumbnail }}
               style={tw('h-full w-full rounded-xl')}
               resizeMode="cover"
             />
           </View>
           <View style={tw('flex-1 ml-5')}>
-            <Text style={tw('text-lg')}>지역 : {item.area}</Text>
-            <Text style={tw('text-lg ')}>등록일자 : {item.date}</Text>
+            <Text style={tw('text-lg')} numberOfLines={1}>
+              지역 : {item.area}
+            </Text>
+            <Text style={tw('text-lg ')} numberOfLines={1}>
+              등록일자 : {kstToDateString(item.date)}
+            </Text>
             <Text style={tw('text-sm text-gray-600')}>
               신고자 : {item.where}
             </Text>
@@ -45,6 +50,9 @@ const ResultList: React.FC<ResultListProps> = ({
             size={28}
             color="black"
             style={tw('right-1')}
+            onPress={async () => {
+              await Linking.openURL(item.link);
+            }}
           />
         </View>
       </View>

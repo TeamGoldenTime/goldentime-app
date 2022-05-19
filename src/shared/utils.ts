@@ -52,3 +52,22 @@ export const toDateString = (date: any): string => {
   }
   return `${date[0]}-${date[1]}-${date[2]}`;
 };
+
+export const kstToDateString = (date: string): string => {
+  const monthMap = new Map();
+  monthMap.set('Jan', '01');
+  monthMap.set('Feb', '02');
+  monthMap.set('Mar', '03');
+  monthMap.set('Apr', '04');
+  monthMap.set('May', '05');
+  monthMap.set('Jun', '06');
+  monthMap.set('Jul', '07');
+  monthMap.set('Aug', '08');
+  monthMap.set('Sep', '09');
+  monthMap.set('Oct', '10');
+  monthMap.set('Nov', '11');
+  monthMap.set('Dec', '12');
+
+  const split = date.split(' ');
+  return `${split[5]}-${monthMap.get(split[1])}-${split[2]}`;
+};

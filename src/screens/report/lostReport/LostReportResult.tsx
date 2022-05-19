@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import tw from 'tailwind-rn';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -6,38 +6,28 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import ResultLoading from '../shared/components/ResultLoading';
 import ResultList from '../shared/components/ResultList';
 import { LOST_REPORT_COMPLETE } from '../../../navigations/constants';
-import { ResultItem } from '../shared/interface';
-import Cat from '../../../../assets/image/cat1.jpeg';
-import Dog from '../../../../assets/image/dog.jpeg';
-import Dog2 from '../../../../assets/image/dog2.jpeg';
+import { API_BASE_INSTANCE } from '../../../api/instance';
 
 interface LostReportResultProps {
   navigation: StackNavigationProp<any>;
+  route: StackNavigationProp<any>;
 }
 
-const RESULT_MOCK_DATA: ResultItem[] = [
-  {
-    area: '서울시 동작구 상도동',
-    date: '22.05.10',
-    thumbnail: Cat,
-    where: '동물보호 관리 시스템',
-  },
-  {
-    area: '서울시 강남구',
-    date: '22.05.8',
-    thumbnail: Dog,
-    where: '동물보호 관리 시스템',
-  },
-  {
-    area: '서울시 동작구 흑석동',
-    date: '22.05.10',
-    thumbnail: Dog2,
-    where: '동물보호 관리 시스템',
-  },
-];
+export interface SimilarPost {
+  area: string;
+  date: string;
+  thumbnail: string;
+  link: string;
+  where: string;
+}
 
-const LostReportResult: React.FC<LostReportResultProps> = ({ navigation }) => {
+const LostReportResult: React.FC<LostReportResultProps> = ({
+  navigation,
+  route,
+}) => {
+  const id = route.params?.id;
   const [loading, setLoading] = useState(true);
+  const [resultList, setResultList] = useState<SimilarPost[]>([]);
 
   const onClickFinishButton = () => {
     navigation.reset({
@@ -46,10 +36,31 @@ const LostReportResult: React.FC<LostReportResultProps> = ({ navigation }) => {
     });
   };
 
-  //TODO :: 유사 신고 분석 API콜
-  setTimeout(() => {
+  const fetchingSimilarPost = async () => {
+    const result = await API_BASE_INSTANCE.get(
+      `/pet/post/lost/similarity/${id}`,
+    );
+
+    const list = result.data.data;
+    const similarList = list.map((data: any) => {
+      return {
+        thumbnail: data.imgUrl,
+        area: data.postNum,
+        date: data.reportDate,
+        link: data.detailLink,
+        where: '동물보호 관리 시스템',
+      };
+    });
+
+    similarList.reverse();
+    setResultList(similarList);
     setLoading(false);
-  }, 3000);
+    console.log(result.data.data);
+  };
+
+  useEffect(() => {
+    fetchingSimilarPost();
+  }, []);
 
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
@@ -61,7 +72,7 @@ const LostReportResult: React.FC<LostReportResultProps> = ({ navigation }) => {
       ) : (
         <ResultList
           onClickFinishButton={onClickFinishButton}
-          data={RESULT_MOCK_DATA}
+          data={resultList}
         />
       )}
     </SafeAreaView>
