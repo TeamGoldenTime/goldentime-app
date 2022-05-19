@@ -7,4 +7,5 @@ declare module 'react-native-dotenv' {
   export const S3_SECRET_KEY: string;
   export const S3_REGION: string;
   export const S3_BUCKET: string;
+  export const SERVER_URL: string;
 }
