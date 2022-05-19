@@ -17,8 +17,8 @@ const InfoCarousel: React.FC<InfoCarouselProps> = ({ items }) => {
     return (
       <ParallaxImage
         source={item.image}
-        containerStyle={tw('flex-1 rounded-xl')}
-        style={{ resizeMode: 'contain' }}
+        containerStyle={tw('w-full h-full rounded-xl')}
+        style={[{ resizeMode: 'contain' }, tw('w-full h-full')]}
         parallaxFactor={0.4}
         {...parallaxProps}
       />
@@ -26,11 +26,14 @@ const InfoCarousel: React.FC<InfoCarouselProps> = ({ items }) => {
   };
 
   return (
-    <View style={[{ height: hp('19%') }, tw('bg-white pt-2 pb-2 mt-2')]}>
+    <View
+      style={[
+        { height: hp('19%') },
+        tw('flex bg-white pt-2 pb-2 mt-2 items-center justify-center'),
+      ]}>
       <Carousel
         sliderWidth={screenWidth}
-        sliderHeight={screenWidth}
-        itemWidth={screenWidth - 50}
+        itemWidth={screenWidth - 60}
         data={items}
         renderItem={renderItem}
         hasParallaxImages={true}

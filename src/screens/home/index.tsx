@@ -7,9 +7,9 @@ import { InfoItem, ReportItem } from './interface';
 import ReportSection from './components/ReportSection';
 import InfoCarousel from './components/InfoCarousel';
 import Container from '../../shared/Container';
-import Info from '../../../assets/image/info_test1.png';
-import Info2 from '../../../assets/image/info_test2.png';
-import Info3 from '../../../assets/image/info_test3.png';
+import Banner1 from '../../../assets/image/banner1.png';
+import Banner2 from '../../../assets/image/banner2.png';
+import Banner3 from '../../../assets/image/banner3.png';
 import Header from '../../shared/Header';
 import {
   APP_NAVIGATION_CATCH_REPORT_LIST,
@@ -22,16 +22,16 @@ import { postToReportItems } from '../../shared/utils';
 
 const MOCK_DATA: InfoItem[] = [
   {
-    title: 'info_test1',
-    image: Info,
+    title: 'banner1',
+    image: Banner1,
   },
   {
-    title: 'info_test2',
-    image: Info2,
+    title: 'banner2',
+    image: Banner2,
   },
   {
-    title: 'info_test3',
-    image: Info3,
+    title: 'banner3',
+    image: Banner3,
   },
 ];
 

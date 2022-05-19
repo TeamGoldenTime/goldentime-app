@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import tw from 'tailwind-rn';
 import Carousel from 'react-native-snap-carousel';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
@@ -14,6 +22,7 @@ import { API_BASE_INSTANCE } from '../../api/instance';
 import { postToReportItem, toDateString } from '../../shared/utils';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { APP_NAVIGATION_CATCH_REPORT_STACK } from '../../navigations/constants';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -97,15 +106,29 @@ const LostReportDetail: React.FC<ReportDetailProps> = ({
           상세지역 : {currentReport?.area}
         </Text>
       </View>
-      <View style={tw('w-full h-full mt-1 bg-white p-5')}>
+      <ScrollView style={tw('flex-1 mt-1 bg-white p-5')}>
         <Text style={tw('text-xl')}>· 이름 : {currentReport?.name}</Text>
         <Text style={tw('text-xl')}>· 성별 : {currentReport?.gender}</Text>
         <Text style={tw('text-xl')}>· 나이 : {currentReport?.age}</Text>
-        <Text style={tw('text-xl')}>· 상세정보 : {currentReport?.remark}</Text>
+        <Text style={tw('text-xl')}>· 상세정보 :{currentReport?.remark}</Text>
+      </ScrollView>
+      <View
+        style={tw(
+          'absolute w-full h-20 bg-white items-center justify-center bottom-5',
+        )}>
+        <Pressable
+          onPress={() => navigation.push(APP_NAVIGATION_CATCH_REPORT_STACK)}
+          style={[
+            { backgroundColor: APP_COLOR_BLACK },
+            tw('w-36 h-14 rounded-xl items-center justify-center'),
+          ]}>
+          <Text style={tw('text-white text-2xl font-semibold')}>목격신고</Text>
+        </Pressable>
       </View>
       <TouchableOpacity
         style={tw('absolute top-9 left-2')}
         onPress={() => {
+          //TODO :: 로그인 검증하는거 신고 useEffect에서 처리하도록.
           navigation.goBack();
         }}>
         <MIcon name="arrow-back" size={32} color="white" />
