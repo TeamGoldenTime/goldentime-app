@@ -21,6 +21,7 @@ export interface ReportItem {
   remark: string;
   image: string;
   images?: IImageProps[];
+  addressName: string;
   latitude: number;
   longitude: number;
   type: string;

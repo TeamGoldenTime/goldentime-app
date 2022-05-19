@@ -54,9 +54,16 @@ const ReportCard: React.FC<ReportCardProps> = ({
                 {item.title}
               </Text>
             </View>
-            <View style={tw('flex-row')}>
-              <Icon name="map-marker" size={15} color={APP_COLOR} />
-              <Text style={[{ flexShrink: 1 }, tw('text-xs text-gray-500')]}>
+            <View style={tw('')}>
+              <Text
+                style={[{ flexShrink: 1 }, tw('text-xs text-gray-500')]}
+                numberOfLines={1}>
+                <Icon name="map-marker" size={15} color={APP_COLOR} />
+                {item.addressName}
+              </Text>
+              <Text
+                style={[{ flexShrink: 1 }, tw('text-xs text-gray-500')]}
+                numberOfLines={1}>
                 {item.area}
               </Text>
             </View>

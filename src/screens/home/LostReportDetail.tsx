@@ -92,10 +92,9 @@ const LostReportDetail: React.FC<ReportDetailProps> = ({
           <MCIcon name="calendar-blank" color={APP_COLOR_BLACK} size={20} />{' '}
           분실날짜 : {toDateString(currentReport?.date)}
         </Text>
-        {/*TODO:: 시군구 주소로 변경*/}
         <Text style={tw('text-xl')} numberOfLines={1}>
           <MCIcon name="map-marker" color={APP_COLOR_BLACK} size={20} />{' '}
-          분실지역 : {currentReport?.area}
+          분실지역 : {currentReport?.addressName}
         </Text>
         <Text style={tw('text-xl ')} numberOfLines={1}>
           <FontAwesome5Icon
