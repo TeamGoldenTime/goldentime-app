@@ -102,7 +102,7 @@ const LostReportDetail: React.FC<ReportDetailProps> = ({
             name="map-signs"
             color={APP_COLOR_BLACK}
             size={20}
-          />
+          />{' '}
           상세지역 : {currentReport?.area}
         </Text>
       </View>
