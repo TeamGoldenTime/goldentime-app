@@ -1,5 +1,11 @@
 import React, { ReactChild } from 'react';
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import tw from 'tailwind-rn';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import { SvgXml } from 'react-native-svg';
@@ -45,12 +51,20 @@ const ReportLayout: React.FC<ReportLayoutProps> = ({
       <TouchableOpacity
         style={tw('absolute left-2')}
         onPress={() => {
-          //TODO : 취소확인 팝업 띄우기
-
-          navigation.reset({
-            index: 0,
-            routes: [{ name: APP_NAVIGATION_MAIN }],
-          });
+          Alert.alert('홈 화면으로 이동하면\n작성중인 내용이 사라집니다.', '', [
+            {
+              text: '취소',
+            },
+            {
+              text: '확인',
+              onPress: () => {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: APP_NAVIGATION_MAIN }],
+                });
+              },
+            },
+          ]);
         }}>
         <MIcon name="arrow-back" size={32} />
       </TouchableOpacity>
