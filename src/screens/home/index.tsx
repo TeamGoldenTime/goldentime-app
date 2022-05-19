@@ -19,6 +19,7 @@ import {
 } from '../../navigations/constants';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { postToReportItems } from '../../shared/utils';
+import Loading from '../../animations/Loading';
 
 const MOCK_DATA: InfoItem[] = [
   {
@@ -40,13 +41,19 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ navigation }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [lostPostList, setLostPostList] = useState<ReportItem[]>([]);
   const [catchPostList, setCatchPostList] = useState<ReportItem[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    getLostPost();
-    getCatchPost();
+    const fetch = async () => {
+      setIsLoading(true);
+      await Promise.all([getLostPost(), getCatchPost()]);
+      setIsLoading(false);
+    };
+
+    fetch();
   }, []);
 
   const getLostPost = async () => {
@@ -87,10 +94,9 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     navigation.push(APP_NAVIGATION_CATCH_REPORT_DETAIL, { id: id });
   };
 
-  const onRefreshing = () => {
+  const onRefreshing = async () => {
     setRefreshing(true);
-    getLostPost();
-    getCatchPost();
+    await Promise.all([getLostPost(), getCatchPost()]);
     setRefreshing(false);
   };
 
@@ -102,18 +108,25 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefreshing} />
           }>
-          <ReportSection
-            title="내 주변 분실신고"
-            data={lostPostList}
-            onClickShowAll={onClickLostReportList}
-            onClickReportItem={onClickLostReportItem}
-          />
-          <ReportSection
-            title="내 주변 목격신고"
-            data={catchPostList}
-            onClickShowAll={onClickCatchReportList}
-            onClickReportItem={onClickCatchReportItem}
-          />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <ReportSection
+                title="내 주변 분실신고"
+                data={lostPostList}
+                onClickShowAll={onClickLostReportList}
+                onClickReportItem={onClickLostReportItem}
+              />
+              <ReportSection
+                title="내 주변 목격신고"
+                data={catchPostList}
+                onClickShowAll={onClickCatchReportList}
+                onClickReportItem={onClickCatchReportItem}
+              />
+            </>
+          )}
+
           <InfoCarousel items={MOCK_DATA} />
         </ScrollView>
       </Container>

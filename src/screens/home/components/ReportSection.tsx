@@ -50,20 +50,14 @@ const ReportSection: React.FC<ReportSectionProps> = ({
           </View>
         </Pressable>
       </View>
-      {data.length === 0 ? (
-        <View style={tw('flex-1 justify-center items-center')}>
-          <Loading />
-        </View>
-      ) : (
-        <FlatList
-          style={tw('flex-row pl-2 mt-2 w-full h-full')}
-          data={data}
-          keyExtractor={_keyExtractor}
-          renderItem={_renderItem}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-      )}
+      <FlatList
+        style={tw('flex-row pl-2 mt-2 w-full h-full')}
+        data={data}
+        keyExtractor={_keyExtractor}
+        renderItem={_renderItem}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      />
     </View>
   );
 };
