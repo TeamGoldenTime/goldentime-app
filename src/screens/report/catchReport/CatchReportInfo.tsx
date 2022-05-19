@@ -87,7 +87,11 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
         <View style={tw('flex-1')}>
           <ReportInput title="품종" text={kind} onChangeText={onChangeKind} />
           <ReportInput title="색상" text={color} onChangeText={onChangeColor} />
-          <ReportDate date={date} onChangeDate={onChangeDate} />
+          <ReportDate
+            title="목격날짜"
+            date={date}
+            onChangeDate={onChangeDate}
+          />
           <ReportInput
             title="성별"
             text={gender}

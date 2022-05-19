@@ -37,25 +37,29 @@ const LostReportResult: React.FC<LostReportResultProps> = ({
   };
 
   const fetchingSimilarPost = async () => {
-    const result = await API_BASE_INSTANCE.get(
-      `/pet/post/lost/similarity/${id}`,
-    );
+    try {
+      const result = await API_BASE_INSTANCE.get(
+        `/pet/post/lost/similarity/${id}`,
+      );
 
-    const list = result.data.data;
-    const similarList = list.map((data: any) => {
-      return {
-        thumbnail: data.imgUrl,
-        area: data.postNum,
-        date: data.reportDate,
-        link: data.detailLink,
-        where: '동물보호 관리 시스템',
-      };
-    });
+      const list = result.data.data;
+      const similarList = list.map((data: any) => {
+        return {
+          thumbnail: data.imgUrl,
+          area: data.postNum,
+          date: data.reportDate,
+          link: data.detailLink,
+          where: '동물보호 관리 시스템',
+        };
+      });
 
-    similarList.reverse();
-    setResultList(similarList);
-    setLoading(false);
-    console.log(result.data.data);
+      similarList.reverse();
+      setResultList(similarList);
+      setLoading(false);
+      console.log(result.data.data);
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    }
   };
 
   useEffect(() => {

@@ -102,9 +102,14 @@ const CatchReportLocation: React.FC<CatchReportLocationProps> = ({
         sendFormData,
       );
       setLoading(false);
+      // TODO:: 목격신고 유사 분석 구현
+      // navigation.reset({
+      //   index: 0,
+      //   routes: [{ name: CATCH_REPORT_RESULT }],
+      // });
       navigation.reset({
         index: 0,
-        routes: [{ name: CATCH_REPORT_RESULT }],
+        routes: [{ name: APP_NAVIGATION_MAIN }],
       });
       console.log(result.data);
     } catch (e) {

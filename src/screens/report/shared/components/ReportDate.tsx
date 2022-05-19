@@ -6,16 +6,21 @@ import tw from 'tailwind-rn';
 import Moment from 'moment';
 
 interface ReportDateProps {
+  title: string;
   date: Date;
   onChangeDate: Function;
 }
 
-const ReportDate: React.FC<ReportDateProps> = ({ date, onChangeDate }) => {
+const ReportDate: React.FC<ReportDateProps> = ({
+  title,
+  date,
+  onChangeDate,
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
     <View style={tw('mt-3')}>
-      <Text style={tw('text-base text-gray-600')}>분실날짜</Text>
+      <Text style={tw('text-base text-gray-600')}>{title}</Text>
       <Pressable
         style={{
           borderBottomWidth: 1,

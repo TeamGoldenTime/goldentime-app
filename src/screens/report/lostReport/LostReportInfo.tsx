@@ -99,7 +99,11 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({
         <View style={tw('flex-1')}>
           <ReportInput title="품종" text={kind} onChangeText={onChangeKind} />
           <ReportInput title="색상" text={color} onChangeText={onChangeColor} />
-          <ReportDate date={date} onChangeDate={onChangeDate} />
+          <ReportDate
+            title="분실날짜"
+            date={date}
+            onChangeDate={onChangeDate}
+          />
           <ReportInput title="이름" text={name} onChangeText={onChangeName} />
           <ReportInput title="나이" text={age} onChangeText={onChangeAge} />
           <ReportInput
