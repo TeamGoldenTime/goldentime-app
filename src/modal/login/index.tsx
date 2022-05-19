@@ -45,7 +45,6 @@ const useLogin = () => {
     try {
       const token: TokenResponse | undefined = await naverLogin(iosKeys);
 
-      toggleLoginModal();
       try {
         const { data } = await API_BASE_INSTANCE.post('/auth/naver', token);
 
@@ -53,6 +52,7 @@ const useLogin = () => {
         // const jwtToken = data.data.token;
 
         setUser(user);
+        toggleLoginModal();
       } catch (e) {
         console.log(JSON.stringify(e));
       }
