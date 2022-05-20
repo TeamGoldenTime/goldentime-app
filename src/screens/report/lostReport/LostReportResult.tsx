@@ -53,7 +53,6 @@ const LostReportResult: React.FC<LostReportResultProps> = ({
         };
       });
 
-      similarList.reverse();
       setResultList(similarList);
       setLoading(false);
       console.log(result.data.data);

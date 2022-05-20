@@ -66,8 +66,7 @@ const MarkerDetail: React.FC<MarkerDetailProps> = ({
                       'text-lg font-extralight text-gray-600 tracking-tight',
                     )}>
                     <Icon name="map-marker" size={15} color={APP_COLOR} />
-                    {/*TODO :: 시군구 주소로 바꾸기*/}
-                    {currentReport?.area}
+                    {currentReport?.addressName}
                   </Text>
                   <Text
                     numberOfLines={1}
