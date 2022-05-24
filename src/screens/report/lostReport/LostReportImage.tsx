@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Image, Pressable, Text, View } from 'react-native';
+import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ImageLibraryOptions } from 'react-native-image-picker/lib/typescript/types';
 import {
   heightPercentageToDP as hp,
@@ -25,42 +25,47 @@ import {
   LOST_REPORT_STEP1,
   LOST_REPORT_STEP2,
 } from '../../../navigations/constants';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MAX_IMAGE } from '../shared/constants';
+import { APP_COLOR } from '../../../shared/styles';
+import ImageRemoveButton from '../shared/components/ImageRemoveButton';
 
 interface LostReportImageProps {
   navigation: StackNavigationProp<any>;
 }
 
 const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
-  const [images, setImages] = useState<ImagePickerResponse | null>(null);
+  const [pickerImages, setPickerImages] = useState<Asset[]>([]);
   const [formData, setFormData] = useRecoilState(lostFormState);
   const setLoading = useSetRecoilState(loadingState);
 
   const loadImage = async () => {
     const options: ImageLibraryOptions = {
       mediaType: 'photo',
-      selectionLimit: 0,
+      selectionLimit: MAX_IMAGE,
     };
 
     const result: ImagePickerResponse = await launchImageLibrary(options);
 
-    if (result?.didCancel) {
-      setImages(null);
+    console.log(result);
+    if (result?.didCancel || result.assets === undefined) {
       return;
     }
-    setImages(result);
+
+    setPickerImages(result.assets);
   };
 
   const onClickNextButton = async () => {
     setFormData({
       ...formData,
-      imagePickerResponse: images,
+      pickerImages: pickerImages,
     });
 
     setLoading(true);
     //TODO : 리팩토링해야함.
     const imagePromises: any[] = [];
-    const imagePickerResponse: Asset[] | undefined = images?.assets;
-    imagePickerResponse?.map(image => {
+
+    pickerImages?.map(image => {
       imagePromises.push(uploadImageToS3(image));
     });
 
@@ -85,6 +90,14 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
     }
   };
 
+  const onClickRemoveImage = (uri: any) => {
+    const filteredPickierImages = pickerImages.filter(
+      image => image.uri !== uri,
+    );
+
+    setPickerImages(filteredPickierImages);
+  };
+
   return (
     <ReportLayout
       type={LOST_REPORT_STEP1}
@@ -95,40 +108,49 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
       stepper={stepper1}
       onClickNextButton={onClickNextButton}>
       <View
-        style={[
-          {
-            height: hp('51%'),
-          },
-          tw('w-full p-5'),
-        ]}>
+        style={{
+          width: '100%',
+          height: hp('51%'),
+          padding: 12,
+        }}>
         <Pressable
           onPress={loadImage}
-          style={tw('flex-1 border-2 border-dotted bg-gray-100')}>
-          {images ? (
-            <View style={tw('flex-row flex-wrap p-1')}>
-              {images.assets &&
-                images.assets.map(({ uri }) => {
-                  return (
+          style={tw('flex-1 border-2 border-dotted bg-gray-100 p-2')}>
+          {pickerImages.length !== 0 ? (
+            <View style={tw('flex-1 flex-row flex-wrap')}>
+              <View
+                style={[
+                  styles.imageStyle,
+                  tw('items-center justify-center bg-gray-200'),
+                ]}>
+                <MCIcon name="camera" size={36} color={APP_COLOR} />
+                <Text
+                  style={tw(
+                    'text-base text-gray-600',
+                  )}>{`${pickerImages.length} / ${MAX_IMAGE}`}</Text>
+              </View>
+              {pickerImages.map(({ uri }) => {
+                return (
+                  <View key={uri}>
                     <Image
-                      key={uri}
                       resizeMode="cover"
-                      resizeMethod="scale"
-                      style={{
-                        width: wp('23%'),
-                        height: hp('10%'),
-                        marginLeft: 4,
-                      }}
+                      style={styles.imageStyle}
                       source={{ uri: uri }}
                     />
-                  );
-                })}
+                    <Pressable
+                      style={tw('absolute right-0 top-0')}
+                      onPress={() => onClickRemoveImage(uri)}>
+                      <ImageRemoveButton />
+                    </Pressable>
+                  </View>
+                );
+              })}
             </View>
           ) : (
             <View style={tw('flex-1 justify-center items-center')}>
-              <Text style={tw('text-lg text-gray-500')}>이곳을 눌러</Text>
-              <Text style={tw('text-lg text-gray-500')}>
-                사진을 업로드하세요.
-              </Text>
+              <MCIcon name="camera" size={50} color={APP_COLOR} />
+              <Text
+                style={tw('text-xl text-gray-600')}>{`0 / ${MAX_IMAGE}`}</Text>
             </View>
           )}
         </Pressable>
@@ -136,5 +158,14 @@ const LostReportImage: React.FC<LostReportImageProps> = ({ navigation }) => {
     </ReportLayout>
   );
 };
+
+const styles = StyleSheet.create({
+  imageStyle: {
+    width: wp('24%'),
+    height: hp('11%'),
+    marginLeft: 4,
+    marginBottom: 3,
+  },
+});
 
 export default LostReportImage;

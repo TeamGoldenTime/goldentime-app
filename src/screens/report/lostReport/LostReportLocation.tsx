@@ -76,7 +76,7 @@ const LostReportLocation: React.FC<LostReportLocationProps> = ({
     setLoading(true);
     //S3에 이미지 업로드
     const imagePromises: any[] = [];
-    const images: Asset[] | undefined = formData.imagePickerResponse?.assets;
+    const images: Asset[] = formData.pickerImages;
     images?.map(image => {
       imagePromises.push(uploadImageToS3(image));
     });
