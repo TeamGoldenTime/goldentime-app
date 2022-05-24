@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { ImagePickerResponse } from 'react-native-image-picker';
+import { Asset, ImagePickerResponse } from 'react-native-image-picker';
 
 export interface ILocationState {
   latitude: number;
@@ -19,7 +19,7 @@ export interface ILostFormState {
   age: string;
   gender: string;
   desc: string;
-  imagePickerResponse: ImagePickerResponse | null;
+  pickerImages: Asset[];
   images?: IImageSrc[] | null;
   location: ILocationState | null;
   area: string;
@@ -35,7 +35,7 @@ export const lostFormState = atom<ILostFormState>({
     desc: '',
     age: '',
     gender: '',
-    imagePickerResponse: null,
+    pickerImages: [],
     images: null,
     location: null,
     area: '',

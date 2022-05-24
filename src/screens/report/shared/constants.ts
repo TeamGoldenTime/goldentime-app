@@ -16,3 +16,5 @@ export const CATEGORY_LIST = [
     value: 'etc',
   },
 ];
+
+export const MAX_IMAGE = 10;
