@@ -48,7 +48,7 @@ export interface ICatchFormState {
   date: Date;
   gender: string;
   desc: string;
-  imagePickerResponse: ImagePickerResponse | null;
+  pickerImages: Asset[];
   images?: IImageSrc[] | null;
   location: ILocationState | null;
   area: string;
@@ -62,7 +62,7 @@ export const catchFormState = atom<ICatchFormState>({
     date: new Date(),
     desc: '',
     gender: '',
-    imagePickerResponse: null,
+    pickerImages: [],
     images: null,
     location: null,
     area: '',
