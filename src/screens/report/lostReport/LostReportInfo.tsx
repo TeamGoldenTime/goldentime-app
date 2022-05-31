@@ -14,6 +14,7 @@ import {
   LOST_REPORT_STEP2,
   LOST_REPORT_STEP3,
 } from '../../../navigations/constants';
+import BreedReport from '../shared/components/BreedReport';
 
 interface LostReportInfoProps {
   route: StackNavigationProp<any>;
@@ -32,10 +33,6 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({
   const [gender, setGender] = useState('');
   const [age, setAge] = useState('');
   const [formData, setFormData] = useRecoilState(lostFormState);
-
-  const onChangeKind = (text: string) => {
-    setKind(text);
-  };
 
   const onChangeColor = (text: string) => {
     setColor(text);
@@ -97,7 +94,7 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({
           tw('w-full p-1 pr-3'),
         ]}>
         <View style={tw('flex-1')}>
-          <ReportInput title="품종" text={kind} onChangeText={onChangeKind} />
+          <BreedReport kind={kind} setKind={setKind} />
           <ReportInput title="색상" text={color} onChangeText={onChangeColor} />
           <ReportDate
             title="분실날짜"
