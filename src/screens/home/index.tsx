@@ -27,10 +27,6 @@ const MOCK_DATA: InfoItem[] = [
     image: Banner1,
   },
   {
-    title: 'banner2',
-    image: Banner2,
-  },
-  {
     title: 'banner3',
     image: Banner3,
   },
