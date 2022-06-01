@@ -14,6 +14,7 @@ import {
   CATCH_REPORT_STEP2,
   CATCH_REPORT_STEP3,
 } from '../../../navigations/constants';
+import BreedReport from '../shared/components/BreedReport';
 
 interface CatchReportInfoProps {
   route: StackNavigationProp<any>;
@@ -28,12 +29,7 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
   const [color, setColor] = useState('');
   const [date, setDate] = useState(new Date());
   const [desc, setDesc] = useState('');
-  const [gender, setGender] = useState('');
   const [formData, setFormData] = useRecoilState(catchFormState);
-
-  const onChangeKind = (text: string) => {
-    setKind(text);
-  };
 
   const onChangeColor = (text: string) => {
     setColor(text);
@@ -45,10 +41,6 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
 
   const onChangeDesc = (text: string) => {
     setDesc(text);
-  };
-
-  const onChangeGender = (text: string) => {
-    setGender(text);
   };
 
   const onClickBackButton = () => {
@@ -63,7 +55,6 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
       color: color,
       date: date,
       desc: desc,
-      gender: gender,
     });
   };
 
@@ -85,17 +76,12 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
           tw('w-full p-1 pr-3'),
         ]}>
         <View style={tw('flex-1')}>
-          <ReportInput title="품종" text={kind} onChangeText={onChangeKind} />
+          <BreedReport kind={kind} setKind={setKind} />
           <ReportInput title="색상" text={color} onChangeText={onChangeColor} />
           <ReportDate
             title="목격날짜"
             date={date}
             onChangeDate={onChangeDate}
-          />
-          <ReportInput
-            title="성별"
-            text={gender}
-            onChangeText={onChangeGender}
           />
           <View style={tw('mt-3')}>
             <Text style={tw('text-base text-gray-600')}>특이사항</Text>

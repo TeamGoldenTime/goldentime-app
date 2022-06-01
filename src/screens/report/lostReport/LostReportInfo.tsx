@@ -15,6 +15,8 @@ import {
   LOST_REPORT_STEP3,
 } from '../../../navigations/constants';
 import BreedReport from '../shared/components/BreedReport';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { GENDER_LIST } from '../shared/constants';
 
 interface LostReportInfoProps {
   route: StackNavigationProp<any>;
@@ -31,6 +33,8 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
   const [gender, setGender] = useState('');
+  const [genderList, setGenderList] = useState(GENDER_LIST);
+  const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
   const [age, setAge] = useState('');
   const [formData, setFormData] = useRecoilState(lostFormState);
 
@@ -52,10 +56,6 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({
 
   const onChangeAge = (text: string) => {
     setAge(text.replace(/[^0-9]/g, ''));
-  };
-
-  const onChangeGender = (text: string) => {
-    setGender(text);
   };
 
   const onClickBackButton = () => {
@@ -103,13 +103,26 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({
           />
           <ReportInput title="이름" text={name} onChangeText={onChangeName} />
           <ReportInput title="나이" text={age} onChangeText={onChangeAge} />
-          <ReportInput
-            title="성별"
-            text={gender}
-            onChangeText={onChangeGender}
+          <Text style={tw('mt-3 text-base text-gray-600')}>성별</Text>
+          <DropDownPicker
+            open={genderDropdownOpen}
+            value={gender}
+            items={genderList}
+            setOpen={setGenderDropdownOpen}
+            setValue={setGender}
+            setItems={setGenderList}
+            listMode="SCROLLVIEW"
+            style={{
+              borderWidth: 0,
+              borderBottomWidth: 1,
+              borderBottomColor: '#737373',
+              borderRadius: 0,
+            }}
+            labelStyle={[{ left: -10 }, tw('text-lg')]}
+            placeholder=""
           />
           <View style={tw('mt-3')}>
-            <Text style={tw('text-base text-gray-600')}>특이사항</Text>
+            <Text style={tw('text-base text-gray-600 mb-3')}>특이사항</Text>
             <TextInput
               style={[
                 {

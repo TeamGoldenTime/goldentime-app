@@ -21,7 +21,7 @@ export const BREED_LIST = [
   { label: '모르겠음', value: 'any' },
   { label: 'Chihuahua', value: 'Chihuahua' },
   { label: 'Japanese spaniel', value: 'Japanese spaniel' },
-  { label: 'Maltese dog', value: 'Maltese dog' },
+  { label: '말티즈', value: '말티즈' },
   { label: 'Pekinese', value: 'Pekinese' },
   { label: 'Shih Tzu', value: 'Shih Tzu' },
   { label: 'Blenheim spaniel', value: 'Blenheim spaniel' },
@@ -151,6 +151,15 @@ export const BREED_LIST = [
   { label: 'dingo', value: 'dingo' },
   { label: 'dhole', value: 'dhole' },
   { label: 'African hunting dog', value: 'African hunting dog' },
+];
+
+export const GENDER_LIST = [
+  { label: '암컷', value: '암컷' },
+  { label: '수컷', value: '수컷' },
+  {
+    label: '모르겠음',
+    value: '모르겠음',
+  },
 ];
 
 export const MAX_IMAGE = 10;
