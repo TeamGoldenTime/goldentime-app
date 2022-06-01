@@ -20,7 +20,7 @@ const ReportDate: React.FC<ReportDateProps> = ({
 
   return (
     <View style={tw('mt-3')}>
-      <Text style={tw('text-base text-gray-600')}>{title}</Text>
+      <Text style={tw('text-base text-gray-600 mb-3')}>{title}</Text>
       <Pressable
         style={{
           borderBottomWidth: 1,

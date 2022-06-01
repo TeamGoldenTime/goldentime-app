@@ -15,7 +15,7 @@ const ReportInput: React.FC<ReportInputProps> = ({
 }) => {
   return (
     <View style={tw('mt-3')}>
-      <Text style={tw('text-base text-gray-600')}>{title}</Text>
+      <Text style={tw('text-base text-gray-600 mb-3')}>{title}</Text>
       <TextInput
         style={[
           {

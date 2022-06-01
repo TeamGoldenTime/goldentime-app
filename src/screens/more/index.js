@@ -20,13 +20,6 @@ const More = () => {
           <View style={tw('w-full bg-white mt-1 p-3')}>
             <DogNose />
           </View>
-          <View style={tw('w-full bg-white mt-1 p-2 ml-1')}>
-            <Menu title="내 분실신고 목록" iconName="ios-list" />
-            <Menu
-              title="내 목격신고 목록"
-              iconName="ios-document-text-outline"
-            />
-          </View>
           <View style={tw('w-full h-full bg-white mt-1 p-2 ml-1')}>
             <Menu title="공지사항" iconName="ios-mic-outline" />
             <Menu title="알림 설정" iconName="notifications-outline" />

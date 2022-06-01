@@ -35,6 +35,7 @@ const BreedReport: React.FC<BreedReportProps> = ({ kind, setKind }) => {
         placeholder=""
         searchPlaceholder="품종 검색"
         searchable={true}
+        maxHeight={190}
       />
     </>
   );
