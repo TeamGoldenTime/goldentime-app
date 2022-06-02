@@ -13,6 +13,11 @@ interface LostReportResultProps {
   route: StackNavigationProp<any>;
 }
 
+export interface SimilarList {
+  related: SimilarPost[];
+  unrelated: SimilarPost[];
+}
+
 export interface SimilarPost {
   area: string;
   date: string;
@@ -27,7 +32,10 @@ const LostReportResult: React.FC<LostReportResultProps> = ({
 }) => {
   const id = route.params?.id;
   const [loading, setLoading] = useState(true);
-  const [resultList, setResultList] = useState<SimilarPost[]>([]);
+  const [resultList, setResultList] = useState<SimilarList>({
+    related: [],
+    unrelated: [],
+  });
 
   const onClickFinishButton = () => {
     navigation.reset({
@@ -42,16 +50,27 @@ const LostReportResult: React.FC<LostReportResultProps> = ({
         `/pet/post/lost/similarity/${id}`,
       );
 
-      const list = result.data.data;
-      const similarList = list.map((data: any) => {
-        return {
-          thumbnail: data.imgUrl,
-          area: data.postNum,
-          date: data.reportDate,
-          link: data.detailLink,
-          where: '동물보호 관리 시스템',
-        };
-      });
+      const resultData = result.data.data;
+      const similarList = {
+        related: resultData.related.map((data: any) => {
+          return {
+            thumbnail: data.imgUrl,
+            area: `${data.region_1depth_name} ${data.region_2depth_name}`,
+            date: data.reportDate,
+            link: data.detailLink,
+            where: '동물보호 관리 시스템',
+          };
+        }),
+        unrelated: resultData.unrelated.map((data: any) => {
+          return {
+            thumbnail: data.imgUrl,
+            area: `${data.region_1depth_name} ${data.region_2depth_name}`,
+            date: data.reportDate,
+            link: data.detailLink,
+            where: '동물보호 관리 시스템',
+          };
+        }),
+      };
 
       setResultList(similarList);
       setLoading(false);

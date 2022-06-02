@@ -4,12 +4,12 @@ import MIcon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'tailwind-rn';
 
 import FullButton from './FullButton';
-import { SimilarPost } from '../../lostReport/LostReportResult';
+import { SimilarList, SimilarPost } from '../../lostReport/LostReportResult';
 import { kstToDateString } from '../../../../shared/utils';
 
 interface ResultListProps {
   onClickFinishButton: Function;
-  data: SimilarPost[];
+  data: SimilarList;
 }
 
 const ResultList: React.FC<ResultListProps> = ({
@@ -61,12 +61,32 @@ const ResultList: React.FC<ResultListProps> = ({
 
   return (
     <View style={tw('flex-1')}>
-      <View style={tw('flex p-6')}>
-        <Text style={tw('mt-3 text-3xl')}>총 {data.length}건의</Text>
+      <View style={tw('flex p-3')}>
+        <Text style={tw('mt-3 text-3xl')}>
+          총 {data.related.length + data.unrelated.length}건의
+        </Text>
         <Text style={tw('mt-3 text-2xl')}>유사한 반려동물을 찾았습니다.</Text>
       </View>
       <View style={[{ backgroundColor: '#F9F9F9' }, tw('w-full h-1 ')]} />
-      <FlatList style={tw('flex')} data={data} renderItem={renderItem} />
+      {data?.related.length !== 0 && (
+        <View style={tw('w-full h-60')}>
+          <Text style={tw('ml-3 mt-3 text-xl')}>주변지역 결과 </Text>
+          {/*주변지역 결과 넣기*/}
+          <FlatList
+            style={tw('flex')}
+            data={data?.related}
+            renderItem={renderItem}
+          />
+        </View>
+      )}
+      <View style={[{ backgroundColor: '#F9F9F9' }, tw('w-full h-2 ')]} />
+      <Text style={tw('ml-3 mt-3 text-xl')}>전체 결과 </Text>
+      {/*그외지역 결과 넣기*/}
+      <FlatList
+        style={tw('flex')}
+        data={data?.unrelated}
+        renderItem={renderItem}
+      />
       <View style={tw('flex p-6 ')}>
         <FullButton onClickNextButton={onClickFinishButton} name="확인" />
       </View>
