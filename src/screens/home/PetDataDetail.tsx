@@ -1,0 +1,116 @@
+import React, { useEffect, useState } from 'react';
+import {
+  Image,
+  Linking,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import tw from 'tailwind-rn';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+import Container from '../../shared/Container';
+import { ReportItem } from './interface';
+import { APP_COLOR_BLACK, CATCH_COLOR, LOST_COLOR } from '../../shared/styles';
+import ReportTag from './components/ReportTag';
+import Loading from '../../animations/Loading';
+import { API_BASE_INSTANCE } from '../../api/instance';
+import { kstToDateString, petDataToReportItem } from '../../shared/utils';
+
+interface ReportDetailProps {
+  route: StackNavigationProp<any>;
+  navigation: StackNavigationProp<any>;
+}
+
+const PetDataReportDetail: React.FC<ReportDetailProps> = ({
+  navigation,
+  route,
+}) => {
+  const id = route.params?.id;
+  const [isLoading, setLoading] = useState(true);
+  const [currentReport, setCurrentReport] = useState<ReportItem | any>(null);
+
+  useEffect(() => {
+    fetchingCatchPostById();
+  }, []);
+
+  //TODO :: 이 부분 post에 해당하는 정보 담을 수 있는 타입 리팩토링 하기
+  const fetchingCatchPostById = async () => {
+    setLoading(true);
+    const result = await API_BASE_INSTANCE.get(`/pet/data/${id}`);
+    console.log(result.data.data);
+    const data: ReportItem = petDataToReportItem(result.data.data);
+    setCurrentReport(data);
+    setLoading(false);
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  return (
+    <Container>
+      <View style={tw('w-full h-80')}>
+        <Image
+          style={tw('w-full h-full')}
+          source={{ uri: currentReport.image }}
+          resizeMode="cover"
+        />
+      </View>
+      <View style={tw('w-full h-24 bg-white p-4')}>
+        <Text style={tw('text-3xl font-semibold')}>{currentReport?.title}</Text>
+        <Text style={tw('text-xl')}>작성자 : 동물보호관리시스템</Text>
+        <ReportTag
+          color={currentReport?.type === 'LOST' ? LOST_COLOR : CATCH_COLOR}
+        />
+      </View>
+      <View style={tw('flex w-full h-28 mt-1 bg-white p-5 justify-center')}>
+        <Text style={tw('text-xl')}>
+          <MCIcon name="calendar-blank" color={APP_COLOR_BLACK} size={20} />{' '}
+          목격날짜 : {kstToDateString(currentReport?.date)}
+        </Text>
+        <Text style={tw('text-xl')} numberOfLines={1}>
+          <MCIcon name="map-marker" color={APP_COLOR_BLACK} size={20} />{' '}
+          목격지역 : {currentReport?.addressName}
+        </Text>
+        <Text style={tw('text-xl')} numberOfLines={1}>
+          <FontAwesome5Icon
+            name="map-signs"
+            color={APP_COLOR_BLACK}
+            size={20}
+          />{' '}
+          상세지역 : {currentReport?.area}
+        </Text>
+      </View>
+      <View style={tw('w-full h-full mt-1 bg-white p-5')}>
+        <Text style={tw('text-xl')}>· 상세정보 : {currentReport?.remark}</Text>
+      </View>
+      <TouchableOpacity
+        style={tw('absolute top-9 left-2')}
+        onPress={() => {
+          navigation.goBack();
+        }}>
+        <MIcon name="arrow-back" size={32} color="white" />
+      </TouchableOpacity>
+      <View
+        style={tw(
+          'absolute w-full h-20 bg-white items-center justify-center bottom-5',
+        )}>
+        <Pressable
+          onPress={async () => await Linking.openURL(currentReport.link)}
+          style={[
+            { backgroundColor: APP_COLOR_BLACK },
+            tw('w-36 h-14 rounded-xl items-center justify-center'),
+          ]}>
+          <Text style={tw('text-white text-2xl font-semibold')}>이동하기</Text>
+        </Pressable>
+      </View>
+    </Container>
+  );
+};
+
+export default PetDataReportDetail;

@@ -27,4 +27,5 @@ export interface ReportItem {
   type: string;
   date: any;
   writer?: UserType;
+  link?: string;
 }
