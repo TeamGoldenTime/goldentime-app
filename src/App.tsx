@@ -21,6 +21,7 @@ import {
   APP_NAVIGATION_REPORT_MAP,
   APP_NAVIGATION_REPORT_MODAL,
   APP_NAVIGATION_CATCH_REPORT_DETAIL,
+  APP_NAVIGATION_PET_DATA_REPORT_DETAIL,
 } from './navigations/constants';
 import LostReportList from './screens/home/LostReportList';
 import CatchReportStack from './navigations/CatchReportStack';
@@ -28,6 +29,7 @@ import CatchReportList from './screens/home/CatchReportList';
 import ReportMap from './screens/map';
 import LostReportDetail from './screens/home/LostReportDetail';
 import CatchReportDetail from './screens/home/CatchReportDetail';
+import PetDataReportDetail from './screens/home/PetDataDetail';
 
 const Stack = createStackNavigator();
 
@@ -64,6 +66,10 @@ const App = () => {
           <Stack.Screen
             name={APP_NAVIGATION_CATCH_REPORT_DETAIL}
             component={CatchReportDetail}
+          />
+          <Stack.Screen
+            name={APP_NAVIGATION_PET_DATA_REPORT_DETAIL}
+            component={PetDataReportDetail}
           />
           <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
             <Stack.Screen

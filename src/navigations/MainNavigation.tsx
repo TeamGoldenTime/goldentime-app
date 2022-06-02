@@ -6,7 +6,7 @@ import IIcon from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationProp } from '@react-navigation/native';
 
-import Home from '../screens/home';
+import HomeIndex from '../screens/home';
 import ReportMap from '../screens/map';
 import More from '../screens/more';
 import Detective from '../screens/detective';
@@ -43,7 +43,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navigation }) => {
       }}>
       <Tab.Screen
         name={MAIN_NAVIGATION_HOME}
-        component={Home}
+        component={HomeIndex}
         options={{
           tabBarIcon: ({ color, size, focused }) =>
             focused ? (

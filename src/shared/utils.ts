@@ -6,23 +6,34 @@ export const sleep = (ms: number) => {
   });
 };
 
+export const petDataToReportItems = (data: any): ReportItem[] => {
+  return data?.map((post: any): ReportItem => {
+    return petDataToReportItem(post);
+  });
+};
+
+export const petDataToReportItem = (post: any): ReportItem => {
+  return {
+    id: post.id,
+    title: `강아지/${post.kind}`,
+    name: post.name,
+    age: post.age,
+    gender: post.gender,
+    addressName: `${post.region_1depth_name} ${post.region_2depth_name}`,
+    area: post.lostPlace,
+    remark: post.remark,
+    image: post.imgUrl,
+    latitude: post.latitude,
+    longitude: post.longitude,
+    type: post.type,
+    date: post.reportDate,
+    link: post.detailLink,
+  };
+};
+
 export const postToReportItems = (postData: any): ReportItem[] => {
   return postData.map((post: any): ReportItem => {
-    return {
-      id: post.id,
-      title: `강아지/${post.kind}/${post.color}`,
-      name: post.name,
-      age: post.age,
-      gender: post.gender,
-      addressName: post.addressName,
-      area: post.area,
-      remark: post.remark,
-      image: post.images[0]?.location,
-      latitude: post.latitude,
-      longitude: post.longitude,
-      type: post.type,
-      date: post.date,
-    };
+    return postToReportItem(post);
   });
 };
 
