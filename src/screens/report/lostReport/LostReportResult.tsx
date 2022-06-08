@@ -5,7 +5,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import ResultLoading from '../shared/components/ResultLoading';
 import ResultList from '../shared/components/ResultList';
-import { LOST_REPORT_COMPLETE } from '../../../navigations/constants';
+import {
+  APP_NAVIGATION_CATCH_REPORT_DETAIL,
+  LOST_REPORT_COMPLETE,
+} from '../../../navigations/constants';
 import { API_BASE_INSTANCE } from '../../../api/instance';
 
 interface LostReportResultProps {
@@ -19,11 +22,13 @@ export interface SimilarList {
 }
 
 export interface SimilarPost {
+  id: number;
   area: string;
   date: string;
   thumbnail: string;
   link: string;
   where: string;
+  type: string;
 }
 
 const LostReportResult: React.FC<LostReportResultProps> = ({
@@ -54,20 +59,24 @@ const LostReportResult: React.FC<LostReportResultProps> = ({
       const similarList = {
         related: resultData.related.map((data: any) => {
           return {
+            id: data.id,
             thumbnail: data.imgUrl,
             area: `${data.region_1depth_name} ${data.region_2depth_name}`,
-            date: data.reportDate,
+            date: data.date,
             link: data.detailLink,
-            where: '동물보호 관리 시스템',
+            where: data.writer,
+            type: data.type,
           };
         }),
         unrelated: resultData.unrelated.map((data: any) => {
           return {
+            id: data.id,
             thumbnail: data.imgUrl,
             area: `${data.region_1depth_name} ${data.region_2depth_name}`,
-            date: data.reportDate,
+            date: data.date,
             link: data.detailLink,
-            where: '동물보호 관리 시스템',
+            where: data.writer,
+            type: data.type,
           };
         }),
       };
@@ -78,6 +87,10 @@ const LostReportResult: React.FC<LostReportResultProps> = ({
     } catch (e) {
       console.log(JSON.stringify(e));
     }
+  };
+
+  const onClickCatchReport = (reportId: number) => {
+    navigation.push(APP_NAVIGATION_CATCH_REPORT_DETAIL, { id: reportId });
   };
 
   useEffect(() => {
@@ -95,6 +108,7 @@ const LostReportResult: React.FC<LostReportResultProps> = ({
         <ResultList
           onClickFinishButton={onClickFinishButton}
           data={resultList}
+          onClickCatchReport={onClickCatchReport}
         />
       )}
     </SafeAreaView>
