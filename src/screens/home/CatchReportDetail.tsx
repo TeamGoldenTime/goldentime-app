@@ -11,7 +11,7 @@ import { APP_COLOR_BLACK, CATCH_COLOR, LOST_COLOR } from '../../shared/styles';
 import ReportTag from './components/ReportTag';
 import Loading from '../../animations/Loading';
 import { API_BASE_INSTANCE } from '../../api/instance';
-import { postToReportItem, toDateString } from '../../shared/utils';
+import { postToLostReportItem, toDateString } from '../../shared/utils';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -38,7 +38,7 @@ const CatchReportDetail: React.FC<ReportDetailProps> = ({
   const fetchingCatchPostById = async () => {
     setLoading(true);
     const result = await API_BASE_INSTANCE.get(`/pet/post/catch/${id}`);
-    const data: ReportItem = postToReportItem(result.data.data);
+    const data: ReportItem = postToLostReportItem(result.data.data);
     setCurrentReport(data);
     setLoading(false);
   };

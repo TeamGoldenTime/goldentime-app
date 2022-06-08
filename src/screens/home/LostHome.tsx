@@ -14,7 +14,7 @@ import Header from '../../shared/Header';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { APP_COLOR } from '../../shared/styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { petDataToReportItems, postToReportItem } from '../../shared/utils';
+import { petDataToReportItems, postToLostReportItem } from '../../shared/utils';
 import ShadowContainer from '../../shared/ShadowContainer';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { ReportItem } from './interface';
@@ -32,7 +32,7 @@ const LostHome: React.FC<LostHomeProps> = ({ navigation, posts }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const myLostPost: ReportItem = postToReportItem(posts[0]);
+  const myLostPost: ReportItem = postToLostReportItem(posts[0]);
 
   const fetch = async () => {
     const result = await API_BASE_INSTANCE.get(

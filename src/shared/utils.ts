@@ -31,16 +31,42 @@ export const petDataToReportItem = (post: any): ReportItem => {
   };
 };
 
-export const postToReportItems = (postData: any): ReportItem[] => {
+export const postToLostReportItems = (postData: any): ReportItem[] => {
   return postData.map((post: any): ReportItem => {
-    return postToReportItem(post);
+    return postToLostReportItem(post);
   });
 };
 
-export const postToReportItem = (post: any): ReportItem => {
+export const postToLostReportItem = (post: any): ReportItem => {
   return {
     id: post.id,
     title: `강아지/${post.kind}/${post.color}`,
+    name: post.name,
+    age: post.age,
+    gender: post.gender,
+    remark: post.remark,
+    area: post.area,
+    image: post.images[0]?.location,
+    images: post.images,
+    latitude: post.latitude,
+    longitude: post.longitude,
+    addressName: post.addressName,
+    type: post.type,
+    writer: post.writer,
+    date: post.date,
+  };
+};
+
+export const postToCatchReportItems = (postData: any): ReportItem[] => {
+  return postData.map((post: any): ReportItem => {
+    return postToCatchReportItem(post);
+  });
+};
+
+export const postToCatchReportItem = (post: any): ReportItem => {
+  return {
+    id: post.id,
+    title: `강아지/${post.kind}`,
     name: post.name,
     age: post.age,
     gender: post.gender,

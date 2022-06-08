@@ -18,7 +18,7 @@ import ReportCard from './components/ReportCard';
 import Loading from '../../animations/Loading';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { CATEGORY_LIST } from '../report/shared/constants';
-import { postToReportItems } from '../../shared/utils';
+import { postToLostReportItems } from '../../shared/utils';
 
 interface LostReportListProps {
   navigation: StackNavigationProp<any>;
@@ -59,7 +59,7 @@ const LostReportList: React.FC<LostReportListProps> = ({
   const fetchingLostPost = async () => {
     const result = await API_BASE_INSTANCE.get('/pet/post/lost');
     const lostPostData = result.data.data;
-    const lostReportItems: ReportItem[] = postToReportItems(lostPostData);
+    const lostReportItems: ReportItem[] = postToLostReportItems(lostPostData);
     lostReportItems.reverse();
     setLostPostList(lostReportItems);
   };

@@ -8,7 +8,10 @@ import InfoCarousel from './components/InfoCarousel';
 import React, { useEffect, useState } from 'react';
 import { InfoItem, ReportItem } from './interface';
 import { API_BASE_INSTANCE } from '../../api/instance';
-import { postToReportItems } from '../../shared/utils';
+import {
+  postToCatchReportItems,
+  postToLostReportItems,
+} from '../../shared/utils';
 import {
   APP_NAVIGATION_CATCH_REPORT_DETAIL,
   APP_NAVIGATION_CATCH_REPORT_LIST,
@@ -54,7 +57,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     const result = await API_BASE_INSTANCE.get('/pet/post/lost');
 
     const lostPostData = result.data.data;
-    const lostReportItems: ReportItem[] = postToReportItems(lostPostData);
+    const lostReportItems: ReportItem[] = postToLostReportItems(lostPostData);
     lostReportItems.reverse();
     setLostPostList(lostReportItems);
   };
@@ -63,7 +66,8 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     const result = await API_BASE_INSTANCE.get('/pet/post/catch');
 
     const catchPostData = result.data.data;
-    const catchReportItems: ReportItem[] = postToReportItems(catchPostData);
+    const catchReportItems: ReportItem[] =
+      postToCatchReportItems(catchPostData);
     catchReportItems.reverse();
     setCatchPostList(catchReportItems);
   };
