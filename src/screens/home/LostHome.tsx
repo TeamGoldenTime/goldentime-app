@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import {
+  Image,
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import tw from 'tailwind-rn';
 import Container from '../../shared/Container';
 import Header from '../../shared/Header';
@@ -13,6 +20,7 @@ import { API_BASE_INSTANCE } from '../../api/instance';
 import { ReportItem } from './interface';
 import { APP_NAVIGATION_PET_DATA_REPORT_DETAIL } from '../../navigations/constants';
 import LostHomeReportSection from './components/LostHomeReportSection';
+import Loading from '../../animations/Loading';
 
 interface LostHomeProps {
   navigation: StackNavigationProp<any>;
@@ -21,20 +29,29 @@ interface LostHomeProps {
 
 const LostHome: React.FC<LostHomeProps> = ({ navigation, posts }) => {
   const [similarResponse, setSimilarResponse] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   const myLostPost: ReportItem = postToReportItem(posts[0]);
 
+  const fetch = async () => {
+    const result = await API_BASE_INSTANCE.get(
+      `/pet/post/lost/similarity/${myLostPost.id}`,
+    );
+
+    setSimilarResponse(result.data.data);
+    setIsLoading(false);
+    setRefreshing(false);
+  };
+
   useEffect(() => {
-    const fetch = async () => {
-      const result = await API_BASE_INSTANCE.get(
-        `/pet/post/lost/similarity/${myLostPost.id}`,
-      );
-
-      setSimilarResponse(result.data.data);
-    };
-
     fetch();
   }, []);
+
+  const onRefreshing = async () => {
+    setRefreshing(true);
+    fetch();
+  };
 
   const onClickReportItem = (id: number) => {
     navigation.push(APP_NAVIGATION_PET_DATA_REPORT_DETAIL, { id: id });
@@ -44,57 +61,72 @@ const LostHome: React.FC<LostHomeProps> = ({ navigation, posts }) => {
     <SafeAreaView style={tw('flex-1 bg-white')}>
       <Container>
         <Header />
-        <View style={[{ height: hp('21%') }, tw('bg-white mt-1 pb-4 pt-2')]}>
-          <Text style={tw('ml-2 text-lg')}>나의 분실신고</Text>
-          <ShadowContainer style={tw('mr-2 ml-2')}>
-            <View style={[tw('w-full h-32 rounded-xl p-1')]}>
-              <View style={tw('flex-1 bg-white rounded-xl p-1 justify-center')}>
-                <View style={tw('flex-1 flex-row items-center')}>
-                  <View style={[{ flex: 2 }, tw('flex-1 justify-center')]}>
-                    <Image
-                      source={{ uri: myLostPost.image }}
-                      resizeMode="cover"
-                      style={tw('w-24 h-24 rounded-2xl')}
-                    />
-                  </View>
-                  <View
-                    style={[{ flex: 3 }, tw('pt-2 pb-2 justify-center ml-5')]}>
-                    <Text
-                      numberOfLines={1}
-                      style={tw('text-2xl font-semibold')}>
-                      {myLostPost.title}
-                    </Text>
-                    <Text
-                      numberOfLines={1}
-                      style={tw(
-                        'text-lg font-extralight text-gray-600 tracking-tight',
-                      )}>
-                      <Icon name="map-marker" size={15} color={APP_COLOR} />
-                      {myLostPost.addressName}
-                    </Text>
-                    <Text
-                      numberOfLines={1}
-                      style={tw(
-                        'text-lg font-extralight text-gray-600 tracking-tight',
-                      )}>
-                      {myLostPost.area}
-                    </Text>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefreshing} />
+          }>
+          <View style={[{ height: hp('21%') }, tw('bg-white mt-1 pb-4 pt-2')]}>
+            <Text style={tw('ml-2 text-lg')}>나의 분실신고</Text>
+            <ShadowContainer style={tw('mr-2 ml-2')}>
+              <View style={[tw('w-full h-32 rounded-xl p-1')]}>
+                <View
+                  style={tw('flex-1 bg-white rounded-xl p-1 justify-center')}>
+                  <View style={tw('flex-1 flex-row items-center')}>
+                    <View style={[{ flex: 2 }, tw('flex-1 justify-center')]}>
+                      <Image
+                        source={{ uri: myLostPost.image }}
+                        resizeMode="cover"
+                        style={tw('w-24 h-24 rounded-2xl')}
+                      />
+                    </View>
+                    <View
+                      style={[
+                        { flex: 3 },
+                        tw('pt-2 pb-2 justify-center ml-5'),
+                      ]}>
+                      <Text
+                        numberOfLines={1}
+                        style={tw('text-2xl font-semibold')}>
+                        {myLostPost.title}
+                      </Text>
+                      <Text
+                        numberOfLines={1}
+                        style={tw(
+                          'text-lg font-extralight text-gray-600 tracking-tight',
+                        )}>
+                        <Icon name="map-marker" size={15} color={APP_COLOR} />
+                        {myLostPost.addressName}
+                      </Text>
+                      <Text
+                        numberOfLines={1}
+                        style={tw(
+                          'text-lg font-extralight text-gray-600 tracking-tight',
+                        )}>
+                        {myLostPost.area}
+                      </Text>
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
-          </ShadowContainer>
-        </View>
-        <LostHomeReportSection
-          title="내 주변 유사신고 목록"
-          data={petDataToReportItems(similarResponse?.related)}
-          onClickReportItem={onClickReportItem}
-        />
-        <LostHomeReportSection
-          title="전체 유사신고 목록"
-          data={petDataToReportItems(similarResponse?.unrelated)}
-          onClickReportItem={onClickReportItem}
-        />
+            </ShadowContainer>
+          </View>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <LostHomeReportSection
+                title="내 주변 유사신고 목록"
+                data={petDataToReportItems(similarResponse?.related)}
+                onClickReportItem={onClickReportItem}
+              />
+              <LostHomeReportSection
+                title="전체 유사신고 목록"
+                data={petDataToReportItems(similarResponse?.unrelated)}
+                onClickReportItem={onClickReportItem}
+              />
+            </>
+          )}
+        </ScrollView>
       </Container>
     </SafeAreaView>
   );
