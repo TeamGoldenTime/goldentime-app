@@ -23,7 +23,6 @@ import { API_BASE_INSTANCE } from '../../../api/instance';
 import { userState } from '../../../states/authState';
 import {
   APP_NAVIGATION_MAIN,
-  CATCH_REPORT_RESULT,
   CATCH_REPORT_STEP3,
 } from '../../../navigations/constants';
 import { loadingState } from '../../../states/modalState';
@@ -84,11 +83,9 @@ const CatchReportLocation: React.FC<CatchReportLocationProps> = ({
     const imageResult: IImageSrc[] = await Promise.all(imagePromises);
 
     const sendFormData: SaveCatchPostDto = {
-      color: formData.color,
       date: formData.date,
       kind: formData.kind,
       remark: formData.desc,
-      gender: formData.gender,
       latitude: location?.latitude,
       longitude: location?.longitude,
       area: area,

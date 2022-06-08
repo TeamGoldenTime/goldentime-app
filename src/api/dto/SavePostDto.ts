@@ -16,7 +16,6 @@ export interface SaveLostPostDto {
 }
 
 export interface SaveCatchPostDto {
-  color?: string;
   date?: Date;
   images?: IImageSrc[];
   kind?: string;
@@ -24,6 +23,5 @@ export interface SaveCatchPostDto {
   longitude?: number;
   remark?: string;
   area?: string;
-  gender?: string;
   userId?: number;
 }

@@ -39,6 +39,7 @@ const LostHome: React.FC<LostHomeProps> = ({ navigation, posts }) => {
       `/pet/post/lost/similarity/${myLostPost.id}`,
     );
 
+    console.log(result.data.data);
     setSimilarResponse(result.data.data);
     setIsLoading(false);
     setRefreshing(false);

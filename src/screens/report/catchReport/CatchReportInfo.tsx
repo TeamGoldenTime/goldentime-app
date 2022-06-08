@@ -26,14 +26,9 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
   navigation,
 }) => {
   const [kind, setKind] = useState(route.params?.kind);
-  const [color, setColor] = useState('');
   const [date, setDate] = useState(new Date());
   const [desc, setDesc] = useState('');
   const [formData, setFormData] = useRecoilState(catchFormState);
-
-  const onChangeColor = (text: string) => {
-    setColor(text);
-  };
 
   const onChangeDate = (d: Date) => {
     setDate(d);
@@ -52,7 +47,6 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
     setFormData({
       ...formData,
       kind: kind,
-      color: color,
       date: date,
       desc: desc,
     });
@@ -77,7 +71,6 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
         ]}>
         <View style={tw('flex-1')}>
           <BreedReport kind={kind} setKind={setKind} />
-          <ReportInput title="색상" text={color} onChangeText={onChangeColor} />
           <ReportDate
             title="목격날짜"
             date={date}
@@ -91,7 +84,7 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
                   borderColor: '#737373',
                   borderWidth: 1,
                   fontSize: 18,
-                  height: hp('14%'),
+                  height: hp('25%'),
                 },
                 tw('rounded-xl pt-2 pl-1 mb-3'),
               ]}

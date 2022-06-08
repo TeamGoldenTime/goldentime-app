@@ -44,9 +44,7 @@ export const lostFormState = atom<ILostFormState>({
 
 export interface ICatchFormState {
   kind: string;
-  color: string;
   date: Date;
-  gender: string;
   desc: string;
   pickerImages: Asset[];
   images?: IImageSrc[] | null;
@@ -58,10 +56,8 @@ export const catchFormState = atom<ICatchFormState>({
   key: 'catchReportForm',
   default: {
     kind: '',
-    color: '',
     date: new Date(),
     desc: '',
-    gender: '',
     pickerImages: [],
     images: null,
     location: null,
