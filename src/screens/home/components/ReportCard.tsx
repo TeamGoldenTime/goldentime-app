@@ -27,7 +27,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
   return (
     <Pressable
       onPress={() => {
-        onClickReportItem(item.id);
+        onClickReportItem(item.id, item.type);
       }}>
       <CardContainer>
         <View
