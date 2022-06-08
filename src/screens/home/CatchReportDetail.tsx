@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import tw from 'tailwind-rn';
 import Carousel from 'react-native-snap-carousel';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
@@ -11,7 +18,7 @@ import { APP_COLOR_BLACK, CATCH_COLOR, LOST_COLOR } from '../../shared/styles';
 import ReportTag from './components/ReportTag';
 import Loading from '../../animations/Loading';
 import { API_BASE_INSTANCE } from '../../api/instance';
-import { postToLostReportItem, toDateString } from '../../shared/utils';
+import { postToCatchReportItem, toDateString } from '../../shared/utils';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -38,7 +45,7 @@ const CatchReportDetail: React.FC<ReportDetailProps> = ({
   const fetchingCatchPostById = async () => {
     setLoading(true);
     const result = await API_BASE_INSTANCE.get(`/pet/post/catch/${id}`);
-    const data: ReportItem = postToLostReportItem(result.data.data);
+    const data: ReportItem = postToCatchReportItem(result.data.data);
     setCurrentReport(data);
     setLoading(false);
   };
@@ -106,6 +113,19 @@ const CatchReportDetail: React.FC<ReportDetailProps> = ({
         }}>
         <MIcon name="arrow-back" size={32} color="white" />
       </TouchableOpacity>
+      <View
+        style={tw(
+          'absolute w-full h-20 bg-white items-center justify-center bottom-5',
+        )}>
+        <Pressable
+          onPress={() => {}}
+          style={[
+            { backgroundColor: APP_COLOR_BLACK },
+            tw('w-36 h-14 rounded-xl items-center justify-center'),
+          ]}>
+          <Text style={tw('text-white text-2xl font-semibold')}>연락하기</Text>
+        </Pressable>
+      </View>
     </Container>
   );
 };

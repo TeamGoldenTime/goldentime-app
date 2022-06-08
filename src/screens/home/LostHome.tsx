@@ -18,7 +18,10 @@ import { petDataToReportItems, postToLostReportItem } from '../../shared/utils';
 import ShadowContainer from '../../shared/ShadowContainer';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { ReportItem } from './interface';
-import { APP_NAVIGATION_PET_DATA_REPORT_DETAIL } from '../../navigations/constants';
+import {
+  APP_NAVIGATION_CATCH_REPORT_DETAIL,
+  APP_NAVIGATION_PET_DATA_REPORT_DETAIL,
+} from '../../navigations/constants';
 import LostHomeReportSection from './components/LostHomeReportSection';
 import Loading from '../../animations/Loading';
 
@@ -54,8 +57,12 @@ const LostHome: React.FC<LostHomeProps> = ({ navigation, posts }) => {
     fetch();
   };
 
-  const onClickReportItem = (id: number) => {
-    navigation.push(APP_NAVIGATION_PET_DATA_REPORT_DETAIL, { id: id });
+  const onClickReportItem = (id: number, type: string) => {
+    if (type === 'catch') {
+      navigation.push(APP_NAVIGATION_CATCH_REPORT_DETAIL, { id: id });
+    } else if (type === 'shelter') {
+      navigation.push(APP_NAVIGATION_PET_DATA_REPORT_DETAIL, { id: id });
+    }
   };
 
   return (

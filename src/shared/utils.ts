@@ -20,13 +20,13 @@ export const petDataToReportItem = (post: any): ReportItem => {
     age: post.age,
     gender: post.gender,
     addressName: `${post.region_1depth_name} ${post.region_2depth_name}`,
-    area: post.lostPlace,
+    area: post.area,
     remark: post.remark,
     image: post.imgUrl,
     latitude: post.latitude,
     longitude: post.longitude,
     type: post.type,
-    date: post.reportDate,
+    date: post.date,
     link: post.detailLink,
   };
 };
