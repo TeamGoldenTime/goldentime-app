@@ -10,11 +10,13 @@ import { kstToDateString } from '../../../../shared/utils';
 interface ResultListProps {
   onClickFinishButton: Function;
   data: SimilarList;
+  onClickCatchReport: Function;
 }
 
 const ResultList: React.FC<ResultListProps> = ({
   onClickFinishButton,
   data,
+  onClickCatchReport,
 }) => {
   const renderItem = ({ item }: { item: SimilarPost }) => (
     <View
@@ -39,7 +41,10 @@ const ResultList: React.FC<ResultListProps> = ({
               지역 : {item.area}
             </Text>
             <Text style={tw('text-lg ')} numberOfLines={1}>
-              등록일자 : {kstToDateString(item.date)}
+              등록일자 :
+              {item.type === 'shelter'
+                ? kstToDateString(item.date)
+                : item.date.split('T')[0]}
             </Text>
             <Text style={tw('text-sm text-gray-600')}>
               신고자 : {item.where}
@@ -51,7 +56,11 @@ const ResultList: React.FC<ResultListProps> = ({
             color="black"
             style={tw('right-1')}
             onPress={async () => {
-              await Linking.openURL(item.link);
+              if (item.type === 'shelter') {
+                await Linking.openURL(item.link);
+              } else {
+                onClickCatchReport(item.id);
+              }
             }}
           />
         </View>
