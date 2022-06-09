@@ -18,7 +18,7 @@ import ReportCard from './components/ReportCard';
 import Loading from '../../animations/Loading';
 import { API_BASE_INSTANCE } from '../../api/instance';
 import { CATEGORY_LIST } from '../report/shared/constants';
-import { postToLostReportItems } from '../../shared/utils';
+import { postToCatchReportItems } from '../../shared/utils';
 
 interface CatchReportListProps {
   navigation: StackNavigationProp<any>;
@@ -49,7 +49,8 @@ const CatchReportList: React.FC<CatchReportListProps> = ({
     const result = await API_BASE_INSTANCE.get('/pet/post/catch');
 
     const catchPostData = result.data.data;
-    const catchReportItems: ReportItem[] = postToLostReportItems(catchPostData);
+    const catchReportItems: ReportItem[] =
+      postToCatchReportItems(catchPostData);
     catchReportItems.reverse();
     setCatchPostList(catchReportItems);
   };

@@ -15,7 +15,10 @@ import MapSelect from './components/MapSelect';
 import { MapType } from './constants';
 import { CATCH_COLOR, LOST_COLOR } from '../../shared/styles';
 import MarkerDetail from './components/MarkerDetail';
-import { postToLostReportItems } from '../../shared/utils';
+import {
+  postToCatchReportItems,
+  postToLostReportItems,
+} from '../../shared/utils';
 import {
   APP_NAVIGATION_CATCH_REPORT_DETAIL,
   APP_NAVIGATION_LOST_REPORT_DETAIL,
@@ -70,7 +73,7 @@ const ReportMap: React.FC<ReportMapProps> = ({ navigation }) => {
     setIsLoading(true);
     const result = await API_BASE_INSTANCE.get('/pet/post/catch');
     const lostPostData = result.data.data;
-    const lostReportItems: ReportItem[] = postToLostReportItems(lostPostData);
+    const lostReportItems: ReportItem[] = postToCatchReportItems(lostPostData);
     setReportList(lostReportItems);
     setIsLoading(false);
   };
