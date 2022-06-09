@@ -6,17 +6,20 @@ interface ReportInputProps {
   title: string;
   text: string;
   onChangeText: Function;
+  autoFocus?: boolean;
 }
 
 const ReportInput: React.FC<ReportInputProps> = ({
   title,
   text,
   onChangeText,
+  autoFocus = false,
 }) => {
   return (
     <View style={tw('mt-3')}>
       <Text style={tw('text-base text-gray-600 mb-3')}>{title}</Text>
       <TextInput
+        autoFocus={autoFocus}
         style={[
           {
             borderBottomWidth: 1,

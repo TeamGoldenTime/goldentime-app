@@ -90,6 +90,7 @@ const CatchReportInfo: React.FC<CatchReportInfoProps> = ({
               ]}
               value={desc}
               onChangeText={onChangeDesc}
+              autoFocus={true}
               multiline
             />
           </View>

@@ -95,7 +95,12 @@ const LostReportInfo: React.FC<LostReportInfoProps> = ({
         ]}>
         <View style={tw('flex-1')}>
           <BreedReport kind={kind} setKind={setKind} />
-          <ReportInput title="색상" text={color} onChangeText={onChangeColor} />
+          <ReportInput
+            title="색상"
+            text={color}
+            onChangeText={onChangeColor}
+            autoFocus={true}
+          />
           <ReportDate
             title="분실날짜"
             date={date}
